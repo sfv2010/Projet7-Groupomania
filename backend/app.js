@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 //---Route---
 // app.use("/images", express.static(path.join(__dirname, "images"))); //le gestionnaire de routage
-//app.use("/api/post", postRoutes); // premiere argument qui sera la route(l'endpoint )de sauces sur notre API (url total = http//localhost:3000/api/sauces).
+app.use("/api/posts", postRoutes); // premiere argument qui sera la route(l'endpoint )de posts sur notre API
 app.use("/api/auth", authRoutes); //la route d'authentification.
 app.use("/api/users", userRoutes);
 
