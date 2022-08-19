@@ -17,10 +17,10 @@ exports.updateUser = async (req, res, next) => {
             );
             res.status(200).json("Modifié!");
         } catch (err) {
-            return res.status(500).json(err);
+            res.status(500).json(err);
         }
     } else {
-        return res.status(403).json("Vous n'êtes pas le propriétaire");
+        res.status(403).json("Vous n'êtes pas le propriétaire");
     }
 };
 
@@ -37,7 +37,7 @@ exports.deleteUser = async (req, res, next) => {
             return res.status(500).json(err);
         }
     } else {
-        return res.status(403).json("Vous n'êtes pas le propriétaire");
+        res.status(403).json("Vous n'êtes pas le propriétaire");
     }
 };
 
@@ -54,7 +54,7 @@ exports.getOneUser = async (req, res, next) => {
         const { password, updatedAt, ...other } = user._doc;
         res.status(200).json(other);
     } catch (err) {
-        return res.status(404).json(err);
+        res.status(404).json(err);
     }
 };
 
@@ -67,16 +67,33 @@ exports.followUser = async (req, res, next) => {
             if (!user.followers.includes(req.body.userId)) {
                 await user.updateOne({ $push: { followers: req.body.userId } });
                 await currentUser.updateOne({ $push: { followings: req.params.id } });
-                return res.status(200).json("Suivi avec succès");
+                res.status(200).json("Suivi avec succès");
             } else {
-                return res.status(403).json("Vous suivez déjà cet utilisateur");
+                res.status(403).json("Vous suivez déjà cet utilisateur");
             }
         } catch (err) {
-            return res.status(500).json(err);
+            res.status(500).json(err);
         }
-    } else {
-        return res.status(403).json("Vous ne pouvez pas suivre vous-même");
     }
+    return res.status(403).json("Vous ne pouvez pas suivre vous-même");
 };
 
 //---Supprimer follow---
+exports.unFollowUser = async (req, res, next) => {
+    if (req.body.userId !== req.params.id) {
+        try {
+            const user = await User.findById({ _id: req.params.id });
+            const currentUser = await User.findById(req.body.userId);
+            if (user.followers.includes(req.body.userId)) {
+                await user.updateOne({ $pull: { followers: req.body.userId } });
+                await currentUser.updateOne({ $pull: { followings: req.params.id } });
+                res.status(200).json("Supprimé avec succès");
+            } else {
+                res.status(403).json("Impossible de ne plus suivre cet utilisateur");
+            }
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+    return res.status(403).json("Vous ne pouvez pas supprimer vous-même");
+};
