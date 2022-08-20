@@ -8,10 +8,8 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1];
         //---fonction verify pour décoder et vérifier notre token---
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-        //console.log(req.headers.authorization);
         //---Récupération de l'userId de notre token (décodé)---
         const userId = decodedToken.userId;
-        //console.log(userId);
         //---attribuer l'objet userId de notre token à l’objet Request afin que nos différentes routes puissent l’exploiter
         req.auth = {
             userId: userId,
