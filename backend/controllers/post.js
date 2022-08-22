@@ -1,7 +1,8 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 //---Créer un poste--
-exports.createPost = async (req, res, next) => {
+exports.createPost = async (req, res) => {
     const newPost = new Post(req.body);
     try {
         const savePost = await newPost.save();
@@ -12,7 +13,7 @@ exports.createPost = async (req, res, next) => {
 };
 
 //---Modifier un poste---
-exports.updatePost = async (req, res, next) => {
+exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (post.userId === req.body.userId) {
@@ -29,7 +30,7 @@ exports.updatePost = async (req, res, next) => {
 };
 
 //---Supprimer un poste---
-exports.deletePost = async (req, res, next) => {
+exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (post.userId === req.body.userId) {
@@ -43,8 +44,18 @@ exports.deletePost = async (req, res, next) => {
     }
 };
 
+//---obtenir les informations de tous les postes---
+exports.getAllPost = async (req, res) => {
+    try {
+        const post = await Post.find();
+        res.status(200).json(post);
+    } catch (err) {
+        return res.status(404).json(err);
+    }
+};
+
 //---obtenir les informations d'un poste avec son ObjectId---
-exports.getOnePost = async (req, res, next) => {
+exports.getOnePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         res.status(200).json(post);
@@ -54,9 +65,10 @@ exports.getOnePost = async (req, res, next) => {
 };
 
 //---liker pour un poste---
-exports.likerPost = async (req, res, next) => {
+exports.likerPost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
+        //Si le post n'a pas encore été liké
         if (!post.likes.includes(req.body.userId)) {
             await post.updateOne({ $push: { likes: req.body.userId } });
             res.status(200).json("Liké avec succès");
@@ -71,3 +83,17 @@ exports.likerPost = async (req, res, next) => {
 };
 
 //---Obtenir les postes de la chronologie---
+exports.timelinePost = async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.body.userId);
+        const userPosts = await Post.find({ userId: currentUser._id });
+        const followPosts = await Promise.all(
+            currentUser.followings.map((followId) => {
+                return Post.find({ userId: followId });
+            })
+        );
+        return res.status(200).json(userPosts.concat(...followPosts));
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
