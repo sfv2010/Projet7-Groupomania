@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const authCtrl = require("../controllers/auth");
 const password = require("../middleware/password");
+const validateEmail = require("../middleware/validateEmail");
 
 //---L’express-rate-limit est le package npm pour limiter la demande de l’utilisateur---
 const rateLimit = require("express-rate-limit");
@@ -13,7 +14,7 @@ const limiter = rateLimit({
 });
 
 //---Router---
-router.post("/signup", password, authCtrl.signup);
+router.post("/signup", password, validateEmail, authCtrl.signup);
 router.post("/login", limiter, authCtrl.login);
 
 //---Exportation---
