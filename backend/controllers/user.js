@@ -6,7 +6,7 @@ require("dotenv").config(); //importation de dotenv
 const fs = require("fs");
 
 //---Mettre à jour les informations de l'utilisateur---
-exports.updateUser = async (req, res, next) => {
+exports.updateUser = async (req, res) => {
     if (req.auth.userId === req.params.id || req.body.isAdmin) {
         try {
             await User.findByIdAndUpdate(
@@ -17,15 +17,15 @@ exports.updateUser = async (req, res, next) => {
             );
             res.status(200).json("Modifié!");
         } catch (err) {
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
     } else {
-        res.status(403).json("Vous n'êtes pas le propriétaire");
+        return res.status(403).json("Vous n'êtes pas le propriétaire");
     }
 };
 
 //---supprimer l'utilisateur---
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUser = async (req, res) => {
     if (req.body.userId !== req.auth.userId) {
         return res.status(401).json({ message: "Non-autorisé" });
     }
@@ -37,7 +37,7 @@ exports.deleteUser = async (req, res, next) => {
             return res.status(500).json(err);
         }
     } else {
-        res.status(403).json("Vous n'êtes pas le propriétaire");
+        return res.status(403).json("Vous n'êtes pas le propriétaire");
     }
 };
 
@@ -48,7 +48,7 @@ exports.deleteUser = async (req, res, next) => {
 // };
 
 //---obtenir les informations d'utilisateur avec son id---
-exports.getOneUser = async (req, res, next) => {
+exports.getOneUser = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
         const { password, updatedAt, ...other } = user._doc;
@@ -59,41 +59,45 @@ exports.getOneUser = async (req, res, next) => {
 };
 
 //---Follow des utilisateurs---
-exports.followUser = async (req, res, next) => {
+exports.followUser = async (req, res) => {
     if (req.body.userId !== req.params.id) {
         try {
-            const user = await User.findById({ _id: req.params.id });
+            const user = await User.findById(req.params.id);
             const currentUser = await User.findById(req.body.userId);
+            //S'il n'existe pas dans un followers, on peut suivre フォロワーにいなかったらフォローできる
             if (!user.followers.includes(req.body.userId)) {
                 await user.updateOne({ $push: { followers: req.body.userId } });
                 await currentUser.updateOne({ $push: { followings: req.params.id } });
                 res.status(200).json("Suivi avec succès");
             } else {
-                res.status(403).json("Vous suivez déjà cet utilisateur");
+                return res.status(403).json("Vous suivez déjà cet utilisateur");
             }
         } catch (err) {
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
+    } else {
+        return res.status(500).json("Vous ne pouvez pas suivre vous-même");
     }
-    return res.status(403).json("Vous ne pouvez pas suivre vous-même");
 };
 
 //---Supprimer follow---
-exports.unFollowUser = async (req, res, next) => {
+exports.unFollowUser = async (req, res) => {
     if (req.body.userId !== req.params.id) {
         try {
-            const user = await User.findById({ _id: req.params.id });
+            const user = await User.findById(req.params.id);
             const currentUser = await User.findById(req.body.userId);
+            //S'il existe dans un followers,on peut les enlever フォロワーにいたらフォロー外せる
             if (user.followers.includes(req.body.userId)) {
                 await user.updateOne({ $pull: { followers: req.body.userId } });
                 await currentUser.updateOne({ $pull: { followings: req.params.id } });
                 res.status(200).json("Supprimé avec succès");
             } else {
-                res.status(403).json("Impossible de ne plus suivre cet utilisateur");
+                return res.status(403).json("Impossible de ne plus suivre cet utilisateur");
             }
         } catch (err) {
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
+    } else {
+        return res.status(500).json("Vous ne pouvez pas supprimer vous-même");
     }
-    return res.status(403).json("Vous ne pouvez pas supprimer vous-même");
 };
