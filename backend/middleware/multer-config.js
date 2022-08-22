@@ -14,15 +14,15 @@ const MIME_TYPES = {
 //---La méthode diskStorage() configure le chemin et le nom de fichier pour les fichiers entrants---
 const storage = multer.diskStorage({
     // ---objet de configuration a besoin de 2elements: destination et filename---
-    destination: (req, file, callback) => {
+    destination: (req, file, cb) => {
         //---la fonction destination indique à multer d'enregistrer les fichiers dans le dossier images---
-        callback(null, "images");
+        cb(null, "images");
     },
     filename: (req, file, callback) => {
         //---la fonction filename indique à multer d'utiliser le nom d'origine, de remplacer les espaces par des underscores et d'ajouter un timestamp Date.now() comme nom de fichier.
         const name = file.originalname.split(" ").join("_"); // le nom d'origine en eliminant espace et on donne _ à la place d'espace sinon on l'image ne passera pas
         const extension = MIME_TYPES[file.mimetype]; //la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée.
-        callback(null, name + Date.now() + "." + extension); //d'ajouter un timestamp Date.now() comme nom de fichier pour différencier s'il y a des même nom de fichier.
+        cb(null, name + Date.now() + "." + extension); //d'ajouter un timestamp Date.now() comme nom de fichier pour différencier s'il y a des même nom de fichier.
     },
 });
 
