@@ -16,7 +16,7 @@ exports.createPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        if (post.userId === req.body.userId) {
+        if (post.userId === req.body.userId || req.body.isAdmin) {
             await post.updateOne({
                 $set: req.body,
             });
@@ -33,7 +33,7 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        if (post.userId === req.body.userId) {
+        if (post.userId === req.body.userId || req.body.isAdmin) {
             await post.deleteOne();
             res.status(200).json("Supprimé avec succes");
         } else {
