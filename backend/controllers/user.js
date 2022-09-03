@@ -51,7 +51,7 @@ exports.deleteUser = async (req, res) => {
 exports.getOneUser = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
-        const { password, updatedAt, ...other } = user._doc;
+        const { password, updatedAt, followings, followers, ...other } = user._doc;
         res.status(200).json(other);
     } catch (err) {
         res.status(404).json(err);
