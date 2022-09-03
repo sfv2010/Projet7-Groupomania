@@ -67,3 +67,8 @@ exports.login = (req, res) => {
             res.status(500).json({ error });
         });
 };
+
+exports.logout = (req, res) => {
+    res.clearCookie("jwt");
+    res.status(200).json({ message: "Disconnected " });
+};
