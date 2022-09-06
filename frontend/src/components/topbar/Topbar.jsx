@@ -45,7 +45,7 @@ export const Topbar = () => {
                     />
                 </div>
                 <img
-                    src="/assets/person/chevalicon.jpg"
+                    src="/assets/person/cheval.jpg"
                     alt="Icon de cheval"
                     className="topbarImg"
                 />
