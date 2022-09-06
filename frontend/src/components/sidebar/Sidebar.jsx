@@ -7,7 +7,9 @@ import {
     Search,
 } from "@mui/icons-material";
 import React from "react";
+import { ListFriend } from "../listFriend/ListFriend";
 import "./Sidebar.css";
+import { Users } from "../../dummydata";
 
 export const Sidebar = () => {
     return (
@@ -40,16 +42,11 @@ export const Sidebar = () => {
                     </li>
                 </ul>
                 <hr className="sidebarHr" />
-                {/* <ur className="sidebarFriendList">
-                    <li className="sidebarFriend">
-                        <img
-                            src="/assets/person/chatIcon.jpg"
-                            alt="icon de chat"
-                            className="sidebarFriendIcon"
-                        />
-                        <span className="sidebarFriendName">Cléa</span>
-                    </li>
-                </ur> */}
+                <ur className="sidebarFriendList">
+                    {Users.map((user) => (
+                        <ListFriend user={user} key={user.id} />
+                    ))}
+                </ur>
             </div>
         </nav>
     );
