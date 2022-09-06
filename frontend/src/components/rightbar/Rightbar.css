@@ -1,3 +1,71 @@
 .rightbar {
-    flex: 3;
+    flex: 3.5;
+}
+
+.rightbarWrapper {
+    padding: 20px 0 0 20px;
+}
+
+.starImg {
+    width: 40px;
+    height: 40px;
+    margin: 0 15px 5px 0;
+}
+.eventContainer:hover .starImg {
+    animation: start 0.4s ease-in-out 0s 2 normal forwards;
+}
+@keyframes start {
+    0% {
+        transform: rotateY(0);
+    }
+
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+.eventContainer {
+    display: flex;
+    align-items: center;
+}
+.eventText {
+    font-size: 1.1rem;
+}
+
+.rightbarImg {
+    width: 95%;
+    border: 10px;
+    margin: 20px 0;
+}
+.rightProfileImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 5px 5px 5px 0;
+    object-fit: cover;
+}
+
+.rightbarFriendList {
+    padding: 0;
+    /* list-style: none; */
+}
+.rightbarFriend {
+    display: flex;
+    align-items: center;
+}
+.rightbarProfileContainer {
+    /* margin-right: 10px; */
+    position: relative;
+}
+.rightbarUsername {
+    font-weight: bold;
+}
+.rightbarOnline {
+    background-color: #228b22;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    top: 30px;
+    right: 2px;
 }
