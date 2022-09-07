@@ -3,10 +3,10 @@ import "./Rightbar.css";
 import { Users } from "../../dummydata";
 import { Online } from "../online/Online";
 
-export const Rightbar = () => {
-    return (
-        <section className="rightbar">
-            <div className="rightbarWrapper">
+export const Rightbar = ({ profile }) => {
+    const HomeRightbar = () => {
+        return (
+            <>
                 <div className="eventContainer">
                     <img
                         src="/assets/star.png"
@@ -28,6 +28,56 @@ export const Rightbar = () => {
                         <Online user={user} key={user.id} />
                     ))}
                 </ul>
+            </>
+        );
+    };
+    const ProfileRightbar = () => {
+        return (
+            <>
+                <h3 className="rightbarTitle">Informations de l'utilisateur</h3>
+                <div className="rightbarInfo">
+                    <div className="rightbarInfoItem">
+                        <span className="rightbarInfokey">
+                            Lieu de naissance:
+                        </span>
+                        <span className="rightbarInfokey">fukuoka</span>
+                    </div>
+                    <hr className="hr" />
+                    <h4 className="rightbarTitle">Amis</h4>
+                    <div className="rightbarFollowings">
+                        <div className="rightbarFollowing">
+                            <img
+                                src="/assets/person/Rena.jpg"
+                                alt="Icon de Rena"
+                                className="rightbarFollowingImg"
+                            />
+                            <span className="rightbarFollowingName">Rena</span>
+                        </div>
+                        <div className="rightbarFollowing">
+                            <img
+                                src="/assets/person/sena.jpg"
+                                alt="Icon de Sena"
+                                className="rightbarFollowingImg"
+                            />
+                            <span className="rightbarFollowingName">Sena</span>
+                        </div>
+                        <div className="rightbarFollowing">
+                            <img
+                                src="/assets/person/sena.jpg"
+                                alt="Icon de Sena"
+                                className="rightbarFollowingImg"
+                            />
+                            <span className="rightbarFollowingName">Sena</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
+    return (
+        <section className="rightbar">
+            <div className="rightbarWrapper">
+                {profile ? <ProfileRightbar /> : <HomeRightbar />}
             </div>
         </section>
     );
