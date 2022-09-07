@@ -69,3 +69,38 @@
     top: 30px;
     right: 2px;
 }
+
+.rightbarTitle {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+.rightbarInfo {
+    margin-bottom: 20px;
+}
+.rightbarInfokey {
+    color: #555;
+    margin-right: 6px;
+}
+.rightbarInfoItem {
+    margin-bottom: 30px;
+}
+.rightbarFollowings {
+    display: flex;
+    flex-wrap: wrap;
+}
+.rightbarFollowing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.rightbarFollowingImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    object-fit: cover;
+}
+.hr {
+    margin-right: 10px;
+}

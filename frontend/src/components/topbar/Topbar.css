@@ -34,8 +34,21 @@ a {
     justify-content: space-around;
     align-items: center;
 }
+li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    height: 70px;
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+li a:hover {
+    background-color: #8e94ba;
+}
 .topbarIcon {
-    font-size: 2.2rem !important;
+    font-size: 2.3rem !important;
     color: white;
     transition: 0.5s;
 }
@@ -43,9 +56,20 @@ a {
     color: #ffd7d7;
     transition: 0.5s;
 }
-.topbarIconBadge {
-    color: #fd2d01;
-}
+/* .topbarIconBadge {
+ width: 15px;
+  height: 15px;
+  background-color: #fd2d01;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+
+} */
 .topbarLogo {
     width: 15rem;
     margin-left: 2rem;
@@ -53,10 +77,11 @@ a {
 
 .topbarImg {
     width: 45px;
-    border-radius: 30px;
+    border-radius: 50px;
+    object-fit: cover;
 }
 .serchbar {
-    width: 70%;
+    width: 75%;
     height: 40px;
     background-color: #fff;
     border-radius: 20px;
