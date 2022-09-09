@@ -85,7 +85,7 @@ exports.likerPost = async (req, res) => {
 //---Obtenir les postes de la chronologie---
 exports.timelinePost = async (req, res) => {
     try {
-        const currentUser = await User.findById(req.body.userId);
+        const currentUser = await User.findById(req.params.userId);
         const userPosts = await Post.find({ userId: currentUser._id });
         const followPosts = await Promise.all(
             currentUser.followings.map((followId) => {
