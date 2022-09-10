@@ -24,7 +24,7 @@
     }
 }
 .loginWrapper {
-    width: 70%;
+    width: 80%;
     height: 70%;
     display: flex;
 }
@@ -35,21 +35,26 @@
     flex-direction: column;
     justify-content: center;
 }
+.loginLeft {
+    flex: 1.5;
+    align-items: baseline;
+    margin: 0 10px;
+}
 
 .loginLogo {
-    width: 450px;
-    height: 80px;
-    margin-bottom: -20px;
+    margin: 0 10px;
+    padding: 0 10px;
+    width: 100%;
 }
 
 .loginDescription {
-    font-size: 1.5rem;
-    color: gray;
-    margin-left: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 10px;
 }
 
 .loginBox {
-    height: 500px;
+    height: 100%;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -75,6 +80,7 @@
     font-size: 1.2rem;
     font-weight: lighter;
     padding-left: 10px;
+    margin-bottom: 0;
 }
 /* .loginInput:focus {
     outline: none;
@@ -86,7 +92,7 @@
     cursor: pointer;
 }
 .loginRegister {
-    width: 80%;
+    width: 70%;
     background-color: #42b72a;
     color: #fff;
     font-size: 1.1rem;
@@ -94,7 +100,7 @@
     cursor: pointer;
 }
 .loginMsg {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     font-weight: bold;
 }
 .loginForget {
