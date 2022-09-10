@@ -3,7 +3,7 @@ import "./Rightbar.css";
 import { Users } from "../../dummydata";
 import { Online } from "../online/Online";
 
-export const Rightbar = ({ profile }) => {
+export const Rightbar = ({ user }) => {
     const HomeRightbar = () => {
         return (
             <>
@@ -18,7 +18,7 @@ export const Rightbar = ({ profile }) => {
                     </h2>
                 </div>
                 <img
-                    src="/assets/post/equipe.jpg"
+                    src="/assets/post/equipe.jpeg"
                     alt="4 nouvelles recrues"
                     className="rightbarImg"
                 />
@@ -34,8 +34,10 @@ export const Rightbar = ({ profile }) => {
     const ProfileRightbar = () => {
         return (
             <>
-                <h3 className="rightbarTitle">Informations de l'utilisateur</h3>
                 <div className="rightbarInfo">
+                    <h3 className="rightbarTitle">
+                        Informations de l'utilisateur
+                    </h3>
                     <div className="rightbarInfoItem">
                         <span className="rightbarInfokey">
                             Lieu de naissance:
@@ -77,7 +79,7 @@ export const Rightbar = ({ profile }) => {
     return (
         <section className="rightbar">
             <div className="rightbarWrapper">
-                {profile ? <ProfileRightbar /> : <HomeRightbar />}
+                {user ? <ProfileRightbar /> : <HomeRightbar />}
             </div>
         </section>
     );
