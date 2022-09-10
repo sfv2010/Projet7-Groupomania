@@ -1,6 +1,9 @@
 .profileContainer {
     display: flex;
     font-family: "Lato", sans-serif;
+    width: 70%;
+    margin: auto;
+    box-shadow: 1px 5px 20px #4e5166;
 }
 
 .profile {
