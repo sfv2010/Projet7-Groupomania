@@ -47,14 +47,18 @@ exports.deleteUser = async (req, res) => {
 //         .catch((error) => res.status(400).json({ error }));
 // };
 
-//---obtenir les informations d'utilisateur avec son id---
+//---obtenir les informations d'utilisateur avec query---
 exports.getOneUser = async (req, res) => {
+    const userId = req.query.userId;
+    const username = req.query.username;
     try {
-        const user = await User.findOne({ _id: req.params.id });
+        const user = userId
+            ? await User.findById(userId)
+            : await User.findOne({ username: username });
         const { password, updatedAt, followings, followers, ...other } = user._doc;
-        res.status(200).json(other);
+        return res.status(200).json(other);
     } catch (err) {
-        res.status(404).json(err);
+        return res.status(404).json(err);
     }
 };
 
