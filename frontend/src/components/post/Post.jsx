@@ -1,35 +1,43 @@
 import { FavoriteBorder, MoreHoriz } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Post.css";
-import { Users } from "../../dummydata";
+import axios from "axios";
+// import { format } from "timeago.js";
 
 export const Post = ({ post }) => {
-    const [like, setLike] = useState(post.like);
+    const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
     const handleLike = () => {
         setLike(isLiked ? like - 1 : like + 1); //si déja liké = -1
         setIsLiked(!isLiked); //!isLiked= true
     };
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await axios.get(`/users?userId=${post.userId}`);
+
+            setUser(res.data);
+            // console.log(res.data);
+        };
+        fetchUser();
+    }, [post.userId]);
     return (
         <section className="post">
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
+                        {/* <Link to = {`/profile/${user.username}`}> */}
                         <img
                             src={
-                                Users.filter((user) => user.id === post.id)[0]
-                                    .profilePicture
+                                user.profilePicture || "/assets/person/icon.png"
                             }
                             alt="icon de licorne"
                             className="postProfileimg"
                         />
-                        <span className="postUserName">
-                            {
-                                Users.filter((user) => user.id === post.id)[0]
-                                    .username
-                            }
-                        </span>
-                        <span className="postDate">{post.date}</span>
+                        {/* </Link> */}
+                        <span className="postUserName">{user.username}</span>
+                        <span className="postDate">{post.createdAt}</span>
                     </div>
                     <div className="postTopRight">
                         <MoreHoriz />
@@ -39,7 +47,7 @@ export const Post = ({ post }) => {
                 <div className="postCenter">
                     <span className="postText">{post.desc}</span>
                     <img
-                        src={post.photo}
+                        src={post.img}
                         alt="un enfant qui touche un ordinateur"
                         className="postImg"
                     />
