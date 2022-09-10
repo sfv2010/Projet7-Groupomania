@@ -10,13 +10,23 @@ export const Timeline = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             const response = await axios.get(
-                "http://localhost:4000/posts/timeline/6304b68d74186c2a1d4ca9ae"
+                "http://localhost:4000/api/posts/timeline/6304b68d74186c2a1d4ca9ae"
             );
             console.log(response);
             setPosts(response.data);
         };
         fetchPosts();
     }, []); //,[]=juste premier fois
+    // useEffect(() => {
+    //     const fetchPosts = async () => {
+    //         const response = username
+    //             ? await axios.get(`http://localhost:4000/api/posts/profile/${username}`/)
+    //             : await axios.get("http://localhost:4000/api/posts/timeline/6304b68d74186c2a1d4ca9ae");
+    //         console.log(response);
+    //         setPosts(response.data);
+    //     };
+    //     fetchPosts();
+    // }, [username]); //,[]=juste premier fois
 
     return (
         <div className="timeline">
