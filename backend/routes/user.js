@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 router.put("/:id", auth, userCtrl.updateUser);
 router.delete("/:id", auth, userCtrl.deleteUser);
 //router.get("/", userCtrl.getAllUser);
-router.get("/:id", auth, userCtrl.getOneUser);
+router.get("/", auth, userCtrl.getOneUser);
 router.put("/:id/follow", auth, userCtrl.followUser);
 router.put("/:id/unfollow", auth, userCtrl.unFollowUser);
 
