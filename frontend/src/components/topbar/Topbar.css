@@ -13,9 +13,7 @@
 li {
     list-style: none;
 }
-a {
-    text-decoration: none;
-}
+
 :focus {
     outline: none;
 }
@@ -34,19 +32,20 @@ a {
     justify-content: space-around;
     align-items: center;
 }
-li a {
+.topbarList {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 170px;
+    width: 180px;
     height: 70px;
     border-radius: 10px;
-
     transition: 0.3s;
+    position: relative;
 }
-li a:hover {
+.topbarList:hover {
     background-color: #8e94ba;
 }
+
 .topbarIcon {
     font-size: 2.3rem !important;
     color: white;
@@ -54,6 +53,28 @@ li a:hover {
 }
 .topbarIcon:hover {
     color: #ffd7d7;
+    transition: 0.5s;
+}
+.topbarNotice {
+    position: absolute;
+    display: none;
+    padding: 4px;
+    background-color: #4e5166;
+    width: 60%;
+    left: 20%;
+    top: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0.9;
+}
+.topbarNotice:after {
+    position: absolute;
+}
+.topbarList:hover .topbarNotice {
+    display: inline;
     transition: 0.5s;
 }
 /* .topbarIconBadge {
@@ -97,4 +118,25 @@ li a:hover {
     border: none;
     width: 80%;
     font-size: 1.1rem;
+}
+.topbarLogout {
+    width: 25%;
+    height: 70px;
+    margin: 0 10px;
+    border-radius: 5px;
+    justify-content: center;
+    position: relative;
+    display: flex;
+    transition: 0.3s;
+}
+.logout {
+    margin-top: 15px;
+}
+.topbarLogout:hover {
+    background-color: #8e94ba;
+}
+.topbarLogout:hover .topbarNotice {
+    display: inline;
+    background-color: #fd2d01;
+    opacity: 0.9;
 }
