@@ -1,32 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Share } from "../share/Share";
 import { Post } from "../post/Post";
 import "./Timeline.css";
 import axios from "axios";
 
-export const Timeline = () => {
-    const [posts, setPosts] = useState([]);
+import { AuthContext } from "../../state/AuthContext";
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const response = await axios.get(
-                "http://localhost:4000/api/posts/timeline/6304b68d74186c2a1d4ca9ae"
-            );
-            console.log(response);
-            setPosts(response.data);
-        };
-        fetchPosts();
-    }, []); //,[]=juste premier fois
+export const Timeline = ({ username }) => {
+    const [posts, setPosts] = useState([]);
+    const { user } = useContext(AuthContext);
+
     // useEffect(() => {
     //     const fetchPosts = async () => {
-    //         const response = username
-    //             ? await axios.get(`http://localhost:4000/api/posts/profile/${username}`/)
-    //             : await axios.get("http://localhost:4000/api/posts/timeline/6304b68d74186c2a1d4ca9ae");
+    //         const response = await axios.get(
+    //             `http://localhost:4000/api/posts/timeline/${user._id}`
+    //         );
     //         console.log(response);
     //         setPosts(response.data);
     //     };
     //     fetchPosts();
-    // }, [username]); //,[]=juste premier fois
+    // }, [user]); //,[]=juste premier fois
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            const response = username
+                ? await axios.get(
+                      `http://localhost:4000/api/posts/profile/${username}`
+                  )
+                : await axios.get(
+                      `http://localhost:4000/api/posts/timeline/${user._id}`
+                  );
+            console.log(response);
+            setPosts(response.data);
+        };
+        fetchPosts();
+    }, [username, user._id]); //,[]=juste premier fois
 
     return (
         <div className="timeline">
