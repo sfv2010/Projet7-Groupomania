@@ -1,9 +1,23 @@
+//gerer en global . Définition de l'état initial
 import { createContext, useReducer } from "react";
 import AuthReducer from "./AuthReducer";
 
 //Definir l'état initial de l'utilisateur
 const initialState = {
-    user: null,
+    //user: null,
+    user: {
+        _id: "631f1a4b1123b5dd9b5e5e17",
+        username: "aoisora",
+        email: "aoi@hotmail.fr",
+        password: "Aoaoao12",
+        firstName: "false",
+        lasttName: "false",
+        profilePicture: "",
+        coverPicture: "",
+        followers: [],
+        followings: [],
+        isAdmin: false,
+    },
     isFetching: false,
     error: false,
 };
