@@ -12,10 +12,7 @@ export const Profile = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            // const res = await axios.get(`users/${post.userId}`);
-            //クエリの取得ができてない。
-            // const res = await axios.get("/users?username=shincode");
-            // const res = await axios.get(`/users?username=shincode`);
+            //Rechercher aprés ? sur url
             const res = await axios.get(`/users?username=${username}`);
 
             setUser(res.data);
@@ -42,7 +39,7 @@ export const Profile = () => {
                             <img
                                 src={
                                     user.profilePicture ||
-                                    "/assets/person/icon.png"
+                                    "/assets/person/Anonym.svg"
                                 }
                                 alt="L'utilisateur n' a pas ajouter d' icon"
                                 className="profileUserImg"
@@ -64,3 +61,5 @@ export const Profile = () => {
         </>
     );
 };
+
+// export default Profile;
