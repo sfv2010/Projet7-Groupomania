@@ -28,7 +28,8 @@ mongoose
 app.use(express.json());
 
 //--- CORS---
-app.use(cors({ origin: "http://localhost:4000" }));
+app.use(cors());
+// app.use(cors({ origin: "http://localhost:4000" }));
 app.use((req, res, next) => {
     res.setHeader("Cross-Origin-Resource-Policy", "same-site"); //pour afficher les images en utilisant helmet
     res.setHeader("Access-Control-Allow-Origin", "*"); // d'accéder à notre API depuis n'importe quelle origine ( '*' ) ;
