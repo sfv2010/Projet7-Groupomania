@@ -5,7 +5,7 @@ import { Sidebar } from "../../components/sidebar/Sidebar";
 import { Timeline } from "../../components/timeline/Timeline";
 import { Rightbar } from "../../components/rightbar/Rightbar";
 
-const Home = () => {
+export const Home = () => {
     return (
         <>
             <Topbar />
@@ -18,4 +18,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+// export default Home;
