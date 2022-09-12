@@ -1,27 +1,40 @@
 import { FavoriteBorder, MoreHoriz } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Post.css";
 import axios from "axios";
-// import { format } from "timeago.js";
+import { AuthContext } from "../../state/AuthContext";
+//import { format } from "timeago.js";
 
 export const Post = ({ post }) => {
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
-    const handleLike = () => {
-        setLike(isLiked ? like - 1 : like + 1); //si déja liké = -1
-        setIsLiked(!isLiked); //!isLiked= true
-    };
     const [user, setUser] = useState({});
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    const { user: currentUser } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchUser = async () => {
-            const res = await axios.get(`/users?userId=${post.userId}`);
-
+            const res = await axios.get(
+                `http://localhost:4000/api/users?userId=${post.userId}`
+            );
             setUser(res.data);
             // console.log(res.data);
         };
         fetchUser();
     }, [post.userId]);
+
+    const handleLike = async () => {
+        try {
+            //いいねのAPIを叩く
+            await axios.put(`/posts/${post._id}/like`, {
+                userId: currentUser._id,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+        setLike(isLiked ? like - 1 : like + 1);
+        setIsLiked(!isLiked);
+    };
     return (
         <section className="post">
             <div className="postWrapper">
@@ -30,14 +43,20 @@ export const Post = ({ post }) => {
                         {/* <Link to = {`/profile/${user.username}`}> */}
                         <img
                             src={
-                                user.profilePicture || "/assets/person/icon.png"
+                                // user.profilePicture || "/assets/person/icon.png"
+                                user.profilePicture
+                                    ? PUBLIC_FOLDER + user.profilePicture
+                                    : PUBLIC_FOLDER + "person/icon.png"
                             }
                             alt="icon de licorne"
                             className="postProfileimg"
                         />
                         {/* </Link> */}
                         <span className="postUserName">{user.username}</span>
-                        <span className="postDate">{post.createdAt}</span>
+                        <span className="postDate">
+                            {/* {format(post.createdAt)} */}
+                            {post.createdAt}
+                        </span>
                     </div>
                     <div className="postTopRight">
                         <MoreHoriz />
