@@ -8,7 +8,7 @@ export const Online = ({ user }) => {
                 <div className="rightbarProfileContainer">
                     <img
                         src={user.profilePicture}
-                        alt="icon de chat"
+                        alt="icon de user"
                         className="rightProfileImg"
                     />
                     <span className="rightbarOnline"></span>
