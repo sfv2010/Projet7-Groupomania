@@ -19,6 +19,12 @@ const AuthReducer = (state, action) => {
                 isFetching: false, // 情報を取得するのかしないのか
                 error: action.payload, //era-hamadanai
             };
+        case "LOGOUT":
+            return {
+                user: null,
+                isFetching: false,
+                error: false,
+            };
         default:
             return state;
     }
