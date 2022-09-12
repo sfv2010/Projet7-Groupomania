@@ -97,3 +97,15 @@ exports.timelinePost = async (req, res) => {
         return res.status(500).json(err);
     }
 };
+//---Obtenir les postes de la chronologie de profile---
+
+exports.timelinePost = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        const posts = await Post.find({ userId: user._id });
+
+        return res.status(200).json(posts);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
