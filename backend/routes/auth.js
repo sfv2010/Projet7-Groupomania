@@ -14,7 +14,7 @@ const limiter = rateLimit({
 });
 
 //---Router---
-router.post("/signup", password, validateEmail, authCtrl.signup);
+router.post("/register", password, validateEmail, authCtrl.signup);
 router.post("/login", limiter, authCtrl.login);
 router.post("/logout", authCtrl.logout);
 
