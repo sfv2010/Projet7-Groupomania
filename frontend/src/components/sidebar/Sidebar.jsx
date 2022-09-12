@@ -45,11 +45,11 @@ export const Sidebar = () => {
                     </li>
                 </ul>
                 <hr className="sidebarHr" />
-                <ur className="sidebarFriendList">
+                <ul className="sidebarFriendList">
                     {Users.map((user) => (
                         <ListFriend user={user} key={user.id} />
                     ))}
-                </ur>
+                </ul>
             </div>
         </nav>
     );
