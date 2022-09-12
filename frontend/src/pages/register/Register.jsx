@@ -1,14 +1,45 @@
-import React from "react";
+import axios from "axios";
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
 export const Register = () => {
+    const email = useRef();
+    const username = useRef();
+    const password = useRef();
+    const confirmPassword = useRef();
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); //pour ne pas reload
+        //Vérifiez si le mot de passe et le mot de passe de confirmation sont corrects
+        if (password.current.value !== confirmPassword.current.value) {
+            confirmPassword.current.setCustomValidity(
+                "Les paires de mots de passe ne sont pas identiques"
+            );
+        } else {
+            try {
+                const user = {
+                    username: username.current.value,
+                    email: email.current.value,
+                    password: password.current.value,
+                };
+                //registerAPIを叩く
+                await axios.post("http://localhost:4000/api/auth/signup", user);
+                navigate("/login");
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
     return (
         <div className="login">
             <div className="loginWrapper">
                 <header className="loginLeft">
                     <h1>
                         <img
-                            src="/assets/groupomania/icon-left-font-monochrome-white.svg"
+                            src="/assets/groupomania /icon-left-font-monochrome-white.svg"
                             alt=" Grand logo de Groupomania"
                             className="loginLogo"
                         />
@@ -18,37 +49,52 @@ export const Register = () => {
                     </p>
                 </header>
                 <div className="loginRight">
-                    <div className="loginBox">
+                    <form
+                        className="loginBox"
+                        onSubmit={(e) => handleSubmit(e)}
+                    >
                         <p className="loginMsg">S’inscrire</p>
                         <input
-                            type="text"
+                            type="email"
                             className="loginInput"
                             placeholder="Adresse e-mail"
+                            required
+                            ref={email}
                         />
                         <input
                             type="text"
                             className="loginInput"
                             placeholder="Nom ou pseudonyme"
+                            required
+                            ref={username}
                         />
                         <input
-                            type="text"
+                            type="password"
                             className="loginInput"
                             placeholder="Mot de passe"
+                            required
+                            ref={password}
                         />
                         <input
-                            type="text"
+                            type="password"
                             className="loginInput"
                             placeholder="Confirmation de mot de passe"
+                            required
+                            ref={confirmPassword}
                         />
 
-                        <button className="loginButton">S'inscrire</button>
+                        <button className="loginButton" type="submit">
+                            S'inscrire
+                        </button>
 
                         <hr />
                         <p className="loginFailed">Déjà inscrit?</p>
                         <button className="loginRegister">Se connecter</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     );
 };
+
+// export default Register;
