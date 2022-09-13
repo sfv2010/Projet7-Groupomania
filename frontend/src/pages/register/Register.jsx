@@ -18,14 +18,18 @@ export const Register = () => {
                 "Les paires de mots de passe ne sont pas identiques"
             );
         } else {
+            //Appeler registerAPI
+
             try {
                 const user = {
                     username: username.current.value,
                     email: email.current.value,
                     password: password.current.value,
                 };
-                //registerAPIを叩く
-                await axios.post("http://localhost:4000/api/auth/signup", user);
+                await axios.post(
+                    "http://localhost:4000/api/auth/register",
+                    user
+                );
                 navigate("/login");
             } catch (err) {
                 console.log(err);
