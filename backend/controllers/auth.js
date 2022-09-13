@@ -6,7 +6,7 @@ require("dotenv").config(); //importation de dotenv
 
 //---Logique métier ---
 
-exports.signup = async (req, res) => {
+exports.register = async (req, res) => {
     const emailCrypto = cryptoJs.HmacSHA256(req.body.email, process.env.PASSWORD_SECRET).toString();
     //La méthode hash() de bcrypt crée un hash crypté des mots de passe de nos utilisateurs pour les enregistrer de manière sécurisée dans la base de données.
     bcrypt
