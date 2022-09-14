@@ -1,7 +1,8 @@
 import React, { useContext, useRef } from "react";
-import { loginCall } from "../../state/dispatch";
+import { dispatchLogin } from "../../state/dispatch";
 import { AuthContext } from "../../state/AuthContext";
 import "./Login.css";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
     const email = useRef();
@@ -11,7 +12,7 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault(); //pour ne pas reload
-        loginCall(
+        dispatchLogin(
             {
                 email: email.current.value,
                 password: password.current.value,
@@ -62,9 +63,11 @@ export const Login = () => {
                         <p className="loginForget">Mot de passe oublié?</p>
                         <hr />
                         <p className="loginFailed">Pas de compte?</p>
-                        <button className="loginRegister">
-                            Créer nouveaux compte
-                        </button>
+                        <Link to="/register">
+                            <button className="loginRegister">
+                                Créer nouveaux compte
+                            </button>
+                        </Link>
                     </form>
                 </div>
             </div>
