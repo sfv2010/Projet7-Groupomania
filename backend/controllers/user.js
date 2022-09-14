@@ -41,11 +41,11 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-// exports.getAllUser = (req, res, next) => {
-//     User.find() //pas besoin d'argument,car ici on veut la liste complète de Sauce
-//         .then((user) => res.status(200).json(user))
-//         .catch((error) => res.status(400).json({ error }));
-// };
+exports.getAllUser = (req, res, next) => {
+    User.find() //pas besoin d'argument,car ici on veut la liste complète de Sauce
+        .then((user) => res.status(200).json(user))
+        .catch((error) => res.status(400).json({ error }));
+};
 
 //---obtenir les informations d'utilisateur avec query---
 exports.getOneUser = async (req, res) => {
@@ -61,6 +61,16 @@ exports.getOneUser = async (req, res) => {
         return res.status(404).json(err);
     }
 };
+
+// exports.getOneUser = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.id);
+//         const { passward, updateAt, ...other } = user._doc;
+//         res.status(200).json(other);
+//     } catch (err) {
+//         res.status(500).json(err);
+//     }
+// };
 
 //---Follow des utilisateurs---
 exports.followUser = async (req, res) => {
