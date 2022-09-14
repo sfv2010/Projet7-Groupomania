@@ -24,13 +24,13 @@ export const Share = () => {
             newPost.img = fileName;
             console.log(newPost);
             try {
-                await axios.post("/upload", data);
+                await axios.post("http://localhost:4000/api/posts", data);
             } catch (err) {
                 console.log(err);
             }
         }
         try {
-            await axios.post("/posts", newPost);
+            await axios.post("http://localhost:4000/api/posts", newPost);
             window.location.reload();
         } catch (err) {
             console.log(err);
@@ -44,8 +44,7 @@ export const Share = () => {
                         src={
                             user.profilePicture
                                 ? PUBLIC_FOLDER + user.profilePicture
-                                : //: PUBLIC_FOLDER + "person/Anonym.svg"
-                                  "/assets/person/Anonym.svg"
+                                : PUBLIC_FOLDER + "/person/Anonym.svg"
                         }
                         alt="icon de User"
                         className="shareProfileImg"
@@ -73,7 +72,7 @@ export const Share = () => {
                                 style={{ display: "none" }}
                                 type="file"
                                 id="file"
-                                accept=".png, .jpeg, .jpg"
+                                accept=".png, .jpeg, .jpg, .svg"
                                 onChange={(e) => setFile(e.target.files[0])}
                                 name="file"
                             />
@@ -83,7 +82,9 @@ export const Share = () => {
                             <span className="shareOptionText">GIF</span>
                         </div>
                     </div>
-                    <button className="shareButton">Publier</button>
+                    <button className="shareButton" type="submit">
+                        Publier
+                    </button>
                 </form>
             </div>
         </main>
