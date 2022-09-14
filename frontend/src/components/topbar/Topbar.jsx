@@ -5,12 +5,20 @@ import {
     PowerSettingsNew,
     Search,
 } from "@mui/icons-material";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../state/AuthContext";
 import "./Topbar.css";
+import { dispatchLogout } from "../../state/dispatch";
 
 export const Topbar = () => {
     // const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    const { dispatch } = useContext(AuthContext);
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatchLogout(dispatch);
+    };
     return (
         <header className="topbarContainer">
             <h1 className="topbarLeft">
@@ -47,7 +55,7 @@ export const Topbar = () => {
                         placeholder="Rechercher sur Groupomania"
                     />
                 </div>
-                <div className="topbarLogout">
+                <div className="topbarLogout" onClick={handleLogout}>
                     <PowerSettingsNew className="topbarIcon logout" />
                     <span className="topbarNotice">Quitter</span>
                 </div>
