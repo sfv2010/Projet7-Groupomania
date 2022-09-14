@@ -10,6 +10,7 @@ export const Post = ({ post }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [user, setUser] = useState({});
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    //const SRC_FOLDER = process.env.REACT_APP_SRC_FOLDER;
     const { user: currentUser } = useContext(AuthContext);
 
     useEffect(() => {
@@ -18,7 +19,6 @@ export const Post = ({ post }) => {
                 `http://localhost:4000/api/users?userId=${post.userId}`
             );
             setUser(res.data);
-            // console.log(res.data);
         };
         fetchUser();
     }, [post.userId]);
@@ -26,9 +26,12 @@ export const Post = ({ post }) => {
     const handleLike = async () => {
         try {
             //いいねのAPIを叩く
-            await axios.put(`/posts/${post._id}/like`, {
-                userId: currentUser._id,
-            });
+            await axios.put(
+                `http://localhost:4000/api/posts/${post._id}/like`,
+                {
+                    userId: currentUser._id,
+                }
+            );
         } catch (err) {
             console.log(err);
         }
@@ -43,12 +46,11 @@ export const Post = ({ post }) => {
                         {/* <Link to = {`/profile/${user.username}`}> */}
                         <img
                             src={
-                                // user.profilePicture || "/assets/person/icon.png"
                                 user.profilePicture
                                     ? PUBLIC_FOLDER + user.profilePicture
                                     : PUBLIC_FOLDER + "person/icon.png"
                             }
-                            alt="icon de licorne"
+                            alt="icon de l'utilisateur"
                             className="postProfileimg"
                         />
                         {/* </Link> */}
@@ -66,7 +68,7 @@ export const Post = ({ post }) => {
                 <div className="postCenter">
                     <span className="postText">{post.desc}</span>
                     <img
-                        src={post.img}
+                        src={PUBLIC_FOLDER + post.img}
                         alt="un enfant qui touche un ordinateur"
                         className="postImg"
                     />
@@ -78,7 +80,7 @@ export const Post = ({ post }) => {
                             <FavoriteBorder className="heart1" />
                             {isLiked && (
                                 <img
-                                    src="/assets/heart.png"
+                                    src={PUBLIC_FOLDER + "/heart.png"}
                                     alt="petit coeur rouge"
                                     className="heart2"
                                 />
