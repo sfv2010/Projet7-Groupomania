@@ -65,7 +65,7 @@
     box-shadow: 0 8px 16px #4e5166;
 }
 .loginInput,
-.loginRegister,
+.loginLink,
 .loginButton {
     width: 100%;
     border-radius: 6px;
@@ -91,8 +91,8 @@
 .loginButton:hover {
     background-color: #1877f2;
 }
-.loginRegister {
-    width: 70%;
+.loginLink {
+    width: 200px;
     background-color: #42b72a;
     color: #fff;
     font-size: 1.1rem;
@@ -102,7 +102,7 @@
     opacity: 1;
     transition: 0.3s;
 }
-.loginRegister:hover {
+.loginLink:hover {
     opacity: 0.7;
     color: black;
 }
