@@ -65,11 +65,11 @@ export const Rightbar = ({ user }) => {
                         </div>
                         <div className="rightbarFollowing">
                             <img
-                                src="/assets/person/sena.jpg"
-                                alt="Icon de Sena"
+                                src="/assets/person/ken.jpg"
+                                alt="Icon de ken"
                                 className="rightbarFollowingImg"
                             />
-                            <span className="rightbarFollowingName">Sena</span>
+                            <span className="rightbarFollowingName">Ken</span>
                         </div>
                     </div>
                 </div>
