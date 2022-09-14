@@ -9,11 +9,14 @@ import axios from "axios";
 export const Profile = () => {
     const [user, setUser] = useState({});
     const username = useParams().username;
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
     useEffect(() => {
         const fetchUser = async () => {
             //Rechercher aprés ? sur url
-            const res = await axios.get(`/users?username=${username}`);
+            const res = await axios.get(
+                `http://localhost:4000/api/users?username=${username}`
+            );
 
             setUser(res.data);
             // console.log(res.data);
@@ -30,26 +33,24 @@ export const Profile = () => {
                         <div className="profileCover">
                             <img
                                 src={
-                                    user.coverPicture ||
-                                    "/assets/post/paysage.jpg"
+                                    PUBLIC_FOLDER + user.coverPicture ||
+                                    PUBLIC_FOLDER + "/post/paysage.jpg"
                                 }
                                 alt="paysage de campagne"
                                 className="profileImg"
                             />
                             <img
                                 src={
-                                    user.profilePicture ||
-                                    "/assets/person/Anonym.svg"
+                                    PUBLIC_FOLDER + user.profilePicture ||
+                                    PUBLIC_FOLDER + "/person/Anonym.svg"
                                 }
-                                alt="L'utilisateur n' a pas ajouter d' icon"
+                                alt="L'utilisateur n'a pas ajouter d'icon"
                                 className="profileUserImg"
                             />
                         </div>
                         <div className="profileInfo">
                             <h2 className="profileInfoName">{user.username}</h2>
-                            <span className="profileInfoDesc">
-                                {user.description}
-                            </span>
+                            <span className="profileInfoDesc">{user.desc}</span>
                         </div>
                     </div>
                     <div className="profileBottom">
