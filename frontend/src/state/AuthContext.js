@@ -1,23 +1,10 @@
 //gerer en global . Définition de l'état initial
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import AuthReducer from "./AuthReducer";
 
 //Definir l'état initial de l'utilisateur
 const initialState = {
-    //user: null,
-    user: {
-        _id: "631f1a4b1123b5dd9b5e5e17",
-        username: "aoisora",
-        email: "aoi@hotmail.fr",
-        password: "Aoaoao12",
-        firstName: "false",
-        lasttName: "false",
-        profilePicture: "",
-        coverPicture: "",
-        followers: [],
-        followings: [],
-        isAdmin: false,
-    },
+    user: JSON.parse(localStorage.getItem("user")) || null,
     isFetching: false,
     error: false,
 };
@@ -29,6 +16,12 @@ export const AuthContextProvider = ({ children }) => {
     //dispatch = どういうアクションを実行したか。アクション名をつけると発火する。
     //データの送信、資源の割り当て、機能の呼び出し
     const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+    //Enregistrement dans localstroge
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(state.user));
+    }, [state.user]);
+
     return (
         <AuthContext.Provider
             value={{
