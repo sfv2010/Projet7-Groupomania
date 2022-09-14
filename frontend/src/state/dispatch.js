@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const loginCall = async (user, dispatch) => {
+export const dispatchLogin = async (user, dispatch) => {
     dispatch({ type: "LOGIN_START" });
     try {
         const res = await axios.post(
@@ -13,7 +13,7 @@ export const loginCall = async (user, dispatch) => {
     }
 };
 
-export const logoutCall = (dispatch) => {
+export const dispatchLogout = (dispatch) => {
     localStorage.clear();
     dispatch({ type: "LOGOUT" });
 };
