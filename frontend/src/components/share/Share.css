@@ -36,6 +36,9 @@
     border: none;
     width: 95%;
 }
+.shareInputImg {
+    display: none;
+}
 
 .shareHr {
     width: 95%;
