@@ -9,7 +9,12 @@ export const Share = () => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
 
+    //const [message, setMessage] = useState("");
+
     const [file, setFile] = useState(null);
+    console.log(file);
+
+    //créer un post
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newPost = {
@@ -69,7 +74,7 @@ export const Share = () => {
                             <AddAPhoto className="shareIcon" htmlColor="blue" />
                             <span className="shareOptionText">Photo</span>
                             <input
-                                style={{ display: "none" }}
+                                className="shareInputImg"
                                 type="file"
                                 id="file"
                                 accept=".png, .jpeg, .jpg, .svg"
