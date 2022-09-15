@@ -11,18 +11,37 @@ export const Timeline = ({ username }) => {
 
     useEffect(() => {
         const fetchPosts = async () => {
+            //const currentUser = JSON.parse(localStorage.getItem("user"));
+
             const res = username
                 ? await axios.get(
-                      `http://localhost:4000/api/posts/profile/${username}`
+                      `http://localhost:4000/api/posts/profile/${username}`,
+                      {
+                          headers: {
+                              Authorization: `Bearer ${user.token}`,
+                          },
+                      }
                   )
                 : await axios.get(
-                      `http://localhost:4000/api/posts/timeline/${user._id}`
+                      `http://localhost:4000/api/posts/timeline/${user.userId}`,
+                      {
+                          headers: {
+                              Authorization: `Bearer ${user.token}`,
+                          },
+                      }
                   );
             console.log(res);
-            setPosts(res.data);
+            //les posts listés de façon antéchronologiaue(du plus récent au plus ancien)
+            setPosts(
+                res.data.sort((post1, post2) => {
+                    return (
+                        new Date(post2.createdAt) - new Date(post1.createdAt)
+                    );
+                })
+            );
         };
         fetchPosts();
-    }, [username, user._id]); //,[]=juste premier fois
+    }, [username, user]); //,[]=juste premier fois
 
     return (
         <div className="timeline">
