@@ -3,25 +3,29 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Post.css";
 import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
-//import { format } from "timeago.js";
+import { format } from "timeago.js";
 
 export const Post = ({ post }) => {
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
     const [user, setUser] = useState({});
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-    //const SRC_FOLDER = process.env.REACT_APP_SRC_FOLDER;
     const { user: currentUser } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(
-                `http://localhost:4000/api/users?userId=${post.userId}`
+                `http://localhost:4000/api/users?userId=${post.userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
             );
             setUser(res.data);
         };
         fetchUser();
-    }, [post.userId]);
+    }, [post.userId, currentUser]);
 
     const handleLike = async () => {
         try {
@@ -30,6 +34,9 @@ export const Post = ({ post }) => {
                 `http://localhost:4000/api/posts/${post._id}/like`,
                 {
                     userId: currentUser._id,
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
                 }
             );
         } catch (err) {
@@ -56,8 +63,8 @@ export const Post = ({ post }) => {
                         {/* </Link> */}
                         <span className="postUserName">{user.username}</span>
                         <span className="postDate">
-                            {/* {format(post.createdAt)} */}
-                            {post.createdAt}
+                            {format(post.createdAt)}
+                            {/* {post.createdAt} */}
                         </span>
                     </div>
                     <div className="postTopRight">
