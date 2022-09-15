@@ -8,9 +8,6 @@ export const Share = () => {
     const { user } = useContext(AuthContext);
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
-
-    //const [message, setMessage] = useState("");
-
     const [file, setFile] = useState(null);
     console.log(file);
 
