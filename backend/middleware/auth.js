@@ -8,11 +8,13 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1];
         //---fonction verify pour décoder et vérifier notre token---
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-        //---Récupération de l'userId de notre token (décodé)---
+        //---Récupération de l'userId et isAdmin de notre token (décodé)---
         const userId = decodedToken.userId;
+        const isAdmin = decodedToken.userId;
         //---attribuer l'objet userId de notre token à l’objet Request afin que nos différentes routes puissent l’exploiter
         req.auth = {
             userId: userId,
+            isAdmin: isAdmin,
         };
         //---Vérification: S'il y a un userId dans le corps de la requête et que les userId sont différants entre requete et token---
         if (req.body.userId && req.body.userId !== userId) {
@@ -21,6 +23,7 @@ module.exports = (req, res, next) => {
             next();
         }
     } catch (error) {
-        res.status(403).json({ error });
+        console.log(error);
+        res.status(401).json({ error });
     }
 };
