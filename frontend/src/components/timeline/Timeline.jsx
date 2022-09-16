@@ -11,8 +11,6 @@ export const Timeline = ({ username }) => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            //const currentUser = JSON.parse(localStorage.getItem("user"));
-
             const res = username
                 ? await axios.get(
                       `http://localhost:4000/api/posts/profile/${username}`,
@@ -22,15 +20,7 @@ export const Timeline = ({ username }) => {
                           },
                       }
                   )
-                : // : await axios.get(
-                  //       `http://localhost:4000/api/posts/timeline/${user.userId}`,
-                  //       {
-                  //           headers: {
-                  //               Authorization: `Bearer ${user.token}`,
-                  //           },
-                  //       }
-                  //   );
-                  await axios.get("http://localhost:4000/api/posts/", {
+                : await axios.get("http://localhost:4000/api/posts/", {
                       headers: {
                           Authorization: `Bearer ${user.token}`,
                       },
