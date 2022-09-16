@@ -22,15 +22,20 @@ export const Timeline = ({ username }) => {
                           },
                       }
                   )
-                : await axios.get(
-                      `http://localhost:4000/api/posts/timeline/${user.userId}`,
-                      {
-                          headers: {
-                              Authorization: `Bearer ${user.token}`,
-                          },
-                      }
-                  );
-            console.log(res);
+                : // : await axios.get(
+                  //       `http://localhost:4000/api/posts/timeline/${user.userId}`,
+                  //       {
+                  //           headers: {
+                  //               Authorization: `Bearer ${user.token}`,
+                  //           },
+                  //       }
+                  //   );
+                  await axios.get("http://localhost:4000/api/posts/", {
+                      headers: {
+                          Authorization: `Bearer ${user.token}`,
+                      },
+                  });
+            // console.log(res);
             //les posts listés de façon antéchronologiaue(du plus récent au plus ancien)
             setPosts(
                 res.data.sort((post1, post2) => {
@@ -41,7 +46,7 @@ export const Timeline = ({ username }) => {
             );
         };
         fetchPosts();
-    }, [username, user]); //,[]=juste premier fois
+    }, [username, user]);
 
     return (
         <div className="timeline">
