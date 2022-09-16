@@ -1,24 +1,43 @@
 import {
     AccountCircle,
     Home,
-    Notifications,
     PowerSettingsNew,
     Search,
+    Settings,
 } from "@mui/icons-material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../state/AuthContext";
 import "./Topbar.css";
 import { dispatchLogout } from "../../state/dispatch";
+import axios from "axios";
 
 export const Topbar = () => {
     // const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-    const { dispatch } = useContext(AuthContext);
+    const { dispatch, user: currentUser } = useContext(AuthContext);
+    const [user, setUser] = useState({});
 
     const handleLogout = (e) => {
         e.preventDefault();
         dispatchLogout(dispatch);
     };
+    useEffect(() => {
+        const fetchUser = async () => {
+            //Rechercher aprés ? sur url
+            const res = await axios.get(
+                `http://localhost:4000/api/users?userId=${currentUser.userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
+
+            setUser(res.data);
+            // console.log(res.data);
+        };
+        fetchUser();
+    }, [currentUser]); //普通は空箱！
     return (
         <header className="topbarContainer">
             <h1 className="topbarLeft">
@@ -35,15 +54,15 @@ export const Topbar = () => {
                         <span className="topbarNotice">Accueil</span>
                     </li>
                 </Link>
-                <Link to="/profile/:username">
+                <Link to={`/profile/${user.username}`}>
                     <li className="topbarList" aria-label="Profil">
                         <AccountCircle className="topbarIcon" />
                         <span className="topbarNotice">Profil</span>
                     </li>
                 </Link>
-                <li className="topbarList" ria-label="Notification">
-                    <Notifications className="topbarIcon" />
-                    <span className="topbarNotice">Notification</span>
+                <li className="topbarList" aria-label="Paramètres">
+                    <Settings className="topbarIcon" />
+                    <span className="topbarNotice">Paramètres</span>
                 </li>
             </ul>
             <div className="topbarRight">
