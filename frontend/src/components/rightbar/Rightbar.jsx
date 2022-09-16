@@ -42,7 +42,7 @@ export const Rightbar = ({ user }) => {
                         <span className="rightbarInfokey">
                             Lieu de naissance:
                         </span>
-                        <span className="rightbarInfokey">fukuoka</span>
+                        <span className="rightbarInfokey">{user.city}</span>
                     </div>
                     <hr className="hr" />
                     <h4 className="rightbarTitle">Amis</h4>
