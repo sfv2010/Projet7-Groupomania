@@ -1,54 +1,38 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Share.css";
 import { AddAPhoto, GifBox } from "@mui/icons-material";
 import { AuthContext } from "../../state/AuthContext";
 import axios from "axios";
 
 export const Share = () => {
-    const { user } = useContext(AuthContext);
+    const { user: currentUser } = useContext(AuthContext);
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
     const [file, setFile] = useState(null);
+    const [user, setUser] = useState({});
     console.log(file);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            //Rechercher aprés ? sur url
+            const res = await axios.get(
+                `http://localhost:4000/api/users?userId=${currentUser.userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
+
+            setUser(res.data);
+            // console.log(res.data);
+        };
+        fetchUser();
+    }, [currentUser]); //普通は空箱！
+
     //créer un post
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const newPost = {
-    //         userId: user._id,
-    //         desc: desc.current.value,
-    //     };
-    //     if (file) {
-    //         const data = new FormData();
-    //         const fileName = Date.now() + file.name;
-    //         data.append("name", fileName);
-    //         data.append("file", file);
-    //         newPost.img = fileName;
-    //         console.log(newPost);
-    //         try {
-    //             await axios.post("http://localhost:4000/api/posts", data, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${user.token}`,
-    //                 },
-    //             });
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    //     try {
-    //         await axios.post("http://localhost:4000/api/posts", newPost, {
-    //             headers: {
-    //                 Authorization: `Bearer ${user.token}`,
-    //             },
-    //         });
-    //         window.location.reload();
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const newPost = {
             userId: user._id,
             desc: desc.current.value,
@@ -63,7 +47,7 @@ export const Share = () => {
             try {
                 await axios.post("http://localhost:4000/api/posts", data, {
                     headers: {
-                        Authorization: `Bearer ${user.token}`,
+                        Authorization: `Bearer ${currentUser.token}`,
                     },
                 });
             } catch (err) {
@@ -73,7 +57,7 @@ export const Share = () => {
         try {
             await axios.post("http://localhost:4000/api/posts", newPost, {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    Authorization: `Bearer ${currentUser.token}`,
                 },
             });
             window.location.reload();
