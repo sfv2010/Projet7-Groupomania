@@ -11,13 +11,14 @@ const initialState = {
 
 //Gérer l'état globalement
 export const AuthContext = createContext(initialState);
+
 export const AuthContextProvider = ({ children }) => {
-    //state = 今の状態。ログインしているのか、する前か、失敗したか？
-    //dispatch = どういうアクションを実行したか。アクション名をつけると発火する。
-    //データの送信、資源の割り当て、機能の呼び出し
+    //state = état actuel.  connecté, avant-connecté ou échoué ?
+    //dispatch = Envoyer des données,  appeler des fonctions
+
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-    //Enregistrement dans localstroge
+    //!!!!!!!!Enregistrement dans localstroge!!!!!!!!!!
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(state.user));
     }, [state.user]);
