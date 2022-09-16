@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import React, { useContext } from "react";
 import { AuthContext } from "./state/AuthContext";
+import { Page404 } from "./pages/page404/Page404";
 
 export const App = () => {
     const { user } = useContext(AuthContext);
@@ -26,6 +27,7 @@ export const App = () => {
                     element={user ? <Navigate to="/" /> : <Register />}
                 />
                 <Route path="/profile/:username" element={<Profile />} />
+                <Route path="*" element={<Page404 />} />
             </Routes>
         </Router>
     );
