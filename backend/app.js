@@ -26,6 +26,7 @@ mongoose
 
 // Pour gérer la requête POST venant de l'application front-end, on a besoin d'en extraire le corps JSON.
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //--- CORS---
 app.use(cors());
