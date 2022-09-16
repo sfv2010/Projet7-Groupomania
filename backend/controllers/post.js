@@ -1,9 +1,12 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const fs = require("fs"); //fs signifie file system qui donne accès aux fonctions qui permettent de modifier et supprimer le fichiers.
+const { log } = require("console");
 
 //---Créer un poste--
 exports.createPost = async (req, res) => {
     const newPost = new Post(req.body);
+    console.log(req.body);
     try {
         const savePost = await newPost.save();
         res.status(200).json(savePost);
@@ -11,6 +14,22 @@ exports.createPost = async (req, res) => {
         res.status(500).json(err);
     }
 };
+// exports.createPost = async (req, res) => {
+//     const postObject = JSON.parse(req.body.post);
+//     delete postObject._id;
+//     delete postObject._userId;
+//     const newPost = new Post({
+//         ...postObject,
+//         userId: req.auth.userId,
+//         img: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+//     });
+//     try {
+//         const savePost = await newPost.save();
+//         res.status(200).json(savePost);
+//     } catch (err) {
+//         res.status(500).json(err);
+//     }
+// };
 
 //---Modifier un poste---
 exports.updatePost = async (req, res) => {
