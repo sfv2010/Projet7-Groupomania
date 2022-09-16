@@ -12,8 +12,43 @@ export const Share = () => {
     console.log(file);
 
     //créer un post
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const newPost = {
+    //         userId: user._id,
+    //         desc: desc.current.value,
+    //     };
+    //     if (file) {
+    //         const data = new FormData();
+    //         const fileName = Date.now() + file.name;
+    //         data.append("name", fileName);
+    //         data.append("file", file);
+    //         newPost.img = fileName;
+    //         console.log(newPost);
+    //         try {
+    //             await axios.post("http://localhost:4000/api/posts", data, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${user.token}`,
+    //                 },
+    //             });
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     }
+    //     try {
+    //         await axios.post("http://localhost:4000/api/posts", newPost, {
+    //             headers: {
+    //                 Authorization: `Bearer ${user.token}`,
+    //             },
+    //         });
+    //         window.location.reload();
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const newPost = {
             userId: user._id,
             desc: desc.current.value,
@@ -26,13 +61,21 @@ export const Share = () => {
             newPost.img = fileName;
             console.log(newPost);
             try {
-                await axios.post("http://localhost:4000/api/posts", data);
+                await axios.post("http://localhost:4000/api/posts", data, {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
             } catch (err) {
                 console.log(err);
             }
         }
         try {
-            await axios.post("http://localhost:4000/api/posts", newPost);
+            await axios.post("http://localhost:4000/api/posts", newPost, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
             window.location.reload();
         } catch (err) {
             console.log(err);
@@ -74,7 +117,7 @@ export const Share = () => {
                                 className="shareInputImg"
                                 type="file"
                                 id="file"
-                                accept=".png, .jpeg, .jpg, .svg"
+                                accept=".png, .jpeg, .jpg"
                                 onChange={(e) => setFile(e.target.files[0])}
                                 name="file"
                             />
