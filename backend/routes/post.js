@@ -8,7 +8,7 @@ router.put("/:id", auth, multer, postCtrl.updatePost);
 router.delete("/:id", auth, multer, postCtrl.deletePost);
 router.get("/", auth, postCtrl.getAllPost);
 router.get("/:id", auth, postCtrl.getOnePost);
-router.post("/:id/like", auth, postCtrl.likerPost);
+router.put("/:id/like", auth, postCtrl.likerPost);
 router.get("/profile/:username", auth, postCtrl.prpfilePost);
 router.get("/timeline/:userId", auth, postCtrl.timelinePost);
 
