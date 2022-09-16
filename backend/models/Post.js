@@ -6,6 +6,7 @@ const PostSchema = new mongoose.Schema(
         desc: { type: String, max: 200 },
         img: { type: String, default: "" },
         likes: { type: Array, default: [] },
+        comment: { type: Array, default: [0] },
     },
     { timestamps: true }
 );
