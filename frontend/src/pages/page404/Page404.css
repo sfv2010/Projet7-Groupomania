@@ -1,0 +1,38 @@
+.errorWrapper {
+    width: 90%;
+    margin: auto;
+    font-family: "Lato", sans-serif;
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+}
+.errorImg {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+.errorTitle {
+    font-size: 6rem;
+    padding-left: 70px;
+}
+.errorDesc {
+    font-size: 1.7rem;
+    padding-left: 15px;
+}
+.errorButton {
+    margin-top: 10px;
+    padding: 15px 20px;
+    border-radius: 40px;
+    background-color: #4e5166;
+    border: none;
+    transition: 0.3s;
+}
+.errorButton:hover {
+    opacity: 0.8;
+}
+.errorLink {
+    color: white;
+    font-size: 1.5rem;
+}
