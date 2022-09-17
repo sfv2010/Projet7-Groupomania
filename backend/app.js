@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const postRoutes = require("./routes/post"); // importez le routeur pour enregistrons notre routeur dans notre application
+const postRoutes = require("./routes/post"); // importe le routeur pour enregistrons notre routeur dans notre application
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 
