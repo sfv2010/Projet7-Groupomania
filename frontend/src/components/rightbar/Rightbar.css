@@ -28,7 +28,7 @@
     align-items: center;
 }
 .eventText {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
 }
 
 .rightbarImg {
@@ -107,3 +107,17 @@
     width: 90%;
     margin-right: 10px;
 }
+/* .rightbarFollowButton {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #347cbb;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+} */
