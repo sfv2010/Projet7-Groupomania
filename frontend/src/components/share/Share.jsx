@@ -33,6 +33,7 @@ export const Share = () => {
     //créer un post
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const newPost = {
             userId: user._id,
             desc: desc.current.value,
@@ -40,7 +41,7 @@ export const Share = () => {
         if (file) {
             const data = new FormData();
             const fileName = Date.now() + file.name;
-            data.append("name", fileName);
+            data.append("name", fileName); //key + value
             data.append("file", file);
             newPost.img = fileName;
             console.log(newPost);
@@ -102,7 +103,7 @@ export const Share = () => {
                                 type="file"
                                 id="file"
                                 accept=".png, .jpeg, .jpg"
-                                onChange={(e) => setFile(e.target.files[0])}
+                                onChange={(e) => setFile(e.target.files[0])} //setFile=useState
                                 name="file"
                             />
                         </label>
