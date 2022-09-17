@@ -1,17 +1,23 @@
-import { FavoriteBorder, MoreHoriz } from "@mui/icons-material";
+import {
+    DeleteForever,
+    FavoriteBorder,
+    ModeEdit,
+    MoreHoriz,
+} from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
 import "./Post.css";
 import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
 import { format } from "timeago.js";
+import { Comment } from "../comment/Comment";
 
 export const Post = ({ post }) => {
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
     const [user, setUser] = useState({}); //user = proprietaire de post
+    //const [deleteP, setDeleteP] = useState("");
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de ligne11
-
     const [showComment, setShowComment] = useState(false);
 
     useEffect(() => {
@@ -33,7 +39,7 @@ export const Post = ({ post }) => {
         try {
             //appeler API Liker
             await axios.put(
-                `http://localhost:4000/api/posts/${post._id}/like`,
+                `http://localhost:4000/api/posts/${post._id}/like`, //Identifiant de l'article
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
@@ -48,32 +54,27 @@ export const Post = ({ post }) => {
         setIsLiked(!isLiked);
     };
 
-    //     const handleComent = async() => {
-    //         try {}
-    //    catch (err) { }
+    const handlecomment = () => {
+        setShowComment(!showComment);
+    };
 
-    // const handleLike = async () => {
+    // const deletePost = async () => {
     //     try {
-    //         //appeler API Liker
-    //         await axios.put(
-    //             `http://localhost:4000/api/posts/${post._id}/like`,
+    //         await axios.delete(
+    //             `http://localhost:4000/api/posts/${post.userId}`,
     //             {
     //                 headers: {
     //                     Authorization: `Bearer ${currentUser.token}`,
     //                 },
-    //                 userId: currentUser._id, //id de utilisateur
     //             }
     //         );
-    //     } catch (err) {
-    //         console.log(err);
+    //         setDeleteP("");
+    //     } catch (error) {
+    //         setDeleteP(
+    //             "Vous n'êtes pas autorisé à supprimé le post de quelqu'un d'autre"
+    //         );
     //     }
-    //     setLike(isLiked ? like - 1 : like + 1);
-    //     setIsLiked(!isLiked);
     // };
-
-    const handlecomment = () => {
-        setShowComment(!showComment);
-    };
 
     return (
         <section className="post">
@@ -97,9 +98,22 @@ export const Post = ({ post }) => {
                             {/* {post.createdAt} */}
                         </span>
                     </div>
-                    <div className="postTopRight">
-                        <MoreHoriz />
-                    </div>
+                    <nav className="postTopRight">
+                        <div className="postNav">
+                            <MoreHoriz />
+                        </div>
+                        <ul className="postNavList">
+                            <li className="postNavEdit">
+                                <ModeEdit htmlColor="blue" />
+                                <span className="postNavSpan">Modifier</span>
+                            </li>
+                            {/* <li onClick={()=>deletePost(post.userId)} className="postNavDelete"> */}
+                            <li className="postNavDelete">
+                                <DeleteForever htmlColor="red" />
+                                <span className="postNavSpan">Supprimer</span>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
 
                 <div className="postCenter">
@@ -140,35 +154,7 @@ export const Post = ({ post }) => {
                             </p>
                         </div>
                     </div>
-                    {showComment && (
-                        <div className="shareWrapper">
-                            <hr className="shareHr" />
-                            <div className="shareTop">
-                                <img
-                                    src={
-                                        user.profilePicture
-                                            ? PUBLIC_FOLDER +
-                                              user.profilePicture
-                                            : PUBLIC_FOLDER +
-                                              "/person/Anonym.svg"
-                                    }
-                                    alt="icon de User"
-                                    className="shareProfileImg"
-                                />
-                                <div className="sharePost">
-                                    <input
-                                        type="text"
-                                        className="shareInput"
-                                        placeholder=" Écrivez un commentaire"
-                                        //ref={desc}
-                                    />
-                                </div>
-                                <button className="shareButton" type="submit">
-                                    Publier
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                    {showComment && <Comment />}
                 </div>
             </div>
         </section>
