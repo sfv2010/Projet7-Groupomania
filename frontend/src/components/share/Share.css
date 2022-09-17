@@ -16,11 +16,12 @@
     align-items: center;
 }
 .shareProfileImg {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border-radius: 50px;
     margin: 10px;
     border: 1px solid #ffd7d7;
+    object-fit: cover;
 }
 .sharePost {
     width: 80%;
@@ -29,12 +30,15 @@
     border-radius: 20px;
     display: flex;
     align-items: center;
+    /* overflow-wrap: break-word; */
 }
 .shareInput {
     margin-left: 10px;
     background-color: #f0f2f5;
     border: none;
     width: 95%;
+    font-size: 1.2rem;
+    /* overflow-wrap: break-word; */
 }
 .shareInputImg {
     display: none;
