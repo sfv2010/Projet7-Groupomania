@@ -8,7 +8,7 @@ export const Login = () => {
     const email = useRef();
     const password = useRef();
     const { user, dispatch } = useContext(AuthContext);
-    //const { user, isFetching, error, dispatch } = useContext(AuthContext);
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
     const handleSubmit = (e) => {
         e.preventDefault(); //pour ne pas reload
@@ -29,7 +29,10 @@ export const Login = () => {
                 <header className="loginLeft">
                     <h1>
                         <img
-                            src="/assets/groupomania /icon-left-font-monochrome-white.svg"
+                            src={
+                                PUBLIC_FOLDER +
+                                "groupomania /icon-left-font-monochrome-white.svg"
+                            }
                             alt=" Grand logo de Groupomania"
                             className="loginLogo"
                         />

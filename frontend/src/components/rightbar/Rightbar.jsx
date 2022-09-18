@@ -4,12 +4,14 @@ import { Users } from "../../dummydata";
 import { Online } from "../online/Online";
 
 export const Rightbar = ({ user }) => {
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+
     const HomeRightbar = () => {
         return (
             <>
                 <div className="eventContainer">
                     <img
-                        src="/assets/star.png"
+                        src={PUBLIC_FOLDER + "star.png"}
                         alt="etoile bleu"
                         className="starImg"
                     />
@@ -18,7 +20,7 @@ export const Rightbar = ({ user }) => {
                     </h2>
                 </div>
                 <img
-                    src="/assets/post/equipe.jpeg"
+                    src={PUBLIC_FOLDER + "post/equipe.jpeg"}
                     alt="4 nouvelles recrues"
                     className="rightbarImg"
                 />
@@ -49,7 +51,7 @@ export const Rightbar = ({ user }) => {
                     <div className="rightbarFollowings">
                         <div className="rightbarFollowing">
                             <img
-                                src="/assets/person/Rena.jpg"
+                                src={PUBLIC_FOLDER + "person/Rena.jpg"}
                                 alt="Icon de Rena"
                                 className="rightbarFollowingImg"
                             />
@@ -57,7 +59,7 @@ export const Rightbar = ({ user }) => {
                         </div>
                         <div className="rightbarFollowing">
                             <img
-                                src="/assets/person/sena.jpg"
+                                src={PUBLIC_FOLDER + "person/sena.jpg"}
                                 alt="Icon de Sena"
                                 className="rightbarFollowingImg"
                             />
@@ -65,7 +67,7 @@ export const Rightbar = ({ user }) => {
                         </div>
                         <div className="rightbarFollowing">
                             <img
-                                src="/assets/person/ken.jpg"
+                                src={PUBLIC_FOLDER + "person/ken.jpg"}
                                 alt="Icon de ken"
                                 className="rightbarFollowingImg"
                             />

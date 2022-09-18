@@ -13,7 +13,7 @@ import { dispatchLogout } from "../../state/dispatch";
 import axios from "axios";
 
 export const Topbar = () => {
-    // const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const { dispatch, user: currentUser } = useContext(AuthContext);
     const [user, setUser] = useState({});
 
@@ -42,7 +42,10 @@ export const Topbar = () => {
         <header className="topbarContainer">
             <h1 className="topbarLeft">
                 <img
-                    src="/assets/groupomania /icon-left-font-monochrome-white.svg"
+                    src={
+                        PUBLIC_FOLDER +
+                        "groupomania /icon-left-font-monochrome-white.svg"
+                    }
                     alt="Logo de Groupomania"
                     className="topbarLogo"
                 />

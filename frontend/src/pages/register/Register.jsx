@@ -9,6 +9,7 @@ export const Register = () => {
     const password = useRef();
     const confirmPassword = useRef();
     const navigate = useNavigate();
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //pour ne pas reload
@@ -43,7 +44,10 @@ export const Register = () => {
                 <header className="loginLeft">
                     <h1>
                         <img
-                            src="/assets/groupomania /icon-left-font-monochrome-white.svg"
+                            src={
+                                PUBLIC_FOLDER +
+                                "groupomania /icon-left-font-monochrome-white.svg"
+                            }
                             alt=" Grand logo de Groupomania"
                             className="loginLogo"
                         />
