@@ -12,9 +12,10 @@ import { format } from "timeago.js";
 import { Comment } from "../comment/Comment";
 
 export const Post = ({ post }) => {
+    //recevoir props de timeline
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
-    const [user, setUser] = useState({}); //user = proprietaire de post
+    const [user, setUser] = useState({}); //user = pour obetenir les infos de proprietaire de post.
     //const [deleteP, setDeleteP] = useState("");
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de ligne11
@@ -23,7 +24,7 @@ export const Post = ({ post }) => {
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(
-                `http://localhost:4000/api/users?userId=${post.userId}`,
+                `http://localhost:4000/api/users?userId=${post.userId}`, //userId=proprietaire de post.
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
@@ -120,7 +121,7 @@ export const Post = ({ post }) => {
                     <span className="postText">{post.desc}</span>
                     <img
                         src={PUBLIC_FOLDER + post.img}
-                        alt="un enfant qui touche un ordinateur"
+                        alt="Liée au poste"
                         className="postImg"
                     />
                     <div className="postBottom">
@@ -140,11 +141,6 @@ export const Post = ({ post }) => {
                                 {like} J'aime
                             </span>
                         </div>
-                        {/* <div className="postBottomRight">
-                            <span className="postComentText">
-                                {post.coment} commentaires
-                            </span>
-                        </div> */}
                         <div
                             className="postBottomRight"
                             onClick={() => handlecomment()}

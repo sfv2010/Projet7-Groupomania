@@ -28,7 +28,7 @@ export const Share = () => {
             // console.log(res.data);
         };
         fetchUser();
-    }, [currentUser]); //普通は空箱！
+    }, [currentUser]);
 
     //créer un post
     const handleSubmit = async (e) => {
@@ -48,6 +48,7 @@ export const Share = () => {
             try {
                 await axios.post("http://localhost:4000/api/posts", data, {
                     headers: {
+                        //"Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${currentUser.token}`,
                     },
                 });

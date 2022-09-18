@@ -6,13 +6,15 @@ import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
 
 export const Timeline = ({ username }) => {
+    // recevoir props de Profile
     const [posts, setPosts] = useState([]);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchPosts = async () => {
             const res = username
-                ? await axios.get(
+                ? //S'il y a username
+                  await axios.get(
                       `http://localhost:4000/api/posts/profile/${username}`,
                       {
                           headers: {
@@ -20,7 +22,8 @@ export const Timeline = ({ username }) => {
                           },
                       }
                   )
-                : await axios.get("http://localhost:4000/api/posts/", {
+                : //sinon on affiche tous les posts
+                  await axios.get("http://localhost:4000/api/posts/", {
                       headers: {
                           Authorization: `Bearer ${user.token}`,
                       },
@@ -28,6 +31,7 @@ export const Timeline = ({ username }) => {
             // console.log(res);
             //les posts listés de façon antéchronologiaue(du plus récent au plus ancien)
             setPosts(
+                // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
                 res.data.sort((post1, post2) => {
                     return (
                         new Date(post2.createdAt) - new Date(post1.createdAt)
@@ -44,7 +48,7 @@ export const Timeline = ({ username }) => {
             <Share />
 
             {posts.map((post) => (
-                <Post post={post} key={post._id} />
+                <Post post={post} key={post._id} /> //._id = id de mongdb
             ))}
         </div>
     );
