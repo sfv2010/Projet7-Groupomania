@@ -87,7 +87,7 @@ export const Post = ({ post }) => {
                             src={
                                 user.profilePicture
                                     ? PUBLIC_FOLDER + user.profilePicture
-                                    : PUBLIC_FOLDER + "person/icon.png"
+                                    : PUBLIC_FOLDER + "person/Anonym.svg"
                             }
                             alt="icon de l'utilisateur"
                             className="postProfileimg"
@@ -119,11 +119,13 @@ export const Post = ({ post }) => {
 
                 <div className="postCenter">
                     <span className="postText">{post.desc}</span>
-                    <img
-                        src={PUBLIC_FOLDER + post.img}
-                        alt="Liée au poste"
-                        className="postImg"
-                    />
+                    {post.img && (
+                        <img
+                            src={PUBLIC_FOLDER + post.img}
+                            alt="Liée au poste"
+                            className="postImg"
+                        />
+                    )}
                     <div className="postBottom">
                         <div
                             className="postBottomLeft"
