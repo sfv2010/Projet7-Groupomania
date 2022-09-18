@@ -1,23 +1,23 @@
-// 状態を監視する
+// surveiller l'état
 const AuthReducer = (state, action) => {
     switch (action.type) {
         case "LOGIN_START": //loginstart no baai
             return {
-                user: null, //新しい状態なのでユーザーはなし
-                isFetching: true, // 情報を取得するのかしないのか　fetching=取りに行く、呼び出す
-                error: false, //era-hamadanai
+                user: null, //Nouvel état ＝ pas d'utilisateurs
+                isFetching: true, //fetching = aller chercher
+                error: false,
             };
-        case "LOGIN_SUCCESS": //loginuser no baai
+        case "LOGIN_SUCCESS":
             return {
-                user: action.payload, //ユーザーログインに成功した状態
-                isFetching: false, // 情報を取得するのかしないのか
-                error: false, //エラーなし
+                user: action.payload,
+                isFetching: false, //parce que c'est fini
+                error: false,
             };
-        case "LOGIN_ERROR": //loginstart no baai
+        case "LOGIN_ERROR":
             return {
-                user: null, //新しい状態なのでユーザーはなし
-                isFetching: false, // 情報を取得するのかしないのか
-                error: action.payload, //era-hamadanai
+                user: null,
+                isFetching: false,
+                error: action.payload,
             };
         case "LOGOUT":
             return {
@@ -25,6 +25,24 @@ const AuthReducer = (state, action) => {
                 isFetching: false,
                 error: false,
             };
+        // case "FOLLOW":
+        //     return {
+        //         ...state,
+        //         user: {
+        //             ...state.user,
+        //             followings: [...state.user.following, action.payload],
+        //         },
+        //     };
+        // case "UNFOLLOW":
+        //     return {
+        //         ...state,
+        //         user: {
+        //             ...state.user,
+        //             followings: state.user.followings.filter(
+        //                 (following) => following !== action.payload
+        //             ),
+        //         },
+        //     };
         default:
             return state;
     }
