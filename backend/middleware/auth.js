@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
         //---Récupération de l'userId et isAdmin de notre token (décodé)---
         const userId = decodedToken.userId;
-        const isAdmin = decodedToken.userId;
+        const isAdmin = decodedToken.isAdmin;
         //---attribuer l'objet userId de notre token à l’objet Request afin que nos différentes routes puissent l’exploiter
         req.auth = {
             userId: userId,
