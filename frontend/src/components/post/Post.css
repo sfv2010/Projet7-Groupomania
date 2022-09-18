@@ -46,6 +46,7 @@
     height: 60px;
     border-radius: 50px;
     object-fit: cover;
+    border: 1px solid #ffd7d7;
 }
 
 .postDate {
