@@ -20,11 +20,12 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         //---la fonction filename indique à multer d'utiliser le nom d'origine, de remplacer les espaces par des underscores et d'ajouter un timestamp Date.now() comme nom de fichier.
-        const name = file.originalname.split(" ").join("_"); // le nom d'origine en eliminant espace et on donne _ à la place d'espace sinon on l'image ne passera pas
+        //const name = file.originalname.split(" ").join("_"); // le nom d'origine en eliminant espace et on donne _ à la place d'espace sinon on l'image ne passera pas
         const extension = MIME_TYPES[file.mimetype]; //la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée.
-        cb(null, name + Date.now() + "." + extension); //d'ajouter un timestamp Date.now() comme nom de fichier pour différencier s'il y a des même nom de fichier.
+        cb(null, req.body.name);
+        //cb(null, req.body.name + Date.now() + "." + extension); //d'ajouter un timestamp Date.now() comme nom de fichier pour différencier s'il y a des même nom de fichier.
     },
 });
 
 //---La méthode single()crée un middleware qui capture les fichiers d'un certain type (passé en argument),et les enregistre au système de fichiers du serveur à l'aide du storage configuré.
-module.exports = multer({ storage: storage }).single("image");
+module.exports = multer({ storage }).single("file");
