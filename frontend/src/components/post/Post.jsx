@@ -13,11 +13,11 @@ import { Comment } from "../comment/Comment";
 
 export const Post = ({ post }) => {
     //recevoir props de timeline
+    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
     const [user, setUser] = useState({}); //user = pour obetenir les infos de proprietaire de post.
     //const [deleteP, setDeleteP] = useState("");
-    const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de ligne11
     const [showComment, setShowComment] = useState(false);
 
@@ -41,11 +41,11 @@ export const Post = ({ post }) => {
             //appeler API Liker
             await axios.put(
                 `http://localhost:4000/api/posts/${post._id}/like`, //Identifiant de l'article
+                currentUser._id, //id de utilisateur
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
                     },
-                    userId: currentUser._id, //id de utilisateur
                 }
             );
         } catch (err) {
@@ -59,23 +59,25 @@ export const Post = ({ post }) => {
         setShowComment(!showComment);
     };
 
-    // const deletePost = async () => {
-    //     try {
-    //         await axios.delete(
-    //             `http://localhost:4000/api/posts/${post.userId}`,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${currentUser.token}`,
-    //                 },
-    //             }
-    //         );
-    //         setDeleteP("");
-    //     } catch (error) {
-    //         setDeleteP(
-    //             "Vous n'êtes pas autorisé à supprimé le post de quelqu'un d'autre"
-    //         );
-    //     }
-    // };
+    const deletePost = async () => {
+        try {
+            await axios.delete(
+                `http://localhost:4000/api/posts/${post.userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
+            // setDeleteP("");
+        } catch (err) {
+            console.log(err);
+            //document.location.reload(true);
+            // setDeleteP(
+            //     "Vous n'êtes pas autorisé à supprimé le post de quelqu'un d'autre"
+            // );
+        }
+    };
 
     return (
         <section className="post">
@@ -108,8 +110,11 @@ export const Post = ({ post }) => {
                                 <ModeEdit htmlColor="blue" />
                                 <span className="postNavSpan">Modifier</span>
                             </li>
-                            {/* <li onClick={()=>deletePost(post.userId)} className="postNavDelete"> */}
-                            <li className="postNavDelete">
+                            <li
+                                onClick={() => deletePost(post.userId)}
+                                className="postNavDelete"
+                            >
+                                {/* <li className="postNavDelete"> */}
                                 <DeleteForever htmlColor="red" />
                                 <span className="postNavSpan">Supprimer</span>
                             </li>
@@ -137,6 +142,13 @@ export const Post = ({ post }) => {
                                     src={PUBLIC_FOLDER + "/heart.png"}
                                     alt="petit coeur rouge"
                                     className="heart2"
+                                />
+                            )}
+                            {currentUser && like >= 1 && (
+                                <img
+                                    src={PUBLIC_FOLDER + "/heart.png"}
+                                    alt="petit coeur rouge"
+                                    className="heart3"
                                 />
                             )}
                             <span className="postLikeCounter">
