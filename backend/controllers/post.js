@@ -1,13 +1,17 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
-const fs = require("fs"); //fs signifie file system qui donne accès aux fonctions qui permettent de modifier et supprimer le fichiers.
-const { log } = require("console");
+//const fs = require("fs"); //fs signifie file system qui donne accès aux fonctions qui permettent de modifier et supprimer le fichiers.
 
 //---Créer un poste--
 exports.createPost = async (req, res) => {
     const newPost = new Post(req.body);
+    const desc = req.body.desc;
     console.log(req.body);
+
     try {
+        if (desc == null || desc == "") {
+            return res.status(400).json({ error: "Le post doit contenir du texte" });
+        }
         const savePost = await newPost.save();
         res.status(200).json(savePost);
     } catch (err) {
@@ -52,16 +56,38 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        if (post.userId === req.body.userId || req.body.isAdmin) {
-            await post.deleteOne();
-            res.status(200).json("Supprimé avec succes");
-        } else {
-            res.status(403).json("Vous ne pouvez pas supprimer les postes d'autres personne");
+        if (post.userId === req.auth.userId || req.auth.isAdmin) {
+            if (post.img) {
+                const filename = post.image.split("/images/")[1];
+                fs.unlink(`images/${filename}`, () => {
+                    post.deleteOne({ _id: req.params.id });
+                });
+                res.status(200).json("Supprimé avec succes");
+            }
+            if (post.userId === req.auth.userId || req.auth.isAdmin) {
+                await post.deleteOne();
+                res.status(200).json("Supprimé avec succes");
+            } else {
+                res.status(403).json("Vous ne pouvez pas supprimer les postes d'autres personne");
+            }
         }
     } catch (err) {
         res.status(403).json(err);
     }
 };
+// exports.deletePost = async (req, res) => {
+//     try {
+//         const post = await Post.findById(req.params.id);
+//         if (post.userId === req.body.userId || req.body.isAdmin) {
+//             await post.deleteOne();
+//             res.status(200).json("Supprimé avec succes");
+//         } else {
+//             res.status(403).json("Vous ne pouvez pas supprimer les postes d'autres personne");
+//         }
+//     } catch (err) {
+//         res.status(403).json(err);
+//     }
+// };
 
 //---obtenir les informations de tous les postes---
 exports.getAllPost = async (req, res) => {
@@ -88,12 +114,12 @@ exports.likerPost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         //Si le post n'a pas encore été liké
-        if (!post.likes.includes(req.body.userId)) {
-            await post.updateOne({ $push: { likes: req.body.userId } });
+        if (!post.likes.includes(req.auth.userId)) {
+            await post.updateOne({ $push: { likes: req.auth.userId } });
             res.status(200).json("Liké avec succès");
         } else {
             // s'il est déjà liké,on le enléve
-            await post.updateOne({ $pull: { likes: req.body.userId } });
+            await post.updateOne({ $pull: { likes: req.auth.userId } });
             res.status(200).json("Vous avez enlever un like");
         }
     } catch (err) {
