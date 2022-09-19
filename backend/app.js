@@ -7,6 +7,7 @@ const cors = require("cors");
 const postRoutes = require("./routes/post"); // importe le routeur pour enregistrons notre routeur dans notre application
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const commentRoutes = require("./routes/comment");
 
 const path = require("path"); //traiter les requêtes vers la route /image,
 
@@ -47,6 +48,7 @@ app.use("/images", express.static(path.join(__dirname, "images"))); //le gestion
 app.use("/api/posts", postRoutes); // premiere argument qui sera la route(l'endpoint )de posts sur notre API
 app.use("/api/auth", authRoutes); //la route d'authentification.
 app.use("/api/users", userRoutes);
+app.use("api/comments", commentRoutes);
 
 //---Exportation---
 module.exports = app; // exporter cette application pour qu'on puisse y acceder depuis les autres fichiers de notre projet
