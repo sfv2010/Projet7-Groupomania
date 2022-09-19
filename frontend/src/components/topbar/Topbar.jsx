@@ -37,7 +37,7 @@ export const Topbar = () => {
             // console.log(res.data);
         };
         fetchUser();
-    }, [currentUser]); //普通は空箱！
+    }, [currentUser]);
     return (
         <header className="topbarContainer">
             <h1 className="topbarLeft">
