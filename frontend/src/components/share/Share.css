@@ -21,23 +21,23 @@
     border-radius: 50px;
     margin: 10px;
     border: 1px solid #ffd7d7;
-    object-fit: cover;
 }
 .sharePost {
     width: 80%;
-    height: 40px;
+    height: 60px;
     background-color: #f0f2f5;
-    border-radius: 20px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
+    margin: 15px;
     /* overflow-wrap: break-word; */
 }
 .shareInput {
-    margin-left: 10px;
+    padding-left: 10px;
     background-color: #f0f2f5;
     border: none;
-    width: 95%;
-    font-size: 1.2rem;
+    width: 98%;
+    font-size: 1rem;
     /* overflow-wrap: break-word; */
 }
 .shareInputImg {
