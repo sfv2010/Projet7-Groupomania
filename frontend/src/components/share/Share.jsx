@@ -10,7 +10,7 @@ export const Share = () => {
     const desc = useRef();
     const [file, setFile] = useState(null);
     const [user, setUser] = useState({});
-    console.log(file);
+    // console.log(file);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -81,7 +81,7 @@ export const Share = () => {
                         className="shareProfileImg"
                     />
                     <div className="sharePost">
-                        <input
+                        <textarea
                             type="text"
                             className="shareInput"
                             placeholder="Quoi de neuf?"
