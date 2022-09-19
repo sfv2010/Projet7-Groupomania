@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const Login = () => {
     const email = useRef();
     const password = useRef();
-    const { user, dispatch } = useContext(AuthContext);
+    const { dispatch } = useContext(AuthContext);
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
     const handleSubmit = (e) => {
@@ -20,8 +20,6 @@ export const Login = () => {
             dispatch
         );
     };
-
-    console.log(user);
 
     return (
         <div className="login">
