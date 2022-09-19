@@ -26,7 +26,10 @@ export const App = () => {
                     path="/register"
                     element={user ? <Navigate to="/" /> : <Register />}
                 />
-                <Route path="/profile/:username" element={<Profile />} />
+                <Route
+                    path="/profile/:username"
+                    element={user ? <Profile /> : <Register />}
+                />
                 <Route path="*" element={<Page404 />} />
             </Routes>
         </Router>
