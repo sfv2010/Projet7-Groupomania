@@ -1,6 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
-//const fs = require("fs"); //fs signifie file system qui donne accès aux fonctions qui permettent de modifier et supprimer le fichiers.
+const fs = require("fs"); //fs signifie file system qui donne accès aux fonctions qui permettent de modifier et supprimer le fichiers.
 
 //---Créer un poste--
 exports.createPost = async (req, res) => {
@@ -18,27 +18,12 @@ exports.createPost = async (req, res) => {
         res.status(500).json(err);
     }
 };
-// exports.createPost = async (req, res) => {
-//     const postObject = JSON.parse(req.body.post);
-//     delete postObject._id;
-//     delete postObject._userId;
-//     const newPost = new Post({
-//         ...postObject,
-//         userId: req.auth.userId,
-//         img: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-//     });
-//     try {
-//         const savePost = await newPost.save();
-//         res.status(200).json(savePost);
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// };
 
 //---Modifier un poste---
 exports.updatePost = async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id); //id de post
+        //si userId = userId qui est propriétaire de post
         if (post.userId === req.body.userId || req.body.isAdmin) {
             await post.updateOne({
                 $set: req.body,
@@ -58,18 +43,19 @@ exports.deletePost = async (req, res) => {
         const post = await Post.findById(req.params.id);
         if (post.userId === req.auth.userId || req.auth.isAdmin) {
             if (post.img) {
-                const filename = post.image.split("/images/")[1];
+                const filename = post.img.split("/images/")[1];
                 fs.unlink(`images/${filename}`, () => {
                     post.deleteOne({ _id: req.params.id });
                 });
                 res.status(200).json("Supprimé avec succes");
-            }
-            if (post.userId === req.auth.userId || req.auth.isAdmin) {
-                await post.deleteOne();
-                res.status(200).json("Supprimé avec succes");
             } else {
-                res.status(403).json("Vous ne pouvez pas supprimer les postes d'autres personne");
+                post.deleteOne({ _id: req.params.id });
+                res.status(200).json("Supprimé avec succes");
             }
+        } else {
+            res.status(403).json({
+                message: "Vous ne pouvez pas supprimer les postes d'autres personne",
+            });
         }
     } catch (err) {
         res.status(403).json(err);
