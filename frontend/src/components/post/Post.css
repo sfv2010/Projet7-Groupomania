@@ -117,12 +117,6 @@
         opacity: 1;
     }
 }
-.heart3 {
-    width: 31px;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 .postLikeCounter {
     font-size: 1.2rem;
 }
