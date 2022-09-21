@@ -1,6 +1,8 @@
 import {
+    AddAPhoto,
     DeleteForever,
     FavoriteBorder,
+    GifBox,
     ModeEdit,
     MoreHoriz,
 } from "@mui/icons-material";
@@ -14,12 +16,17 @@ import { Comment } from "../comment/Comment";
 export const Post = ({ post }) => {
     //recevoir props de timeline
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de ligne11
     const [like, setLike] = useState(post.likes.length);
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(
+        !!post.likes.find((like) => like === post.userId)
+    );
     const [user, setUser] = useState({}); //user = pour obetenir les infos de proprietaire de post.
     //const [deleteP, setDeleteP] = useState("");
-    const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de ligne11
+
+    const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
+    const [file, setFile] = useState(null);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -59,7 +66,50 @@ export const Post = ({ post }) => {
         setShowComment(!showComment);
     };
 
+    const handlePost = () => {
+        setEditPost(!editPost);
+    };
+    const updatePost = async (e) => {
+        e.preventDefault();
+        const newPost = {
+            userId: user._id,
+            desc: post.desc.current.value,
+        };
+        if (file) {
+            const data = new FormData();
+            const fileName = Date.now() + file.name;
+            data.append("name", fileName); //key + value
+            data.append("file", file);
+            newPost.img = fileName;
+            try {
+                await axios.put(
+                    `http://localhost:4000/api/posts/${post.userId}`,
+                    data,
+                    {
+                        headers: {
+                            //"Content-Type": "multipart/form-data",
+                            Authorization: `Bearer ${currentUser.token}`,
+                        },
+                    }
+                );
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        try {
+            await axios.put(`http://localhost:4000/api/posts/${post.userId}`, {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            });
+        } catch (err) {
+            document.location.reload(true);
+        }
+    };
+
     const deletePost = async () => {
+        window.confirm("Êtes-vous sûr de vouloir supprimer?");
         try {
             await axios.delete(
                 `http://localhost:4000/api/posts/${post.userId}`,
@@ -69,10 +119,12 @@ export const Post = ({ post }) => {
                     },
                 }
             );
+            Window.location.reload(true);
+
             // setDeleteP("");
         } catch (err) {
             console.log(err);
-            //document.location.reload(true);
+
             // setDeleteP(
             //     "Vous n'êtes pas autorisé à supprimé le post de quelqu'un d'autre"
             // );
@@ -106,7 +158,11 @@ export const Post = ({ post }) => {
                             <MoreHoriz />
                         </div>
                         <ul className="postNavList">
-                            <li className="postNavEdit">
+                            <li
+                                //onClick={() => updatePost(post.userId)}
+                                onClick={() => handlePost()}
+                                className="postNavEdit"
+                            >
                                 <ModeEdit htmlColor="blue" />
                                 <span className="postNavSpan">Modifier</span>
                             </li>
@@ -114,7 +170,6 @@ export const Post = ({ post }) => {
                                 onClick={() => deletePost(post.userId)}
                                 className="postNavDelete"
                             >
-                                {/* <li className="postNavDelete"> */}
                                 <DeleteForever htmlColor="red" />
                                 <span className="postNavSpan">Supprimer</span>
                             </li>
@@ -123,7 +178,62 @@ export const Post = ({ post }) => {
                 </div>
 
                 <div className="postCenter">
-                    <span className="postText">{post.desc}</span>
+                    {editPost ? (
+                        <>
+                            <div className="sharePost">
+                                <textarea
+                                    type="text"
+                                    className="shareInput"
+                                    defaultValue={post.desc}
+                                ></textarea>
+                            </div>
+                            <hr className="shareHr" />
+                            <form
+                                className="shareButtons"
+                                onSubmit={(e) => updatePost(e)}
+                                encType="multipart/form-data"
+                            >
+                                <div className="shareOptions">
+                                    <label
+                                        htmlFor="file"
+                                        className="shareOption"
+                                    >
+                                        <AddAPhoto
+                                            className="shareIcon"
+                                            htmlColor="blue"
+                                        />
+                                        <span className="shareOptionText">
+                                            Photo
+                                        </span>
+                                        <input
+                                            className="shareInputImg"
+                                            type="file"
+                                            id="file"
+                                            accept=".png, .jpeg, .jpg"
+                                            onChange={(e) =>
+                                                setFile(e.target.files[0])
+                                            } //setFile=useState
+                                            name="file"
+                                        />
+                                    </label>
+                                    <div className="shareOption">
+                                        <GifBox
+                                            className="shareIcon"
+                                            htmlColor="red"
+                                        />
+                                        <span className="shareOptionText">
+                                            GIF
+                                        </span>
+                                    </div>
+                                </div>
+                                <button className="shareButton" type="submit">
+                                    Publier
+                                </button>
+                            </form>
+                        </>
+                    ) : (
+                        <span className="postText">{post.desc}</span>
+                    )}
                     {post.img && (
                         <img
                             src={PUBLIC_FOLDER + post.img}
@@ -131,6 +241,7 @@ export const Post = ({ post }) => {
                             className="postImg"
                         />
                     )}
+
                     <div className="postBottom">
                         <div
                             className="postBottomLeft"
@@ -142,13 +253,6 @@ export const Post = ({ post }) => {
                                     src={PUBLIC_FOLDER + "/heart.png"}
                                     alt="petit coeur rouge"
                                     className="heart2"
-                                />
-                            )}
-                            {currentUser && like >= 1 && (
-                                <img
-                                    src={PUBLIC_FOLDER + "/heart.png"}
-                                    alt="petit coeur rouge"
-                                    className="heart3"
                                 />
                             )}
                             <span className="postLikeCounter">
@@ -164,7 +268,13 @@ export const Post = ({ post }) => {
                             </p>
                         </div>
                     </div>
-                    {showComment && <Comment />}
+                    {showComment && (
+                        <Comment
+                            user={user}
+                            setUser={setUser}
+                            currentUser={currentUser}
+                        />
+                    )}
                 </div>
             </div>
         </section>
