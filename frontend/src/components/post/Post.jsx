@@ -12,16 +12,18 @@ import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
 import { format } from "timeago.js";
 import { Comment } from "../comment/Comment";
+import { Link } from "react-router-dom";
 
 export const Post = ({ post }) => {
     //recevoir props de timeline
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-    const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de ligne11
+    const [user, setUser] = useState({}); //user = pour obetenir les infos de proprietaire de post.
+    const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de useState.
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(
-        !!post.likes.find((like) => like === post.userId)
+        !!post.likes.find((like) => like === currentUser.userId)
     );
-    const [user, setUser] = useState({}); //user = pour obetenir les infos de proprietaire de post.
+
     //const [deleteP, setDeleteP] = useState("");
 
     const [editPost, setEditPost] = useState(false);
@@ -55,6 +57,7 @@ export const Post = ({ post }) => {
                     },
                 }
             );
+            console.log(currentUser);
         } catch (err) {
             console.log(err);
         }
@@ -62,7 +65,7 @@ export const Post = ({ post }) => {
         setIsLiked(!isLiked);
     };
 
-    const handlecomment = () => {
+    const handleComment = () => {
         setShowComment(!showComment);
     };
 
@@ -71,7 +74,7 @@ export const Post = ({ post }) => {
     };
     const updatePost = async (e) => {
         e.preventDefault();
-        const newPost = {
+        const editPost = {
             userId: user._id,
             desc: post.desc.current.value,
         };
@@ -80,7 +83,7 @@ export const Post = ({ post }) => {
             const fileName = Date.now() + file.name;
             data.append("name", fileName); //key + value
             data.append("file", file);
-            newPost.img = fileName;
+            editPost.img = fileName;
             try {
                 await axios.put(
                     `http://localhost:4000/api/posts/${post.userId}`,
@@ -136,45 +139,50 @@ export const Post = ({ post }) => {
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
-                        {/* <Link to = {`/profile/${user.username}`}> */}
-                        <img
-                            src={
-                                user.profilePicture
-                                    ? PUBLIC_FOLDER + user.profilePicture
-                                    : PUBLIC_FOLDER + "person/Anonym.svg"
-                            }
-                            alt="icon de l'utilisateur"
-                            className="postProfileimg"
-                        />
-                        {/* </Link> */}
+                        <Link to={`/profile/${user.username}`}>
+                            <img
+                                src={
+                                    user.profilePicture
+                                        ? PUBLIC_FOLDER + user.profilePicture
+                                        : PUBLIC_FOLDER + "person/Anonym.svg"
+                                }
+                                alt="icon de l'utilisateur"
+                                className="postProfileimg"
+                            />
+                        </Link>
                         <span className="postUserName">{user.username}</span>
                         <span className="postDate">
                             {format(post.createdAt)}
                             {/* {post.createdAt} */}
                         </span>
                     </div>
-                    <nav className="postTopRight">
-                        <div className="postNav">
-                            <MoreHoriz />
-                        </div>
-                        <ul className="postNavList">
-                            <li
-                                //onClick={() => updatePost(post.userId)}
-                                onClick={() => handlePost()}
-                                className="postNavEdit"
-                            >
-                                <ModeEdit htmlColor="blue" />
-                                <span className="postNavSpan">Modifier</span>
-                            </li>
-                            <li
-                                onClick={() => deletePost(post.userId)}
-                                className="postNavDelete"
-                            >
-                                <DeleteForever htmlColor="red" />
-                                <span className="postNavSpan">Supprimer</span>
-                            </li>
-                        </ul>
-                    </nav>
+                    {post.userId === currentUser.userId && (
+                        <nav className="postTopRight">
+                            <div className="postNav">
+                                <MoreHoriz />
+                            </div>
+                            <ul className="postNavList">
+                                <li
+                                    onClick={() => handlePost()}
+                                    className="postNavEdit"
+                                >
+                                    <ModeEdit htmlColor="blue" />
+                                    <span className="postNavSpan">
+                                        Modifier
+                                    </span>
+                                </li>
+                                <li
+                                    onClick={() => deletePost(post.userId)}
+                                    className="postNavDelete"
+                                >
+                                    <DeleteForever htmlColor="red" />
+                                    <span className="postNavSpan">
+                                        Supprimer
+                                    </span>
+                                </li>
+                            </ul>
+                        </nav>
+                    )}
                 </div>
 
                 <div className="postCenter">
@@ -261,7 +269,7 @@ export const Post = ({ post }) => {
                         </div>
                         <div
                             className="postBottomRight"
-                            onClick={() => handlecomment()}
+                            onClick={() => handleComment()}
                         >
                             <p className="postComentText">
                                 {post.comment} commentaires
