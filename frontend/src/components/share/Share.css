@@ -14,10 +14,11 @@
 .shareTop {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 .shareProfileImg {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50px;
     margin: 10px;
     border: 1px solid #ffd7d7;
