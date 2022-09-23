@@ -122,3 +122,44 @@
 hr {
     width: 100%;
 }
+
+@media screen and (max-width: 1200px) {
+    .loginWrapper {
+        width: 90%;
+    }
+    .loginLeft {
+        flex: 1;
+    }
+
+    .loginLogo {
+        margin-right: 40px;
+        width: 90%;
+    }
+
+    .loginDescription {
+        font-size: 1.5rem;
+        padding-left: 40px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .loginWrapper {
+        flex-direction: column;
+        height: 90%;
+    }
+    .loginLeft {
+        flex: 1;
+    }
+    .loginRight {
+        flex: 3;
+    }
+    .loginLogo {
+        margin: 0;
+        padding: 0;
+        width: 90%;
+    }
+
+    .loginDescription {
+        font-size: 1.5rem;
+        padding: 0 0 20px 40px;
+    }
+}
