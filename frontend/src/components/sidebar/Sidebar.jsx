@@ -27,7 +27,7 @@ export const Sidebar = () => {
             // console.log(res.data);
         };
         fetchUser();
-    }, [currentUser]); //普通は空箱！
+    }, [currentUser]);
     return (
         <nav className="sidebar">
             <div className="sidebarWrapper">
@@ -50,16 +50,6 @@ export const Sidebar = () => {
                             <span className="sidebarText">Mon Compte</span>
                         </Link>
                     </li>
-                    {/* <li className="sidebarListItem">
-                        <Groups className="sidebarIcon" />
-                        <Link to="/"></Link>
-                        <span className="sidebarText">Groupes</span>
-                    </li>
-                    <li className="sidebarListItem">
-                        <Bookmark className="sidebarIcon" />
-                        <Link to="/"></Link>
-                        <span className="sidebarText">Enregistrement</span>
-                    </li> */}
                     <li className="sidebarListItem">
                         <Search className="sidebarIcon" />
                         <Link to="/"></Link>
