@@ -23,12 +23,10 @@ export const Post = ({ post }) => {
     const [isLiked, setIsLiked] = useState(
         !!post.likes.find((like) => like === currentUser.userId)
     );
-
-    //const [deleteP, setDeleteP] = useState("");
-
     const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
+    const [desc, setDesc] = useState("");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -57,7 +55,7 @@ export const Post = ({ post }) => {
                     },
                 }
             );
-            console.log(currentUser);
+            //console.log(user);
         } catch (err) {
             console.log(err);
         }
@@ -73,11 +71,15 @@ export const Post = ({ post }) => {
         setEditPost(!editPost);
     };
     const updatePost = async (e) => {
+        console.log();
         e.preventDefault();
+
         const editPost = {
             userId: user._id,
-            desc: post.desc.current.value,
+            desc: desc,
+            img: file,
         };
+
         if (file) {
             const data = new FormData();
             const fileName = Date.now() + file.name;
@@ -86,8 +88,8 @@ export const Post = ({ post }) => {
             editPost.img = fileName;
             try {
                 await axios.put(
-                    `http://localhost:4000/api/posts/${post.userId}`,
-                    data,
+                    `http://localhost:4000/api/posts/${post._id}`,
+                    editPost,
                     {
                         headers: {
                             //"Content-Type": "multipart/form-data",
@@ -101,34 +103,38 @@ export const Post = ({ post }) => {
         }
 
         try {
-            await axios.put(`http://localhost:4000/api/posts/${post.userId}`, {
-                headers: {
-                    Authorization: `Bearer ${currentUser.token}`,
-                },
-            });
-        } catch (err) {
-            document.location.reload(true);
-        }
-    };
-
-    const deletePost = async () => {
-        window.confirm("Êtes-vous sûr de vouloir supprimer?");
-        try {
-            await axios.delete(
-                `http://localhost:4000/api/posts/${post.userId}`,
+            await axios.put(
+                `http://localhost:4000/api/posts/${post._id}`,
+                editPost,
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
                     },
                 }
             );
-            Window.location.reload(true);
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-            // setDeleteP("");
+    const deletePost = async () => {
+        window.confirm("Êtes-vous sûr de vouloir supprimer?");
+        try {
+            await axios.delete(`http://localhost:4000/api/posts/${post._id}`, {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+                data: { userId: currentUser.userId },
+            });
+            //Window.location.reload(true);
+            window.location.reload();
+
+            //setPost();
         } catch (err) {
             console.log(err);
 
-            // setDeleteP(
+            // setPost(
             //     "Vous n'êtes pas autorisé à supprimé le post de quelqu'un d'autre"
             // );
         }
@@ -193,12 +199,13 @@ export const Post = ({ post }) => {
                                     type="text"
                                     className="shareInput"
                                     defaultValue={post.desc}
+                                    onChange={(e) => setDesc(e.target.value)}
                                 ></textarea>
                             </div>
                             <hr className="shareHr" />
                             <form
                                 className="shareButtons"
-                                onSubmit={(e) => updatePost(e)}
+                                //onSubmit={(e) => updatePost(e)}
                                 encType="multipart/form-data"
                             >
                                 <div className="shareOptions">
@@ -220,7 +227,7 @@ export const Post = ({ post }) => {
                                             accept=".png, .jpeg, .jpg"
                                             onChange={(e) =>
                                                 setFile(e.target.files[0])
-                                            } //setFile=useState
+                                            }
                                             name="file"
                                         />
                                     </label>
@@ -234,7 +241,11 @@ export const Post = ({ post }) => {
                                         </span>
                                     </div>
                                 </div>
-                                <button className="shareButton" type="submit">
+                                <button
+                                    className="shareButton"
+                                    onClick={updatePost}
+                                    type="button"
+                                >
                                     Publier
                                 </button>
                             </form>
@@ -278,9 +289,9 @@ export const Post = ({ post }) => {
                     </div>
                     {showComment && (
                         <Comment
-                            user={user}
-                            setUser={setUser}
-                            currentUser={currentUser}
+                        // user={user}
+                        // setUser={setUser}
+                        // currentUser={currentUser}
                         />
                     )}
                 </div>
