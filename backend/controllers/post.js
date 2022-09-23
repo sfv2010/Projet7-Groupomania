@@ -6,7 +6,6 @@ const fs = require("fs"); //fs signifie file system qui donne accès aux fonctio
 exports.createPost = async (req, res) => {
     const newPost = new Post(req.body);
     const desc = req.body.desc;
-    console.log(req.body);
 
     try {
         if (desc == null || desc == "") {
@@ -20,12 +19,15 @@ exports.createPost = async (req, res) => {
 };
 
 //---Modifier un poste---
+
 // exports.updatePost = async (req, res) => {
 //     try {
 //         const post = await Post.findById(req.params.id); //id de post
 //         //si userId = userId qui est propriétaire de post
+//         console.log(post.img);
 //         if (post.userId === req.body.userId || req.body.isAdmin) {
-//             if (post.img) {
+//             if (post.img !== null) {
+//                 //if (req.file !== undefined) {
 //                 const filename = post.img.split("/images/")[1];
 //                 fs.unlink(`images/${filename}`, () => {
 //                     post.updateOne({ $set: req.body });
@@ -44,15 +46,47 @@ exports.createPost = async (req, res) => {
 //         res.status(403).json(err);
 //     }
 // };
+// exports.updatePost = async (req, res) => {
+//     try {
+//         console.log("req", req.body);
+//         const post = await Post.findById(req.params.id); //id de post
+//         //si userId = userId qui est propriétaire de post
+//         if (post.userId === req.body.userId || req.body.isAdmin) {
+//             await post.updateOne({
+//                 $set: req.body,
+//             });
+//             res.status(200).json("Modifié avec succes");
+//         } else {
+//             res.status(403).json("Vous ne pouvez pas modifer les postes d'autres personne");
+//         }
+//     } catch (err) {
+//         res.status(403).json(err);
+//     }
+// };
+
 exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id); //id de post
+        // const editPost = post.img ? {
+        //     ...JSON.parse(req.body)
+        //     : {...req.body}
+        // }
+        console.log(req.body);
         //si userId = userId qui est propriétaire de post
         if (post.userId === req.body.userId || req.body.isAdmin) {
-            await post.updateOne({
-                $set: req.body,
-            });
-            res.status(200).json("Modifié avec succes");
+            if (post.img !== null) {
+                //if (req.file !== undefined) {
+                const filename = post.img.split("/images/")[1];
+                fs.unlink(`images/${filename}`, () => {
+                    post.updateOne({ $set: req.body });
+                });
+                res.status(200).json("Modifié avec succes");
+            } else {
+                await post.updateOne({
+                    $set: req.body,
+                });
+                res.status(200).json("Modifié avec succes");
+            }
         } else {
             res.status(403).json("Vous ne pouvez pas modifer les postes d'autres personne");
         }
@@ -61,30 +95,6 @@ exports.updatePost = async (req, res) => {
     }
 };
 
-//---Supprimer un poste---
-// exports.deletePost = async (req, res) => {
-//     try {
-//         const post = await Post.findById(req.params.id);
-//         if (post.userId === req.auth.userId || req.auth.isAdmin) {
-//             if (post.img) {
-//                 const filename = post.img.split("/images/")[1];
-//                 fs.unlink(`images/${filename}`, () => {
-//                     post.deleteOne({ _id: req.params.id });
-//                 });
-//                 res.status(200).json("Supprimé avec succes");
-//             } else {
-//                 post.deleteOne({ _id: req.params.id });
-//                 res.status(200).json("Supprimé avec succes");
-//             }
-//         } else {
-//             res.status(403).json({
-//                 message: "Vous ne pouvez pas supprimer les postes d'autres personne",
-//             });
-//         }
-//     } catch (err) {
-//         res.status(403).json(err);
-//     }
-// };
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
