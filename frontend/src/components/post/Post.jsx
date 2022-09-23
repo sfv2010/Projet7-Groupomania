@@ -22,7 +22,7 @@ export const Post = ({ post }) => {
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(
         !!post.likes.find((like) => like === currentUser.userId)
-    );
+    ); //String => Booleen
     const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
