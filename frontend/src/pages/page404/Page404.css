@@ -4,22 +4,21 @@
     font-family: "Lato", sans-serif;
     display: flex;
     justify-content: center;
+    text-align: center;
     padding-top: 60px;
 }
 .errorImg {
     width: 70%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     border-radius: 50%;
 }
 .errorTitle {
     font-size: 6rem;
-    padding-left: 70px;
 }
 .errorDesc {
     font-size: 1.7rem;
-    padding-left: 15px;
 }
 .errorButton {
     margin-top: 10px;
@@ -34,5 +33,33 @@
 }
 .errorLink {
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+}
+@media screen and (max-width: 850px) {
+    .errorWrapper {
+        height: 85vh;
+        padding: 0;
+        align-items: center;
+    }
+    .errorImg {
+        width: 50%;
+    }
+    .errorTitle {
+        font-size: 4rem;
+    }
+    .errorDesc {
+        font-size: 1.5rem;
+    }
+    .errorLink {
+        font-size: 1.2rem;
+    }
+}
+@media screen and (max-width: 850px) {
+    .errorWrapper {
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .errorImg {
+        width: 70%;
+    }
 }
