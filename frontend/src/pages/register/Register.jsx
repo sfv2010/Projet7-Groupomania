@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 
@@ -10,6 +10,7 @@ export const Register = () => {
     const confirmPassword = useRef();
     const navigate = useNavigate();
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [passwErr, setPasswErr] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //pour ne pas reload
@@ -33,6 +34,7 @@ export const Register = () => {
                 );
                 navigate("/login");
             } catch (err) {
+                setPasswErr(err.response.data.message);
                 console.log(err);
             }
         }
@@ -90,6 +92,7 @@ export const Register = () => {
                             required
                             ref={confirmPassword}
                         />
+                        <span>{passwErr}</span>
 
                         <button className="loginButton" type="submit">
                             S'inscrire
