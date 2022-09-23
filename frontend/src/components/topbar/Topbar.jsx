@@ -39,21 +39,23 @@ export const Topbar = () => {
     }, [currentUser]);
     return (
         <header className="topbarContainer">
-            <h1 className="topbarLeft">
-                <img
-                    src={
-                        PUBLIC_FOLDER +
-                        "groupomania /icon-left-font-monochrome-white.svg"
-                    }
-                    alt="Logo de Groupomania"
-                    className="topbarLogo"
-                />
-                <img
-                    src={PUBLIC_FOLDER + "groupomania /iconLogo.png"}
-                    alt="Logo de Groupomania"
-                    className="topbarLogo2"
-                />
-            </h1>
+            <Link to="/">
+                <h1 className="topbarLeft">
+                    <img
+                        src={
+                            PUBLIC_FOLDER +
+                            "groupomania /icon-left-font-monochrome-white.svg"
+                        }
+                        alt="Logo de Groupomania"
+                        className="topbarLogo"
+                    />
+                    <img
+                        src={PUBLIC_FOLDER + "groupomania /iconLogo.png"}
+                        alt="Logo de Groupomania"
+                        className="topbarLogo2"
+                    />
+                </h1>
+            </Link>
             <ul className="topbarCenter">
                 <Link to="/">
                     <li className="topbarList" aria-label="Accueil">
