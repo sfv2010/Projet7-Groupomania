@@ -11,4 +11,7 @@
     .homeContainer {
         flex-direction: column-reverse;
     }
+    .sidebar {
+        display: none;
+    }
 }
