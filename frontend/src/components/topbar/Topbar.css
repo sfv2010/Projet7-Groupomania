@@ -117,9 +117,7 @@ li {
     .serchbar {
         display: none;
     }
-    .topbarLogo {
-        width: 100%;
-    }
+
     .topbarLeft {
         flex: 1.5;
         display: flex;
@@ -137,8 +135,9 @@ li {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
     .topbarLogo {
+        width: 100%;
         display: none;
     }
     .topbarLogo2 {
