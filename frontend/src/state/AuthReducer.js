@@ -1,7 +1,7 @@
 // surveiller l'état
 const AuthReducer = (state, action) => {
     switch (action.type) {
-        case "LOGIN_START": //loginstart no baai
+        case "LOGIN_START": //en cas de Login start
             return {
                 user: null, //Nouvel état ＝ pas d'utilisateurs
                 isFetching: true, //fetching = aller chercher
@@ -44,7 +44,7 @@ const AuthReducer = (state, action) => {
         //         },
         //     };
         default:
-            return state;
+            return state; //retourner nouvelle etat
     }
 };
 
