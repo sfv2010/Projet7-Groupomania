@@ -3,7 +3,6 @@ import {
     Home,
     PowerSettingsNew,
     Search,
-    Settings,
 } from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -49,6 +48,11 @@ export const Topbar = () => {
                     alt="Logo de Groupomania"
                     className="topbarLogo"
                 />
+                <img
+                    src={PUBLIC_FOLDER + "groupomania /iconLogo.png"}
+                    alt="Logo de Groupomania"
+                    className="topbarLogo2"
+                />
             </h1>
             <ul className="topbarCenter">
                 <Link to="/">
@@ -63,9 +67,13 @@ export const Topbar = () => {
                         <span className="topbarNotice">Profil</span>
                     </li>
                 </Link>
-                <li className="topbarList" aria-label="Paramètres">
-                    <Settings className="topbarIcon" />
-                    <span className="topbarNotice">Paramètres</span>
+                <li
+                    className="topbarList logout"
+                    aria-label="Logout"
+                    onClick={handleLogout}
+                >
+                    <PowerSettingsNew className="topbarIcon" />
+                    <span className="topbarNotice">Quitter</span>
                 </li>
             </ul>
             <div className="topbarRight">
@@ -74,13 +82,20 @@ export const Topbar = () => {
                     <input
                         type="text"
                         className="serchInput"
-                        placeholder="Rechercher sur Groupomania"
+                        placeholder="Rechercher"
                     />
                 </div>
-                <div className="topbarLogout" onClick={handleLogout}>
-                    <PowerSettingsNew className="topbarIcon logout" />
-                    <span className="topbarNotice">Quitter</span>
-                </div>
+                <Link to={`/profile/${user.username}`}>
+                    <img
+                        src={
+                            user.profilePicture
+                                ? PUBLIC_FOLDER + user.profilePicture
+                                : PUBLIC_FOLDER + "person/icon.png"
+                        }
+                        alt="Avateur"
+                        className="topbarImg"
+                    />
+                </Link>
             </div>
         </header>
     );
