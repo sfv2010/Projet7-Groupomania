@@ -46,3 +46,30 @@
 .profileInfoDesc {
     font-size: 1.2rem;
 }
+.profileFollowButton {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #6c34bb;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1100px) {
+    .profileBottom {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .profileContainer {
+        width: 100%;
+    }
+}

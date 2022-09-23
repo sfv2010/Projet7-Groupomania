@@ -50,3 +50,23 @@
     object-fit: cover;
     margin-right: 10px;
 }
+
+@media screen and (max-width: 900px) {
+    .sidebar {
+        flex: 1;
+    }
+    .sidebarListItem {
+        height: 40px;
+        overflow: hidden;
+    }
+    .sidebarWrapper {
+        padding: 5px;
+    }
+    .sidebarText {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .sidebarFriendList {
+        display: none;
+    }
+}
