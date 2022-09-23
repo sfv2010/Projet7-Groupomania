@@ -144,22 +144,39 @@ hr {
 @media screen and (max-width: 600px) {
     .loginWrapper {
         flex-direction: column;
-        height: 90%;
+        height: 95%;
     }
     .loginLeft {
-        flex: 1;
+        flex: 0;
     }
     .loginRight {
         flex: 3;
     }
     .loginLogo {
-        margin: 0;
+        margin-top: -20px;
         padding: 0;
         width: 90%;
+    }
+    .loginH1 {
+        padding: 0;
     }
 
     .loginDescription {
         font-size: 1.5rem;
         padding: 0 0 20px 40px;
+        margin-top: -10px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .loginWrapper {
+        height: 95%;
+    }
+    .loginDescription {
+        font-size: 1rem;
+        padding: 0 0 20px 5px;
+    }
+    .loginRight {
+        margin-bottom: 10px;
     }
 }
