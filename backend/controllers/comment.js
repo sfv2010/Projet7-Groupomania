@@ -4,7 +4,7 @@ const User = require("../models/User");
 exports.createComment = async (req, res) => {
     const newComment = new Comment(req.body);
     const desc = req.body.desc;
-    console.log(req.body);
+    //onsole.log(req.body);
 
     try {
         if (desc == null || desc == "") {
