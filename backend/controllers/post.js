@@ -46,47 +46,16 @@ exports.createPost = async (req, res) => {
 //         res.status(403).json(err);
 //     }
 // };
-// exports.updatePost = async (req, res) => {
-//     try {
-//         console.log("req", req.body);
-//         const post = await Post.findById(req.params.id); //id de post
-//         //si userId = userId qui est propriétaire de post
-//         if (post.userId === req.body.userId || req.body.isAdmin) {
-//             await post.updateOne({
-//                 $set: req.body,
-//             });
-//             res.status(200).json("Modifié avec succes");
-//         } else {
-//             res.status(403).json("Vous ne pouvez pas modifer les postes d'autres personne");
-//         }
-//     } catch (err) {
-//         res.status(403).json(err);
-//     }
-// };
-
 exports.updatePost = async (req, res) => {
     try {
+        console.log("req", req.body);
         const post = await Post.findById(req.params.id); //id de post
-        // const editPost = post.img ? {
-        //     ...JSON.parse(req.body)
-        //     : {...req.body}
-        // }
-        console.log(req.body);
         //si userId = userId qui est propriétaire de post
         if (post.userId === req.body.userId || req.body.isAdmin) {
-            if (post.img !== null) {
-                //if (req.file !== undefined) {
-                const filename = post.img.split("/images/")[1];
-                fs.unlink(`images/${filename}`, () => {
-                    post.updateOne({ $set: req.body });
-                });
-                res.status(200).json("Modifié avec succes");
-            } else {
-                await post.updateOne({
-                    $set: req.body,
-                });
-                res.status(200).json("Modifié avec succes");
-            }
+            await post.updateOne({
+                $set: req.body,
+            });
+            res.status(200).json("Modifié avec succes");
         } else {
             res.status(403).json("Vous ne pouvez pas modifer les postes d'autres personne");
         }
@@ -94,6 +63,37 @@ exports.updatePost = async (req, res) => {
         res.status(403).json(err);
     }
 };
+
+// exports.updatePost = async (req, res) => {
+//     try {
+//         const post = await Post.findById(req.params.id); //id de post
+//         // const editPost = post.img ? {
+//         //     ...JSON.parse(req.body)
+//         //     : {...req.body}
+//         // }
+//         console.log(req.body);
+//         //si userId = userId qui est propriétaire de post
+//         if (post.userId === req.body.userId || req.body.isAdmin) {
+//             if (post.img !== null) {
+//                 //if (req.file !== undefined) {
+//                 const filename = post.img.split("/images/")[1];
+//                 fs.unlink(`images/${filename}`, () => {
+//                     post.updateOne({ $set: req.body });
+//                 });
+//                 res.status(200).json("Modifié avec succes");
+//             } else {
+//                 await post.updateOne({
+//                     $set: req.body,
+//                 });
+//                 res.status(200).json("Modifié avec succes");
+//             }
+//         } else {
+//             res.status(403).json("Vous ne pouvez pas modifer les postes d'autres personne");
+//         }
+//     } catch (err) {
+//         res.status(403).json(err);
+//     }
+// };
 
 exports.deletePost = async (req, res) => {
     try {
