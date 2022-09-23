@@ -1,4 +1,4 @@
 node_modules
-images
+.images/dynamicImage 
 .env
 .DS_Store
