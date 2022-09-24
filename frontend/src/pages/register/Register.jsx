@@ -13,15 +13,12 @@ export const Register = () => {
     const [passwErr, setPasswErr] = useState("");
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); //pour ne pas reload
+        e.preventDefault();
         //Vérifiez si le mot de passe et le mot de passe de confirmation sont corrects
         if (password.current.value !== confirmPassword.current.value) {
-            confirmPassword.current.setCustomValidity(
-                "Les paires de mots de passe ne sont pas identiques"
-            );
+            setPasswErr("Les paires de mots de passe ne sont pas identiques");
         } else {
             //Appeler registerAPI
-
             try {
                 const user = {
                     username: username.current.value,
@@ -92,7 +89,7 @@ export const Register = () => {
                             required
                             ref={confirmPassword}
                         />
-                        <span>{passwErr}</span>
+                        <span className="loginPasswErr">{passwErr}</span>
 
                         <button className="loginButton" type="submit">
                             S'inscrire
