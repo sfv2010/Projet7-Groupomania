@@ -113,4 +113,8 @@
         flex-wrap: wrap;
         justify-content: center;
     }
+    .hr {
+        width: 100%;
+        margin-right: 0;
+    }
 }
