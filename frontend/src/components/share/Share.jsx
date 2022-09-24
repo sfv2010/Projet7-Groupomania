@@ -10,6 +10,8 @@ export const Share = () => {
     const desc = useRef();
     const [file, setFile] = useState(null);
     const [user, setUser] = useState({});
+    const [validPost, setValidPost] = useState("");
+
     // console.log(file);
 
     useEffect(() => {
@@ -52,6 +54,7 @@ export const Share = () => {
                     },
                 });
             } catch (err) {
+                setValidPost("Le post doit contenir du texte");
                 console.log(err);
             }
         }
@@ -63,6 +66,7 @@ export const Share = () => {
             });
             window.location.reload();
         } catch (err) {
+            setValidPost("Le post doit contenir du texte");
             console.log(err);
         }
     };
@@ -88,6 +92,7 @@ export const Share = () => {
                         ></textarea>
                     </div>
                 </div>
+                <span className="shareValidPost">{validPost}</span>
                 <hr className="shareHr" />
                 <form
                     className="shareButtons"
