@@ -23,7 +23,7 @@ export const Post = ({ post }) => {
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(
         !!post.likes.find((like) => like === currentUser.userId)
-    ); //String => Booleen
+    ); //!!boolean
     const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
@@ -87,13 +87,14 @@ export const Post = ({ post }) => {
         setEditPost(!editPost);
     };
     const updatePost = async () => {
-        console.log(post);
-        console.log(file);
+        // console.log(post);
+        // console.log(file);
 
         const editPost = {
             userId: userP._id,
             desc: description,
             img: post.img,
+            isAdmin: user.isAdmin,
         };
 
         if (file) {
