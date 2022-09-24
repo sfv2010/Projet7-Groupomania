@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { dispatchLogin } from "../../state/dispatch";
 import { AuthContext } from "../../state/AuthContext";
 import "./Login.css";
@@ -9,6 +9,7 @@ export const Login = () => {
     const password = useRef();
     const { dispatch } = useContext(AuthContext);
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [passwErr, setPasswErr] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,6 +20,7 @@ export const Login = () => {
             },
             dispatch
         );
+        setPasswErr("Paire identifiant/mot de passe incorrecte");
     };
 
     return (
@@ -60,6 +62,7 @@ export const Login = () => {
                             required
                             ref={password}
                         />
+                        <span className="loginPasswErr">{passwErr}</span>
 
                         <button className="loginButton">Se connecter</button>
                         <p className="loginForget">Mot de passe oublié?</p>
