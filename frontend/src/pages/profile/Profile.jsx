@@ -12,6 +12,7 @@ export const Profile = () => {
     const username = useParams().username;
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user: currentUser } = useContext(AuthContext);
+    //console.log(user);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -29,7 +30,7 @@ export const Profile = () => {
             // console.log(res.data);
         };
         fetchUser();
-    }, [username, currentUser.token]); //普通は空箱！
+    }, [username, currentUser.token]);
 
     return (
         <>
@@ -60,16 +61,19 @@ export const Profile = () => {
                         <div className="profileInfo">
                             <h2 className="profileInfoName">{user.username}</h2>
                             <span className="profileInfoDesc">{user.desc}</span>
+                            {/* {user._Id === currentUser.userId && (
+                                <button className="profileFollowButton">
+                                    Suivre
+                                </button>
+                            )} */}
                         </div>
                     </div>
                     <div className="profileBottom">
                         <Timeline username={username} />
-                        <Rightbar user={user} />
+                        <Rightbar user={user} className="profileRightbar" />
                     </div>
                 </div>
             </div>
         </>
     );
 };
-
-// export default Profile;
