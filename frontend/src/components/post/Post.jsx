@@ -17,7 +17,8 @@ import { Link } from "react-router-dom";
 export const Post = ({ post }) => {
     //recevoir props de timeline
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-    const [user, setUser] = useState({}); //user = pour obetenir les infos de proprietaire de post.
+    const [userP, setUserP] = useState({}); //user = pour obetenir les infos de proprietaire de post.
+    const [user, setUser] = useState({});
     const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de useState.
     const [like, setLike] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(
@@ -26,7 +27,7 @@ export const Post = ({ post }) => {
     const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
-    const [description, setDescription] = useState("");
+    const [description, setDescription] = useState(post.description);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -38,24 +39,42 @@ export const Post = ({ post }) => {
                     },
                 }
             );
-            setUser(res.data);
+            setUserP(res.data);
         };
         fetchUser();
     }, [post.userId, currentUser]);
 
-    const handleLike = async () => {
-        try {
-            //appeler API Liker
-            await axios.put(
-                `http://localhost:4000/api/posts/${post._id}/like`, //Identifiant de l'article
-                currentUser._id, //id de utilisateur
+    useEffect(() => {
+        const fetchUser = async () => {
+            //Rechercher aprés ? sur url
+            const res = await axios.get(
+                `http://localhost:4000/api/users?userId=${currentUser.userId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
                     },
                 }
             );
-            //console.log(user);
+
+            setUser(res.data);
+            // console.log(res.data);
+        };
+        fetchUser();
+    }, [currentUser]);
+
+    const handleLike = async () => {
+        try {
+            //appeler API Liker
+            await axios.put(
+                `http://localhost:4000/api/posts/${post._id}/like`, //Identifiant de l'article
+                currentUser.userId, //id de utilisateur
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
+            console.log(currentUser.userId);
         } catch (err) {
             console.log(err);
         }
@@ -69,12 +88,12 @@ export const Post = ({ post }) => {
     };
     const updatePost = async () => {
         console.log(post);
-        //e.preventDefault();
+        console.log(file);
 
         const editPost = {
-            userId: user._id,
+            userId: userP._id,
             desc: description,
-            img: post.file,
+            img: post.img,
         };
 
         if (file) {
@@ -86,10 +105,9 @@ export const Post = ({ post }) => {
             try {
                 await axios.put(
                     `http://localhost:4000/api/posts/${post._id}`,
-                    editPost,
+                    data,
                     {
                         headers: {
-                            //"Content-Type": "multipart/form-data",
                             Authorization: `Bearer ${currentUser.token}`,
                         },
                     }
@@ -124,16 +142,9 @@ export const Post = ({ post }) => {
                 },
                 data: { userId: currentUser.userId },
             });
-            //Window.location.reload(true);
             window.location.reload();
-
-            //setPost();
         } catch (err) {
             console.log(err);
-
-            // setPost(
-            //     "Vous n'êtes pas autorisé à supprimé le post de quelqu'un d'autre"
-            // );
         }
     };
     const handleComment = () => {
@@ -145,24 +156,24 @@ export const Post = ({ post }) => {
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
-                        <Link to={`/profile/${user.username}`}>
+                        <Link to={`/profile/${userP.username}`}>
                             <img
                                 src={
-                                    user.profilePicture
-                                        ? PUBLIC_FOLDER + user.profilePicture
+                                    userP.profilePicture
+                                        ? PUBLIC_FOLDER + userP.profilePicture
                                         : PUBLIC_FOLDER + "person/Anonym.svg"
                                 }
                                 alt="icon de l'utilisateur"
                                 className="postProfileimg"
                             />
                         </Link>
-                        <span className="postUserName">{user.username}</span>
+                        <span className="postUserName">{userP.username}</span>
                         <span className="postDate">
                             {format(post.createdAt)}
                             {/* {post.createdAt} */}
                         </span>
                     </div>
-                    {post.userId === currentUser.userId && (
+                    {(post.userId === currentUser.userId || user.isAdmin) && (
                         <nav className="postTopRight">
                             <div className="postNav">
                                 <MoreHoriz />
@@ -205,9 +216,9 @@ export const Post = ({ post }) => {
                                 ></textarea>
                             </div>
                             <hr className="shareHr" />
+
                             <form
                                 className="shareButtons"
-                                //onSubmit={(e) => updatePost(e)}
                                 encType="multipart/form-data"
                             >
                                 <div className="shareOptions">
@@ -223,11 +234,12 @@ export const Post = ({ post }) => {
                                             Photo
                                         </span>
                                         <input
-                                            className="shareInputImg"
+                                            // className="shareInputImg"
                                             type="file"
                                             id="file"
                                             accept=".png, .jpeg, .jpg"
                                             onChange={(e) =>
+                                                // console.log(e)
                                                 setFile(e.target.files[0])
                                             }
                                             name="file"
