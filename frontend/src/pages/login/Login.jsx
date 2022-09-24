@@ -11,7 +11,7 @@ export const Login = () => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
     const handleSubmit = (e) => {
-        e.preventDefault(); //pour ne pas reload
+        e.preventDefault();
         dispatchLogin(
             {
                 email: email.current.value,
@@ -40,6 +40,7 @@ export const Login = () => {
                     </p>
                 </header>
                 <div className="loginRight">
+                    {/* ggràce à form on peut utiliser onSubmit */}
                     <form
                         className="loginBox"
                         onSubmit={(e) => handleSubmit(e)}
@@ -75,5 +76,3 @@ export const Login = () => {
         </div>
     );
 };
-
-// export default Login;
