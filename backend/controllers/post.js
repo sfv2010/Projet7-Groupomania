@@ -7,9 +7,10 @@ const User = require("../models/User");
 exports.createPost = async (req, res) => {
     const newPost = new Post(req.body);
     const desc = req.body.desc;
+    // console.log(req.body.desc);
 
     try {
-        if (desc == null || desc == "") {
+        if (desc === null || desc === "" || desc === " ") {
             return res.status(400).json({ error: "Le post doit contenir du texte" });
         }
         const savePost = await newPost.save();
@@ -22,15 +23,16 @@ exports.createPost = async (req, res) => {
 //---Modifier un poste---
 exports.updatePost = async (req, res) => {
     try {
-        console.log("req", req);
+        console.log("req.auth", req.auth);
+        console.log("req", req.body);
 
         const post = await Post.findById(req.params.id); //id de post
         //si userId = userId qui est propriétaire de post
         if (
             post.userId === req.body.userId ||
             post.userId === req.auth.userId ||
-            req.body.isAdmin ||
-            req.auth.isAdmin
+            req.body.isAdmin === true ||
+            req.auth.isAdmin === true
         ) {
             await post.updateOne({
                 $set: req.body,
