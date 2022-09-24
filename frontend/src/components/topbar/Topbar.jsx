@@ -92,7 +92,7 @@ export const Topbar = () => {
                         src={
                             user.profilePicture
                                 ? PUBLIC_FOLDER + user.profilePicture
-                                : PUBLIC_FOLDER + "person/icon.png"
+                                : PUBLIC_FOLDER + "person/anonym.svg"
                         }
                         alt="Avateur"
                         className="topbarImg"
