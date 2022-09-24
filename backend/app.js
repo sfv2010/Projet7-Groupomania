@@ -48,7 +48,7 @@ app.use("/images", express.static(path.join(__dirname, "images"))); //le gestion
 app.use("/api/posts", postRoutes); // premiere argument qui sera la route(l'endpoint )de posts sur notre API
 app.use("/api/auth", authRoutes); //la route d'authentification.
 app.use("/api/users", userRoutes);
-app.use("api/comments", commentRoutes);
+app.use("/api/comments", commentRoutes);
 
 //---Exportation---
 module.exports = app; // exporter cette application pour qu'on puisse y acceder depuis les autres fichiers de notre projet
