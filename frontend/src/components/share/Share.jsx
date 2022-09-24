@@ -39,12 +39,11 @@ export const Share = () => {
             desc: desc.current.value,
         };
         if (file) {
-            const data = new FormData();
+            const data = new FormData(); //fonction qui peut avoir la data avec "key + value"
             const fileName = Date.now() + file.name;
-            data.append("name", fileName); //key + value
+            data.append("name", fileName);
             data.append("file", file);
             newPost.img = fileName;
-            console.log(newPost);
             try {
                 await axios.post("http://localhost:4000/api/posts", data, {
                     headers: {
@@ -86,7 +85,7 @@ export const Share = () => {
                             className="shareInput"
                             placeholder="Quoi de neuf?"
                             ref={desc}
-                        />
+                        ></textarea>
                     </div>
                 </div>
                 <hr className="shareHr" />
