@@ -26,7 +26,7 @@ export const Post = ({ post }) => {
     const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
-    const [desc, setDesc] = useState("");
+    const [description, setDescription] = useState("");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -63,21 +63,18 @@ export const Post = ({ post }) => {
         setIsLiked(!isLiked);
     };
 
-    const handleComment = () => {
-        setShowComment(!showComment);
-    };
-
+    //----------Modifier le post-------------
     const handlePost = () => {
         setEditPost(!editPost);
     };
-    const updatePost = async (e) => {
-        console.log();
-        e.preventDefault();
+    const updatePost = async () => {
+        console.log(post);
+        //e.preventDefault();
 
         const editPost = {
             userId: user._id,
-            desc: desc,
-            img: file,
+            desc: description,
+            img: post.file,
         };
 
         if (file) {
@@ -139,6 +136,9 @@ export const Post = ({ post }) => {
             // );
         }
     };
+    const handleComment = () => {
+        setShowComment(!showComment);
+    };
 
     return (
         <section className="post">
@@ -199,7 +199,9 @@ export const Post = ({ post }) => {
                                     type="text"
                                     className="shareInput"
                                     defaultValue={post.desc}
-                                    onChange={(e) => setDesc(e.target.value)}
+                                    onChange={(e) =>
+                                        setDescription(e.target.value)
+                                    }
                                 ></textarea>
                             </div>
                             <hr className="shareHr" />
