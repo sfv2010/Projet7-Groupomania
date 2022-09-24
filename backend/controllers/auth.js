@@ -22,9 +22,15 @@ exports.register = async (req, res) => {
             });
             user.save() // enregistrer dans la base de donées
                 .then(() => res.status(201).json({ message: "Utilisateur créé !" })) // 201 Created
-                .catch((error) => res.status(400).json({ error })); //400 Bad Request
+                .catch((error) =>
+                    res.status(400).json({
+                        message: "Cette adresse e-mail et/ou nom ou pseudonym sont déjà utilisés",
+                    })
+                ); //400 Bad Request
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch((error) =>
+            res.status(500).json({ message: "Paire identifiant/mot de passe incorrecte" })
+        );
 };
 
 exports.login = (req, res) => {
