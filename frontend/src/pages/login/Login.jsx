@@ -13,6 +13,12 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (
+            email !== email.current.value ||
+            password !== password.current.value
+        ) {
+            setPasswErr("Paire identifiant/mot de passe incorrecte");
+        }
         dispatchLogin(
             {
                 email: email.current.value,
@@ -20,7 +26,6 @@ export const Login = () => {
             },
             dispatch
         );
-        setPasswErr("Paire identifiant/mot de passe incorrecte");
     };
 
     return (
