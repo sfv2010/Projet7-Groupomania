@@ -19,6 +19,7 @@ exports.register = async (req, res) => {
                 username: req.body.username,
                 email: emailCrypto,
                 password: hash,
+                isAdmin: req.body.isAdmin,
             });
             user.save() // enregistrer dans la base de donées
                 .then(() => res.status(201).json({ message: "Utilisateur créé !" })) // 201 Created
@@ -59,7 +60,7 @@ exports.login = (req, res) => {
                         userId: user._id,
                         //la fonction sign de jwt pour chiffrer un nouveau token.
                         token: jwt.sign(
-                            { userId: user._id }, // l'ID de utilisateur   en tant que payload (les données encodées dans le token).
+                            { userId: user._id, isAdmin: user.isAdmin }, // l'ID de utilisateur   en tant que payload (les données encodées dans le token).
                             process.env.TOKEN_SECRET, //Clé secrète pour l'encodage
                             { expiresIn: "24h" } //chaque token est valable que 24h(Nous définissons la durée de validité du token à 24 heures. L'utilisateur devra donc se reconnecter au bout de 24 heures.)
                         ),
