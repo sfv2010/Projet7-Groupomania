@@ -54,8 +54,8 @@ export const Share = () => {
                     },
                 });
             } catch (err) {
-                setValidPost("Le post doit contenir du texte");
                 console.log(err);
+                // setValidPost("Le post doit contenir du texte");
             }
         }
         try {
