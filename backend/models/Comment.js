@@ -4,6 +4,8 @@ const CommentSchema = new mongoose.Schema(
     {
         userId: { type: String, required: true },
         desc: { type: String, max: 200 },
+        postId: { type: String, required: true },
+        commentId: { type: String, required: true },
     },
     { timestamps: true }
 );
