@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import "./Profile.css";
 import { Topbar } from "../../components/topbar/Topbar";
 import { Timeline } from "../../components/timeline/Timeline";
@@ -8,12 +8,20 @@ import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
 
 export const Profile = () => {
-    const [user, setUser] = useState({});
-    const username = useParams().username;
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user: currentUser } = useContext(AuthContext);
+    const username = useParams().username;
+    const [user, setUser] = useState({});
+    //const [file, setFile] = useState(null);
     const [editProfile, setEditProfile] = useState(false);
-    //console.log(user);
+    //const { email, userPseudo, city, desc } = useRef();
+    const email = useRef();
+    const userPseudo = useRef();
+    const password = useRef();
+    const city = useRef();
+    const desc = useRef();
+
+    console.log(currentUser);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -35,6 +43,11 @@ export const Profile = () => {
 
     const handleProfile = () => {
         setEditProfile(!editProfile);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        //console.log(city.current.value);
     };
     // const updateProfile = async () => {
 
@@ -112,9 +125,7 @@ export const Profile = () => {
                         <div className="profileInfo">
                             <h2 className="profileInfoName">{user.username}</h2>
                             <span className="profileInfoDesc">{user.desc}</span>
-                            {(user._Id === currentUser.userId ||
-                                user.isAdmin) && (
-                                // <button className="profileEditButton" onClick={updateProfile}>
+                            {user._id === currentUser.userId && (
                                 <button
                                     className="profileEditButton"
                                     onClick={handleProfile}
@@ -126,35 +137,108 @@ export const Profile = () => {
                         {editProfile ? (
                             <>
                                 <div className="profileEdit">
-                                    <h1 className="profileEditH1">Profile</h1>
-                                    <div className="profileEditWrapper">
-                                        <p className="profileEditH2">
-                                            Pseudonyme
-                                        </p>
-                                        <input type="text" />
-                                        <p>Description</p>
-                                        <input type="text" />
-                                        <p>Lieu de naissance:</p>
-                                        <input type="text" />
-                                        <div className="profileEditPhoto">
-                                            <p>Photo de profil</p>
-                                            <label
-                                                htmlFor="file"
-                                                className="shareOption"
-                                            >
-                                                {" "}
-                                            </label>
-                                            <span>Sélectionner une image</span>
-                                            <input
-                                                className="shareInputImg"
-                                                type="file"
-                                                id="file"
-                                                accept=".png, .jpeg, .jpg"
-                                                //onChange={(e) => setFile(e.target.files[0])} //setFile=useState
-                                                name="file"
-                                            />
+                                    <form
+                                        className="profileEditBox"
+                                        onSubmit={(e) => handleSubmit(e)}
+                                    >
+                                        <h1 className="profileEditH1">
+                                            Profile
+                                        </h1>
+                                        <div className="profileEditWrapper">
+                                            <p className="profileEditP">
+                                                E-mail
+                                            </p>
+                                            <div className="profileEditIn">
+                                                <input
+                                                    type="email"
+                                                    className="profileEditInput"
+                                                    ref={email}
+                                                />
+                                            </div>
+                                            <p className="profileEditP">
+                                                Nom ou Pseudonyme
+                                            </p>
+                                            <div className="profileEditIn">
+                                                <input
+                                                    type="text"
+                                                    className="profileEditInput"
+                                                    ref={userPseudo}
+                                                />
+                                            </div>
+                                            <p className="profileEditP">
+                                                Password
+                                            </p>
+                                            <div className="profileEditIn">
+                                                <input
+                                                    type="text"
+                                                    className="profileEditInput"
+                                                    ref={password}
+                                                    minLength="8"
+                                                />
+                                            </div>
+                                            <p className="profileEditP">
+                                                Description
+                                            </p>
+                                            <div className="profileEditIn">
+                                                <input
+                                                    type="text"
+                                                    className="profileEditInput"
+                                                    ref={desc}
+                                                />
+                                            </div>
+                                            <p className="profileEditP">
+                                                Lieu de naissance
+                                            </p>
+                                            <div className="profileEditIn">
+                                                <input
+                                                    type="text"
+                                                    className="profileEditInput"
+                                                    ref={city}
+                                                />
+                                            </div>
+                                            <div className="profileEditPhoto">
+                                                <p className="profileEditP">
+                                                    Photo de profil
+                                                </p>
+                                                <img
+                                                    src={
+                                                        user.profilePicture
+                                                            ? PUBLIC_FOLDER +
+                                                              user.profilePicture
+                                                            : PUBLIC_FOLDER +
+                                                              "/person/Anonym.svg"
+                                                    }
+                                                    alt="L'utilisateur n'a pas ajouter d'icon"
+                                                    className="topbaImg profileEditImg"
+                                                />
+                                                <label
+                                                    htmlFor="file"
+                                                    className="shareOption"
+                                                >
+                                                    <span className="shareEditSpan">
+                                                        Changer votre photo de
+                                                        profil
+                                                    </span>
+                                                    <input
+                                                        className="shareInputImg"
+                                                        type="file"
+                                                        id="file"
+                                                        accept=".png, .jpeg, .jpg"
+                                                        // onChange={(e) =>
+                                                        //     setFile(
+                                                        //         e.target
+                                                        //             .files[0]
+                                                        //     )
+                                                        // } //setFile=useState
+                                                        // name="file"
+                                                    />{" "}
+                                                </label>
+                                            </div>
+                                            <button className="profileEditButton">
+                                                Modifier
+                                            </button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </>
                         ) : (
