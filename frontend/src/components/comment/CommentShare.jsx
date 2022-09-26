@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../state/AuthContext";
 import "./CommentShare.css";
 
-export const CommentShare = ({ comment }) => {
+export const CommentShare = ({ post }) => {
     //const {user,setUser,currentUser} = props
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const [user, setUser] = useState({}); //user = proprietaire de post
@@ -12,7 +12,7 @@ export const CommentShare = ({ comment }) => {
     const { user: currentUser } = useContext(AuthContext);
     const [validPost, setValidPost] = useState("");
     const [file, setFile] = useState(null);
-    const [comments, setComments] = useState();
+    //const [comments, setComments] = useState();
     const [commentText, setCommentText] = useState("");
 
     useEffect(() => {
@@ -30,15 +30,14 @@ export const CommentShare = ({ comment }) => {
         fetchUser();
     }, [currentUser]);
     const handleClick = async (e) => {
+        console.log(post._id);
         e.preventDefault();
-        alert(commentText);
 
         const newComment = {
-            ...comments,
             userId: user._id,
             desc: desc.current.value,
+            postId: post._id,
         };
-        setComments(newComment);
         if (file) {
             const data = new FormData(); //fonction qui peut avoir la data avec "key + value"
             const fileName = Date.now() + file.name;
@@ -63,7 +62,7 @@ export const CommentShare = ({ comment }) => {
                     Authorization: `Bearer ${currentUser.token}`,
                 },
             });
-            window.location.reload();
+            // window.location.reload();
         } catch (err) {
             setValidPost("Le post doit contenir du texte");
             console.log(err);
@@ -133,7 +132,7 @@ export const CommentShare = ({ comment }) => {
             </form>
 
             <div className="commentWrapper">
-                {comment.map((commentItem, index) => {
+                {post.comment.map((commentItem, index) => {
                     return (
                         <div key={index} className="commentMap">
                             <div>{commentItem.desc}</div>
