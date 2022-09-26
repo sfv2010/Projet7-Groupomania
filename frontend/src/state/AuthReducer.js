@@ -44,7 +44,7 @@ const AuthReducer = (state, action) => {
         //         },
         //     };
         default:
-            return state; //retourner nouvelle etat
+            return state; //renvoyer nouvelle etat
     }
 };
 

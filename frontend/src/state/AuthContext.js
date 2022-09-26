@@ -2,7 +2,7 @@
 import { createContext, useEffect, useReducer } from "react";
 import AuthReducer from "./AuthReducer";
 
-//Definir l'état initial de l'utilisateur
+//Definir l'état initial de l'utilisateur  -l'etat avant connecté-
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
     isFetching: false,
