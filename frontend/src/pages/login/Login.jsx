@@ -7,17 +7,15 @@ import { Link } from "react-router-dom";
 export const Login = () => {
     const email = useRef();
     const password = useRef();
-    const { dispatch } = useContext(AuthContext);
+    const { error, dispatch } = useContext(AuthContext);
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const [passwErr, setPasswErr] = useState("");
+    console.log();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (
-            email !== email.current.value ||
-            password !== password.current.value
-        ) {
-            setPasswErr("Paire identifiant/mot de passe incorrecte");
+        if (error) {
+            setPasswErr(error.response.data.message);
         }
         dispatchLogin(
             {
