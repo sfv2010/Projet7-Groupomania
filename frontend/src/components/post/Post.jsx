@@ -11,7 +11,7 @@ import "./Post.css";
 import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
 import { format } from "timeago.js";
-import { Comment } from "../comment/Comment";
+import { CommentShare } from "../comment/CommentShare";
 import { Link } from "react-router-dom";
 
 export const Post = ({ post }) => {
@@ -28,6 +28,8 @@ export const Post = ({ post }) => {
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
     const [description, setDescription] = useState(post.description);
+    //const descComment = useRef();
+    //console.log(post);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -87,7 +89,7 @@ export const Post = ({ post }) => {
         setEditPost(!editPost);
     };
     const updatePost = async () => {
-        // console.log(post);
+        console.log(user);
         // console.log(file);
 
         const editPost = {
@@ -103,6 +105,7 @@ export const Post = ({ post }) => {
             data.append("name", fileName); //key + value
             data.append("file", file);
             editPost.img = fileName;
+
             try {
                 await axios.put(
                     `http://localhost:4000/api/posts/${post._id}`,
@@ -119,6 +122,7 @@ export const Post = ({ post }) => {
         }
 
         try {
+            console.log(editPost);
             await axios.put(
                 `http://localhost:4000/api/posts/${post._id}`,
                 editPost,
@@ -134,23 +138,50 @@ export const Post = ({ post }) => {
         }
     };
 
+    //--------delete------
     const deletePost = async () => {
-        window.confirm("Êtes-vous sûr de vouloir supprimer?");
         try {
-            await axios.delete(`http://localhost:4000/api/posts/${post._id}`, {
-                headers: {
-                    Authorization: `Bearer ${currentUser.token}`,
-                },
-                data: { userId: currentUser.userId },
-            });
+            window.confirm("Êtes-vous sûr de vouloir supprimer?") &&
+                (await axios.delete(
+                    `http://localhost:4000/api/posts/${post._id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${currentUser.token}`,
+                        },
+                        data: { userId: currentUser.userId },
+                    }
+                ));
+            // if (window.confirm) {
             window.location.reload();
+            // }
         } catch (err) {
             console.log(err);
         }
     };
+
+    //----------Coomentaire------
+
     const handleComment = () => {
         setShowComment(!showComment);
     };
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const newComment = {
+    //         userId: user._id,
+    //         desc: descComment.current.value,
+    //     };
+    //     try {
+    //         await axios.post("http://localhost:4000/api/comments", newComment, {
+    //             headers: {
+    //                 Authorization: `Bearer ${currentUser.token}`,
+    //             },
+    //         });
+    //         window.location.reload();
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
 
     return (
         <section className="post">
@@ -303,11 +334,56 @@ export const Post = ({ post }) => {
                         </div>
                     </div>
                     {showComment && (
-                        <Comment
-                        // user={user}
-                        // setUser={setUser}
-                        // currentUser={currentUser}
-                        />
+                        <>
+                            <CommentShare
+                                user={user}
+                                setUser={setUser}
+                                setFile={setFile}
+                                post={post}
+                                // currentUser={currentUser}
+                            />
+                            {/* {post.map((comment) => (
+                                <Post post={comment} key={comment._id} /> //._id = id de mongdb
+                            ))} */}
+                        </>
+                        // <>
+                        //     <div className="shareWrapper">
+                        //         <hr className="shareHr" />
+                        //         <form
+                        //             className="shareButtons"
+                        //             onSubmit={(e) => handleSubmit(e)}
+                        //             encType="multipart/form-data"
+                        //         >
+                        //             <div className="shareTop">
+                        //                 <img
+                        //                     src={
+                        //                         user.profilePicture
+                        //                             ? PUBLIC_FOLDER +
+                        //                               user.profilePicture
+                        //                             : PUBLIC_FOLDER +
+                        //                               "/person/Anonym.svg"
+                        //                     }
+                        //                     alt="icon de User"
+                        //                     className="shareProfileImg"
+                        //                 />
+                        //                 <div className="sharePost">
+                        //                     <textarea
+                        //                         type="text"
+                        //                         className="shareInput"
+                        //                         placeholder=" Écrivez un commentaire"
+                        //                         ref={descComment}
+                        //                     />
+                        //                 </div>
+                        //                 <button
+                        //                     className="shareButton"
+                        //                     type="submit"
+                        //                 >
+                        //                     Publier
+                        //                 </button>
+                        //             </div>
+                        //         </form>
+                        //     </div>
+                        // </>
                     )}
                 </div>
             </div>
