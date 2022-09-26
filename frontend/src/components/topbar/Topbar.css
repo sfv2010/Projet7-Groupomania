@@ -89,7 +89,8 @@ li {
 }
 
 .topbarImg {
-    width: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50px;
     object-fit: cover;
     margin-right: 10px;
