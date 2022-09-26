@@ -11,17 +11,12 @@ module.exports = (req, res, next) => {
         //---Récupération de l'userId et isAdmin de notre token (décodé)---
         const userId = decodedToken.userId;
         const isAdmin = decodedToken.isAdmin;
-        //---attribuer l'objet userId de notre token à l’objet Request afin que nos différentes routes puissent l’exploiter
+        //---attribuer l'objet userId et isAdmin de notre token à l’objet Request afin que nos différentes routes puissent l’exploiter
         req.auth = {
             userId: userId,
             isAdmin: isAdmin,
         };
-        //---Vérification: S'il y a un userId dans le corps de la requête et que les userId sont différants entre requete et token---
-        if (req.body.userId && req.body.userId !== userId) {
-            throw error;
-        } else {
-            next();
-        }
+        next();
     } catch (error) {
         console.log(error);
         res.status(401).json({ error });
