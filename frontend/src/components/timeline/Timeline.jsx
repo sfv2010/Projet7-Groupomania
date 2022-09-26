@@ -13,7 +13,7 @@ export const Timeline = ({ username }) => {
     useEffect(() => {
         const fetchPosts = async () => {
             const res = username
-                ? //S'il y a username
+                ? //S'il y a username = profile
                   await axios.get(
                       `http://localhost:4000/api/posts/profile/${username}`,
                       {
@@ -22,7 +22,7 @@ export const Timeline = ({ username }) => {
                           },
                       }
                   )
-                : //sinon on affiche tous les posts
+                : //sinon on affiche tous les posts = home
                   await axios.get("http://localhost:4000/api/posts/", {
                       headers: {
                           Authorization: `Bearer ${user.token}`,
