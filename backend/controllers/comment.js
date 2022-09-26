@@ -2,12 +2,13 @@ const Comment = require("../models/Comment");
 const User = require("../models/User");
 
 exports.createComment = async (req, res) => {
+    console.log(req.body);
     const newComment = new Comment(req.body);
     const desc = req.body.desc;
-    //onsole.log(req.body);
+    //const { desc, userId } = req.body;
 
     try {
-        if (desc == null || desc == "") {
+        if (desc === null || desc === "" || desc === " ") {
             return res.status(400).json({ error: "Comment doit contenir du texte" });
         }
         const saveComment = await newComment.save();
@@ -45,5 +46,22 @@ exports.deleteComment = async (req, res) => {
         }
     } catch (err) {
         res.status(403).json(err);
+    }
+};
+exports.getAllComment = async (req, res) => {
+    try {
+        const comment = await Comment.find();
+        res.status(200).json(comment);
+    } catch (err) {
+        return res.status(404).json(err);
+    }
+};
+
+exports.getOneComment = async (req, res) => {
+    try {
+        const comment = await Comment.findById(req.params.id);
+        res.status(200).json(comment);
+    } catch (err) {
+        return res.status(404).json(err);
     }
 };
