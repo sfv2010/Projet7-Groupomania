@@ -2,6 +2,7 @@ import { AddAPhoto, GifBox } from "@mui/icons-material";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../state/AuthContext";
+//import { Comment } from "./Comment";
 import "./CommentShare.css";
 
 export const CommentShare = ({ post }) => {
@@ -14,6 +15,7 @@ export const CommentShare = ({ post }) => {
     const [file, setFile] = useState(null);
     //const [comments, setComments] = useState();
     const [commentText, setCommentText] = useState("");
+    console.log(post.comments);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,7 +32,6 @@ export const CommentShare = ({ post }) => {
         fetchUser();
     }, [currentUser]);
     const handleClick = async (e) => {
-        console.log(post._id);
         e.preventDefault();
 
         const newComment = {
@@ -45,26 +46,32 @@ export const CommentShare = ({ post }) => {
             data.append("file", file);
             newComment.img = fileName;
             try {
-                await axios.post("http://localhost:4000/api/posts", data, {
-                    headers: {
-                        //"Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                });
+                await axios.post(
+                    `http://localhost:4000/api/comments/${post._id}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${currentUser.token}`,
+                        },
+                    }
+                );
             } catch (err) {
-                // setValidPost("Le post doit contenir du texte");
                 console.log(err);
             }
         }
         try {
-            await axios.post("http://localhost:4000/api/comments", newComment, {
-                headers: {
-                    Authorization: `Bearer ${currentUser.token}`,
-                },
-            });
-            // window.location.reload();
+            await axios.post(
+                `http://localhost:4000/api/comments/${post._id}`,
+                newComment,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
+            window.location.reload();
         } catch (err) {
-            setValidPost("Le post doit contenir du texte");
+            setValidPost(err.response.data.message);
             console.log(err);
         }
     };
@@ -113,7 +120,7 @@ export const CommentShare = ({ post }) => {
                             type="file"
                             id="file"
                             accept=".png, .jpeg, .jpg"
-                            onChange={(e) => setFile(e.target.files[0])} //setFile=useState
+                            onChange={(e) => setFile(e.target.files[0])}
                             name="file"
                         />
                     </label>
@@ -132,13 +139,16 @@ export const CommentShare = ({ post }) => {
             </form>
 
             <div className="commentWrapper">
-                {post.comment.map((commentItem, index) => {
+                {/* {post.comments.map((commentItem, index) => {
                     return (
                         <div key={index} className="commentMap">
                             <div>{commentItem.desc}</div>
                         </div>
                     );
-                })}
+                })} */}
+                {/* {post.comment.map((commentItem, index) => (
+                    <Comment commentItem={commentItem} key={index} />
+                ))} */}
             </div>
         </div>
     );
