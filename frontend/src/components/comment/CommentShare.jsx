@@ -1,44 +1,28 @@
 import { AddAPhoto, GifBox } from "@mui/icons-material";
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../../state/AuthContext";
-//import { Comment } from "./Comment";
+import React, { useRef, useState } from "react";
 import "./CommentShare.css";
 
-export const CommentShare = ({ post }) => {
-    //const {user,setUser,currentUser} = props
+export const CommentShare = ({ post, user, currentUser }) => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-    const [user, setUser] = useState({}); //user = proprietaire de post
     const desc = useRef();
-    const { user: currentUser } = useContext(AuthContext);
     const [validPost, setValidPost] = useState("");
     const [file, setFile] = useState(null);
-    //const [comments, setComments] = useState();
     const [commentText, setCommentText] = useState("");
-    console.log(post.comments);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const res = await axios.get(
-                `http://localhost:4000/api/users?userId=${currentUser.userId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                }
-            );
-            setUser(res.data);
-        };
-        fetchUser();
-    }, [currentUser]);
+    console.log(post);
+    console.log(user);
+    console.log(currentUser);
+
     const handleClick = async (e) => {
         e.preventDefault();
 
         const newComment = {
             userId: user._id,
-            desc: desc.current.value,
+            commentDesc: desc.current.value,
             postId: post._id,
         };
+        console.log(desc);
         if (file) {
             const data = new FormData(); //fonction qui peut avoir la data avec "key + value"
             const fileName = Date.now() + file.name;
@@ -71,7 +55,7 @@ export const CommentShare = ({ post }) => {
             );
             window.location.reload();
         } catch (err) {
-            setValidPost(err.response.data.message);
+            setValidPost("Le message doit contenir du texte");
             console.log(err);
         }
     };
