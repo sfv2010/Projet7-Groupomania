@@ -1,15 +1,16 @@
 const Comment = require("../models/Comment");
 const User = require("../models/User");
+const Post = require("../models/Post");
 
 exports.createComment = async (req, res) => {
     console.log(req.body);
     const newComment = new Comment(req.body);
     const desc = req.body.desc;
-    //const { desc, userId } = req.body;
+    const post = await Post.findById(req.params.id); //id de post
 
     try {
         if (desc === null || desc === "" || desc === " ") {
-            return res.status(400).json({ error: "Comment doit contenir du texte" });
+            return res.status(400).json({ message: "Le commentaire doit contenir du texte" });
         }
         const saveComment = await newComment.save();
         res.status(200).json(saveComment);
