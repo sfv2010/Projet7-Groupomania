@@ -27,7 +27,6 @@ export const Share = () => {
             );
 
             setUser(res.data);
-            // console.log(res.data);
         };
         fetchUser();
     }, [currentUser]);
@@ -49,13 +48,11 @@ export const Share = () => {
             try {
                 await axios.post("http://localhost:4000/api/posts", data, {
                     headers: {
-                        //"Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${currentUser.token}`,
                     },
                 });
             } catch (err) {
                 console.log(err);
-                // setValidPost("Le post doit contenir du texte");
             }
         }
         try {
@@ -66,7 +63,7 @@ export const Share = () => {
             });
             window.location.reload();
         } catch (err) {
-            setValidPost("Le post doit contenir du texte");
+            setValidPost(err.response.data.message);
             console.log(err);
         }
     };
