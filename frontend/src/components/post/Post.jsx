@@ -13,6 +13,7 @@ import { AuthContext } from "../../state/AuthContext";
 import { format } from "timeago.js";
 import { CommentShare } from "../comment/CommentShare";
 import { Link } from "react-router-dom";
+import { Comment } from "../comment/Comment";
 
 export const Post = ({ post }) => {
     //recevoir props de timeline
@@ -28,6 +29,8 @@ export const Post = ({ post }) => {
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
     const [description, setDescription] = useState(post.description);
+    const [validPost, setValidPost] = useState("");
+    //const [descComments, setDescComments] = useState([]);
     //const descComment = useRef();
     //console.log(post);
 
@@ -76,7 +79,6 @@ export const Post = ({ post }) => {
                     },
                 }
             );
-            console.log(currentUser.userId);
         } catch (err) {
             console.log(err);
         }
@@ -122,7 +124,6 @@ export const Post = ({ post }) => {
         }
 
         try {
-            console.log(editPost);
             await axios.put(
                 `http://localhost:4000/api/posts/${post._id}`,
                 editPost,
@@ -134,6 +135,7 @@ export const Post = ({ post }) => {
             );
             window.location.reload();
         } catch (err) {
+            setValidPost(err.response.data.message);
             console.log(err);
         }
     };
@@ -141,7 +143,8 @@ export const Post = ({ post }) => {
     //--------delete------
     const deletePost = async () => {
         try {
-            window.confirm("Êtes-vous sûr de vouloir supprimer?") &&
+            const result =
+                window.confirm("Êtes-vous sûr de vouloir supprimer?") &&
                 (await axios.delete(
                     `http://localhost:4000/api/posts/${post._id}`,
                     {
@@ -151,9 +154,9 @@ export const Post = ({ post }) => {
                         data: { userId: currentUser.userId },
                     }
                 ));
-            // if (window.confirm) {
-            window.location.reload();
-            // }
+            if (result) {
+                window.location.reload();
+            }
         } catch (err) {
             console.log(err);
         }
@@ -165,23 +168,26 @@ export const Post = ({ post }) => {
         setShowComment(!showComment);
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const newComment = {
-    //         userId: user._id,
-    //         desc: descComment.current.value,
-    //     };
-    //     try {
-    //         await axios.post("http://localhost:4000/api/comments", newComment, {
+    // useEffect(() => {
+    //     const fetchComments = async () => {
+    //         const res = await axios.get("http://localhost:4000/api/comments/", {
     //             headers: {
     //                 Authorization: `Bearer ${currentUser.token}`,
     //             },
     //         });
-    //         window.location.reload();
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+
+    //         setDescComments(
+    //             // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
+    //             res.data.sort((comment1, comment2) => {
+    //                 return (
+    //                     new Date(comment2.createdAt) -
+    //                     new Date(comment1.createdAt)
+    //                 );
+    //             })
+    //         );
+    //     };
+    //     fetchComments();
+    // }, [currentUser]);
 
     return (
         <section className="post">
@@ -212,7 +218,7 @@ export const Post = ({ post }) => {
                             </div>
                             <ul className="postNavList">
                                 <li
-                                    onClick={() => handlePost()}
+                                    onClick={() => handlePost()} //grâce au allow il n'exécute immédiatement
                                     className="postNavEdit"
                                 >
                                     <ModeEdit htmlColor="blue" />
@@ -247,10 +253,12 @@ export const Post = ({ post }) => {
                                     }
                                 ></textarea>
                             </div>
+                            <span className="shareValidPost">{validPost}</span>
+
                             <hr className="shareHr" />
 
                             <form
-                                className="shareButtons"
+                                className="shareButtons postForm"
                                 encType="multipart/form-data"
                             >
                                 <div className="shareOptions">
@@ -266,7 +274,7 @@ export const Post = ({ post }) => {
                                             Photo
                                         </span>
                                         <input
-                                            // className="shareInputImg"
+                                            className=" postEditImg"
                                             type="file"
                                             id="file"
                                             accept=".png, .jpeg, .jpg"
@@ -329,7 +337,7 @@ export const Post = ({ post }) => {
                             onClick={() => handleComment()}
                         >
                             <p className="postComentText">
-                                {post.comment} commentaires
+                                {post.comment.length} commentaires
                             </p>
                         </div>
                     </div>
@@ -342,48 +350,24 @@ export const Post = ({ post }) => {
                                 post={post}
                                 // currentUser={currentUser}
                             />
-                            {/* {post.map((comment) => (
-                                <Post post={comment} key={comment._id} /> //._id = id de mongdb
+                            <Comment
+                                user={user}
+                                setUser={setUser}
+                                setFile={setFile}
+                                post={post}
+                            />
+
+                            {/* {post.comments.map((commentItem, index) => {
+                    return (
+                        <div key={index} className="commentMap">
+                            <div>{commentItem.desc}</div>
+                        </div>
+                    );
+                })} */}
+                            {/* {descComments.map((post, index) => (
+                                <Comment post={post} key={index} />
                             ))} */}
                         </>
-                        // <>
-                        //     <div className="shareWrapper">
-                        //         <hr className="shareHr" />
-                        //         <form
-                        //             className="shareButtons"
-                        //             onSubmit={(e) => handleSubmit(e)}
-                        //             encType="multipart/form-data"
-                        //         >
-                        //             <div className="shareTop">
-                        //                 <img
-                        //                     src={
-                        //                         user.profilePicture
-                        //                             ? PUBLIC_FOLDER +
-                        //                               user.profilePicture
-                        //                             : PUBLIC_FOLDER +
-                        //                               "/person/Anonym.svg"
-                        //                     }
-                        //                     alt="icon de User"
-                        //                     className="shareProfileImg"
-                        //                 />
-                        //                 <div className="sharePost">
-                        //                     <textarea
-                        //                         type="text"
-                        //                         className="shareInput"
-                        //                         placeholder=" Écrivez un commentaire"
-                        //                         ref={descComment}
-                        //                     />
-                        //                 </div>
-                        //                 <button
-                        //                     className="shareButton"
-                        //                     type="submit"
-                        //                 >
-                        //                     Publier
-                        //                 </button>
-                        //             </div>
-                        //         </form>
-                        //     </div>
-                        // </>
                     )}
                 </div>
             </div>
