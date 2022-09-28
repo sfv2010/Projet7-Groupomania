@@ -2,8 +2,6 @@ import React from "react";
 import "./Online.css";
 
 export const Online = ({ user }) => {
-    //user = props
-
     return (
         <>
             <li className="rightbarFriend">
