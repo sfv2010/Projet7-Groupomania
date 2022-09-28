@@ -5,33 +5,29 @@ import {
     ModeEdit,
     MoreHoriz,
 } from "@mui/icons-material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Comment.css";
 import axios from "axios";
-import { AuthContext } from "../../state/AuthContext";
+
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 
-export const Comment = ({ post }) => {
-    //recevoir props de timeline
+export const Comment = ({ descComment, user, currentUser }) => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const [userP, setUserP] = useState({}); //user = pour obetenir les infos de proprietaire de comment.
-    const [user, setUser] = useState({});
-    const { user: currentUser } = useContext(AuthContext); //on change le nom "user=>currentUser" pour distinguer entre user de useState.
     // const [like, setLike] = useState(comment.likes.length);
     // const [isLiked, setIsLiked] = useState(
     //     !!comment.likes.find((like) => like === currentUser.userId)
     // ); //!!boolean
     const [editComment, setEditComment] = useState(false);
     const [file, setFile] = useState(null);
-    const [description, setDescription] = useState(post.comments.commentDesc);
-    //const descComment = useRef();
-    console.log(post.comments);
+    const [description, setDescription] = useState(descComment.commentDesc);
+    //console.log(descComment._id);
 
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(
-                `http://localhost:4000/api/users?userId=${post.userId}`, //userId=proprietaire de comment.
+                `http://localhost:4000/api/users?userId=${descComment.userId}`, //userId=proprietaire de comment.
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
@@ -41,31 +37,13 @@ export const Comment = ({ post }) => {
             setUserP(res.data);
         };
         fetchUser();
-    }, [post.userId, currentUser]);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            //Rechercher aprés ? sur url
-            const res = await axios.get(
-                `http://localhost:4000/api/users?userId=${currentUser.userId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                }
-            );
-
-            setUser(res.data);
-            // console.log(res.data);
-        };
-        fetchUser();
-    }, [currentUser]);
+    }, [descComment.userId, currentUser]);
 
     // const handleLike = async () => {
     //     try {
     //         //appeler API Liker
     //         await axios.put(
-    //             `http://localhost:4000/api/comments/${comment._id}/like`, //Identifiant de l'article
+    //             `http://localhost:4000/api/comments/${descComment._id}/like`, //Identifiant de l'article
     //             currentUser.userId, //id de utilisateur
     //             {
     //                 headers: {
@@ -86,14 +64,11 @@ export const Comment = ({ post }) => {
         setEditComment(!editComment);
     };
     const updateComment = async () => {
-        // console.log(comment);
-        // console.log(file);
-
         const editComment = {
-            postId: post.comments.postId,
-            userId: post.comments.userId,
+            postId: descComment.postId,
+            userId: descComment.userId,
             commentDesc: description,
-            img: post.comments.img,
+            img: descComment.img,
             //isAdmin: user.isAdmin,
         };
 
@@ -105,7 +80,7 @@ export const Comment = ({ post }) => {
             editComment.img = fileName;
             try {
                 await axios.put(
-                    `http://localhost:4000/api/comments/${post._id}}`,
+                    `http://localhost:4000/api/comments/${descComment._id}}`,
                     data,
                     {
                         headers: {
@@ -120,7 +95,7 @@ export const Comment = ({ post }) => {
 
         try {
             await axios.put(
-                `http://localhost:4000/api/comments/${post._id}`,
+                `http://localhost:4000/api/comments/${descComment._id}`,
                 editComment,
                 {
                     headers: {
@@ -139,7 +114,7 @@ export const Comment = ({ post }) => {
         const result = window.confirm("Êtes-vous sûr de vouloir supprimer?");
         try {
             await axios.delete(
-                `http://localhost:4000/api/comments/${post.comments._id}`,
+                `http://localhost:4000/api/comments/${descComment._id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${currentUser.token}`,
@@ -156,7 +131,7 @@ export const Comment = ({ post }) => {
     };
 
     return (
-        <section className="post">
+        <section className="post comment">
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
@@ -173,12 +148,11 @@ export const Comment = ({ post }) => {
                         </Link>
                         <span className="postUserName">{userP.username}</span>
                         <span className="postDate">
-                            {format(post.comments.createdAt)}
+                            {format(descComment.createdAt)}
                             {/* {comments.createdAt} */}
                         </span>
                     </div>
-                    {(post.comment.userId === currentUser.userId ||
-                        user.isAdmin) && (
+                    {(descComment === currentUser.userId || user.isAdmin) && (
                         <nav className="postTopRight">
                             <div className="postNav">
                                 <MoreHoriz />
@@ -195,7 +169,7 @@ export const Comment = ({ post }) => {
                                 </li>
                                 <li
                                     onClick={() =>
-                                        deletecomment(post.comments.userId)
+                                        deletecomment(descComment.userId)
                                     }
                                     className="postNavDelete"
                                 >
@@ -212,11 +186,11 @@ export const Comment = ({ post }) => {
                 <div className="postCenter">
                     {editComment ? (
                         <>
-                            <div className="sharepost">
+                            <div className="sharepost commentText">
                                 <textarea
                                     type="text"
-                                    className="shareInput"
-                                    defaultValue={post.comments.commentDesc}
+                                    className="shareInput commentInput"
+                                    defaultValue={descComment.commentDesc}
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
@@ -225,7 +199,7 @@ export const Comment = ({ post }) => {
                             <hr className="shareHr" />
 
                             <form
-                                className="shareButtons"
+                                className="shareButtons postForm"
                                 encType="multipart/form-data"
                             >
                                 <div className="shareOptions">
@@ -242,6 +216,7 @@ export const Comment = ({ post }) => {
                                         </span>
                                         <input
                                             // className="shareInputImg"
+                                            className=" postEditImg"
                                             type="file"
                                             id="file"
                                             accept=".png, .jpeg, .jpg"
@@ -273,12 +248,12 @@ export const Comment = ({ post }) => {
                         </>
                     ) : (
                         <span className="postText">
-                            {post.comments.commentDesc}
+                            {descComment.commentDesc}
                         </span>
                     )}
-                    {post.comments.img && (
+                    {descComment.img && (
                         <img
-                            src={PUBLIC_FOLDER + post.comments.img}
+                            src={PUBLIC_FOLDER + descComment.img}
                             alt="Liée au commente"
                             className="postImg"
                         />
