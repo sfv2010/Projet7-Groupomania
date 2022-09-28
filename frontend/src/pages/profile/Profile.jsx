@@ -21,7 +21,7 @@ export const Profile = () => {
     const city = useRef();
     const desc = useRef();
 
-    console.log(currentUser);
+    //console.log(user);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -49,52 +49,6 @@ export const Profile = () => {
         e.preventDefault();
         //console.log(city.current.value);
     };
-    // const updateProfile = async () => {
-
-    //         const editProfile = {
-    //             userId: userP._id,
-    //             desc: description,
-    //             img: post.img,
-    //             isAdmin: user.isAdmin,
-    //         };
-
-    //         if (file) {
-    //             const data = new FormData();
-    //             const fileName = Date.now() + file.name;
-    //             data.append("name", fileName); //key + value
-    //             data.append("file", file);
-    //             editPost.img = fileName;
-    //             try {
-    //                 await axios.put(
-    //                     `http://localhost:4000/api/posts/${post._id}`,
-    //                     data,
-    //                     {
-    //                         headers: {
-    //                             Authorization: `Bearer ${currentUser.token}`,
-    //                         },
-    //                     }
-    //                 );
-    //             } catch (err) {
-    //                 console.log(err);
-    //             }
-    //         }
-
-    //         try {
-    //             await axios.put(
-    //                 `http://localhost:4000/api/posts/${post._id}`,
-    //                 editPost,
-    //                 {
-    //                     headers: {
-    //                         Authorization: `Bearer ${currentUser.token}`,
-    //                     },
-    //                 }
-    //             );
-    //             window.location.reload();
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-
-    //}
 
     return (
         <>
@@ -246,7 +200,10 @@ export const Profile = () => {
                         )}
                     </div>
                     <div className="profileBottom">
-                        <Timeline username={username} />
+                        <Timeline
+                            username={username}
+                            currentUser={currentUser}
+                        />
                         <Rightbar user={user} className="profileRightbar" />
                     </div>
                 </div>
