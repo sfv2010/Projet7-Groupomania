@@ -19,16 +19,28 @@ exports.createComment = async (req, res) => {
     }
 };
 //---Moddifier un commentaire---
+
 exports.updateComment = async (req, res) => {
     try {
         const comment = await Comment.findById(req.params.id);
-        if (comment.userId === req.body.userId || req.body.isAdmin) {
+        const desc = req.body.desc;
+        // console.log("req.auth", req.auth);
+        // console.log("req.body", req.body);
+        if (desc === null || desc === "" || desc === " ") {
+            return res.status(400).json({ message: "Le message doit contenir du texte" });
+        }
+        if (
+            comment.userId === req.body.userId ||
+            comment.userId === req.auth.userId ||
+            req.body.isAdmin === true ||
+            req.auth.isAdmin === true
+        ) {
             await comment.updateOne({
                 $set: req.body,
             });
             res.status(200).json("Modifié avec succes");
         } else {
-            res.status(403).json("Vous ne pouvez pas modifer les commentes d'autres personne");
+            res.status(403).json("Vous ne pouvez pas modifer les commentaores d'autres personne");
         }
     } catch (err) {
         res.status(403).json(err);
@@ -37,9 +49,11 @@ exports.updateComment = async (req, res) => {
 
 //---Supprimer un commenaire---
 exports.deleteComment = async (req, res) => {
+    console.log(req.body);
+    console.log(req.params.id);
     try {
-        const comment = await comment.findById(req.params.id);
-        if (comment.userId === req.body.userId || req.body.isAdmin) {
+        const comment = await Comment.findById(req.params.id);
+        if (comment.userId === req.auth.userId || req.auth.isAdmin) {
             await comment.deleteOne();
             res.status(200).json("Supprimé avec succes");
         } else {
@@ -49,6 +63,7 @@ exports.deleteComment = async (req, res) => {
         res.status(403).json(err);
     }
 };
+
 exports.getAllComment = async (req, res) => {
     try {
         const comment = await Comment.find();
