@@ -30,9 +30,7 @@ export const Post = ({ post }) => {
     const [file, setFile] = useState(null);
     const [description, setDescription] = useState(post.description);
     const [validPost, setValidPost] = useState("");
-    //const [descComments, setDescComments] = useState([]);
-    //const descComment = useRef();
-    //console.log(post);
+    const [descComments, setDescComments] = useState([]);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -91,14 +89,12 @@ export const Post = ({ post }) => {
         setEditPost(!editPost);
     };
     const updatePost = async () => {
-        console.log(user);
         // console.log(file);
 
         const editPost = {
             userId: userP._id,
             desc: description,
             img: post.img,
-            isAdmin: user.isAdmin,
         };
 
         if (file) {
@@ -168,26 +164,26 @@ export const Post = ({ post }) => {
         setShowComment(!showComment);
     };
 
-    // useEffect(() => {
-    //     const fetchComments = async () => {
-    //         const res = await axios.get("http://localhost:4000/api/comments/", {
-    //             headers: {
-    //                 Authorization: `Bearer ${currentUser.token}`,
-    //             },
-    //         });
-
-    //         setDescComments(
-    //             // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
-    //             res.data.sort((comment1, comment2) => {
-    //                 return (
-    //                     new Date(comment2.createdAt) -
-    //                     new Date(comment1.createdAt)
-    //                 );
-    //             })
-    //         );
-    //     };
-    //     fetchComments();
-    // }, [currentUser]);
+    useEffect(() => {
+        const fetchComments = async () => {
+            const res = await axios.get("http://localhost:4000/api/comments/", {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            });
+            //console.log(res.data);
+            setDescComments(
+                // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
+                res.data.sort((comment1, comment2) => {
+                    return (
+                        new Date(comment2.createdAt) -
+                        new Date(comment1.createdAt)
+                    );
+                })
+            );
+        };
+        fetchComments();
+    }, [currentUser]);
 
     return (
         <section className="post">
@@ -274,15 +270,14 @@ export const Post = ({ post }) => {
                                             Photo
                                         </span>
                                         <input
-                                            className=" postEditImg"
+                                            className="postEditImg"
                                             type="file"
                                             id="file"
                                             accept=".png, .jpeg, .jpg"
                                             onChange={(e) =>
-                                                // console.log(e)
                                                 setFile(e.target.files[0])
                                             }
-                                            name="file"
+                                            name="file" //pour back end
                                         />
                                     </label>
                                     <div className="shareOption">
@@ -337,36 +332,26 @@ export const Post = ({ post }) => {
                             onClick={() => handleComment()}
                         >
                             <p className="postComentText">
-                                {post.comment.length} commentaires
+                                {descComments.length} commentaires
                             </p>
                         </div>
                     </div>
                     {showComment && (
                         <>
                             <CommentShare
-                                user={user}
-                                setUser={setUser}
-                                setFile={setFile}
                                 post={post}
-                                // currentUser={currentUser}
-                            />
-                            <Comment
                                 user={user}
-                                setUser={setUser}
-                                setFile={setFile}
-                                post={post}
+                                currentUser={currentUser}
                             />
 
-                            {/* {post.comments.map((commentItem, index) => {
-                    return (
-                        <div key={index} className="commentMap">
-                            <div>{commentItem.desc}</div>
-                        </div>
-                    );
-                })} */}
-                            {/* {descComments.map((post, index) => (
-                                <Comment post={post} key={index} />
-                            ))} */}
+                            {descComments.map((descComment, index) => (
+                                <Comment
+                                    descComment={descComment}
+                                    user={user}
+                                    currentUser={currentUser}
+                                    key={index}
+                                />
+                            ))}
                         </>
                     )}
                 </div>
