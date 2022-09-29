@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { dispatchLogin } from "../../state/dispatch";
 import { AuthContext } from "../../state/AuthContext";
 import "./Login.css";
@@ -14,9 +14,7 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (error) {
-            setPasswErr(error.response.data.message);
-        }
+
         dispatchLogin(
             {
                 email: email.current.value,
@@ -25,6 +23,12 @@ export const Login = () => {
             dispatch
         );
     };
+
+    useEffect(() => {
+        if (error) {
+            setPasswErr(error.response.data.message);
+        }
+    }, [error, setPasswErr]);
 
     return (
         <div className="login">
