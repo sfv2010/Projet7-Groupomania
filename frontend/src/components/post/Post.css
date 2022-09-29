@@ -78,6 +78,7 @@
     object-fit: contain;
     display: block;
     margin: auto;
+    border-radius: 15px;
 }
 
 .postBottom {
@@ -129,6 +130,19 @@
     cursor: pointer;
     margin-right: 20px;
 }
-/* .postEditImg {
+.postEdit {
+    width: 95%;
+}
+.postEditImg {
     display: none;
-} */
+    padding: 20px;
+    background-color: #ffd7d7;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 310px) {
+    .postBottom {
+        flex-direction: column;
+    }
+}
