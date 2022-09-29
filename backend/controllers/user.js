@@ -41,12 +41,6 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-// exports.getAllUser = (req, res, next) => {
-//     User.find() //pas besoin d'argument,car ici on veut la liste complète de Sauce
-//         .then((user) => res.status(200).json(user))
-//         .catch((error) => res.status(400).json({ error }));
-// };
-
 //---obtenir les informations d'utilisateur avec query---
 exports.getOneUser = async (req, res) => {
     const userId = req.query.userId;
@@ -62,56 +56,52 @@ exports.getOneUser = async (req, res) => {
     }
 };
 
-// exports.getOneUser = async (req, res) => {
-//     try {
-//         const user = await User.findById(req.params.id);
-//         const { passward, updateAt, ...other } = user._doc;
-//         res.status(200).json(other);
-//     } catch (err) {
-//         res.status(500).json(err);
+// exports.getAllUser = (req, res, next) => {
+//     User.find() //pas besoin d'argument,car ici on veut la liste complète de Sauce
+//         .then((user) => res.status(200).json(user))
+//         .catch((error) => res.status(400).json({ error }));
+// };
+
+// //---Follow des utilisateurs---
+// exports.followUser = async (req, res) => {
+//     if (req.body.userId !== req.params.id) {
+//         try {
+//             const user = await User.findById(req.params.id);
+//             const currentUser = await User.findById(req.body.userId);
+//             //S'il n'existe pas dans un followers, on peut suivre フォロワーにいなかったらフォローできる
+//             if (!user.followers.includes(req.body.userId)) {
+//                 await user.updateOne({ $push: { followers: req.body.userId } });
+//                 await currentUser.updateOne({ $push: { followings: req.params.id } });
+//                 res.status(200).json("Suivi avec succès");
+//             } else {
+//                 return res.status(403).json("Vous suivez déjà cet utilisateur");
+//             }
+//         } catch (err) {
+//             return res.status(500).json(err);
+//         }
+//     } else {
+//         return res.status(500).json("Vous ne pouvez pas suivre vous-même");
 //     }
 // };
 
-//---Follow des utilisateurs---
-exports.followUser = async (req, res) => {
-    if (req.body.userId !== req.params.id) {
-        try {
-            const user = await User.findById(req.params.id);
-            const currentUser = await User.findById(req.body.userId);
-            //S'il n'existe pas dans un followers, on peut suivre フォロワーにいなかったらフォローできる
-            if (!user.followers.includes(req.body.userId)) {
-                await user.updateOne({ $push: { followers: req.body.userId } });
-                await currentUser.updateOne({ $push: { followings: req.params.id } });
-                res.status(200).json("Suivi avec succès");
-            } else {
-                return res.status(403).json("Vous suivez déjà cet utilisateur");
-            }
-        } catch (err) {
-            return res.status(500).json(err);
-        }
-    } else {
-        return res.status(500).json("Vous ne pouvez pas suivre vous-même");
-    }
-};
-
-//---Supprimer follow---
-exports.unFollowUser = async (req, res) => {
-    if (req.body.userId !== req.params.id) {
-        try {
-            const user = await User.findById(req.params.id);
-            const currentUser = await User.findById(req.body.userId);
-            //S'il existe dans un followers,on peut les enlever フォロワーにいたらフォロー外せる
-            if (user.followers.includes(req.body.userId)) {
-                await user.updateOne({ $pull: { followers: req.body.userId } });
-                await currentUser.updateOne({ $pull: { followings: req.params.id } });
-                res.status(200).json("Supprimé avec succès");
-            } else {
-                return res.status(403).json("Impossible de ne plus suivre cet utilisateur");
-            }
-        } catch (err) {
-            return res.status(500).json(err);
-        }
-    } else {
-        return res.status(500).json("Vous ne pouvez pas supprimer vous-même");
-    }
-};
+// //---Supprimer follow---
+// exports.unFollowUser = async (req, res) => {
+//     if (req.body.userId !== req.params.id) {
+//         try {
+//             const user = await User.findById(req.params.id);
+//             const currentUser = await User.findById(req.body.userId);
+//             //S'il existe dans un followers,on peut les enlever フォロワーにいたらフォロー外せる
+//             if (user.followers.includes(req.body.userId)) {
+//                 await user.updateOne({ $pull: { followers: req.body.userId } });
+//                 await currentUser.updateOne({ $pull: { followings: req.params.id } });
+//                 res.status(200).json("Supprimé avec succès");
+//             } else {
+//                 return res.status(403).json("Impossible de ne plus suivre cet utilisateur");
+//             }
+//         } catch (err) {
+//             return res.status(500).json(err);
+//         }
+//     } else {
+//         return res.status(500).json("Vous ne pouvez pas supprimer vous-même");
+//     }
+// };

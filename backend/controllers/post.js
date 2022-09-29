@@ -100,21 +100,6 @@ exports.likerPost = async (req, res) => {
     }
 };
 
-//---Obtenir les postes suivis---
-exports.timelinePost = async (req, res) => {
-    try {
-        const currentUser = await User.findById(req.params.userId);
-        const userPosts = await Post.find({ userId: currentUser._id });
-        const followPosts = await Promise.all(
-            currentUser.followings.map((followId) => {
-                return Post.find({ userId: followId });
-            })
-        );
-        return res.status(200).json(userPosts.concat(...followPosts));
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-};
 //---Obtenir les postes de profile---
 
 exports.profilePost = async (req, res) => {
@@ -127,58 +112,18 @@ exports.profilePost = async (req, res) => {
         return res.status(500).json(err);
     }
 };
-
-//---Comentaire----
-
-exports.createCommentPost = async (req, res) => {
-    console.log(req.body);
-
-    // const desc = req.body.commentDesc;
-    //const { desc, userId } = req.body;
-
-    try {
-        // if (desc === null || desc === "" || desc === " ") {
-        //     return res.status(400).json({ message: "Le commentaire doit contenir du texte" });
-        // }
-
-        const post = await Post.findById(req.params.id); //id de post
-        await post.updateOne({
-            $set: req.body,
-        });
-
-        res.status(200).json("commenté avec succès");
-    } catch (err) {
-        res.status(500).json(err);
-    }
-};
-//---Moddifier un commentaire---
-exports.updateCommentPost = async (req, res) => {
-    try {
-        const comment = await Comment.findById(req.params.id);
-        if (comment.userId === req.body.userId || req.body.isAdmin) {
-            await comment.updateOne({
-                $set: req.body,
-            });
-            res.status(200).json("Modifié avec succes");
-        } else {
-            res.status(403).json("Vous ne pouvez pas modifer les commentes d'autres personne");
-        }
-    } catch (err) {
-        res.status(403).json(err);
-    }
-};
-
-//---Supprimer un commenaire---
-exports.deleteCommentPost = async (req, res) => {
-    try {
-        const comment = await comment.findById(req.params.id);
-        if (comment.userId === req.body.userId || req.body.isAdmin) {
-            await comment.deleteOne();
-            res.status(200).json("Supprimé avec succes");
-        } else {
-            res.status(403).json("Vous ne pouvez pas supprimer les commentes d'autres personne");
-        }
-    } catch (err) {
-        res.status(403).json(err);
-    }
-};
+//---Obtenir les postes suivis---
+// exports.timelinePost = async (req, res) => {
+//     try {
+//         const currentUser = await User.findById(req.params.userId);
+//         const userPosts = await Post.find({ userId: currentUser._id });
+//         const followPosts = await Promise.all(
+//             currentUser.followings.map((followId) => {
+//                 return Post.find({ userId: followId });
+//             })
+//         );
+//         return res.status(200).json(userPosts.concat(...followPosts));
+//     } catch (err) {
+//         return res.status(500).json(err);
+//     }
+// };
