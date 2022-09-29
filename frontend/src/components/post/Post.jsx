@@ -136,7 +136,7 @@ export const Post = ({ post }) => {
         }
     };
 
-    //--------delete------
+    //--------delete----------
     const deletePost = async () => {
         try {
             const result =
@@ -158,7 +158,7 @@ export const Post = ({ post }) => {
         }
     };
 
-    //----------Coomentaire------
+    //----------Coomentaire------------
 
     const handleComment = () => {
         setShowComment(!showComment);
@@ -166,11 +166,14 @@ export const Post = ({ post }) => {
 
     useEffect(() => {
         const fetchComments = async () => {
-            const res = await axios.get("http://localhost:4000/api/comments/", {
-                headers: {
-                    Authorization: `Bearer ${currentUser.token}`,
-                },
-            });
+            const res = await axios.get(
+                `http://localhost:4000/api/comments/?postId=${post._id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
             //console.log(res.data);
             setDescComments(
                 // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
@@ -183,7 +186,7 @@ export const Post = ({ post }) => {
             );
         };
         fetchComments();
-    }, [currentUser]);
+    }, [currentUser, post._id]);
 
     return (
         <section className="post">
@@ -204,7 +207,6 @@ export const Post = ({ post }) => {
                         <span className="postUserName">{userP.username}</span>
                         <span className="postDate">
                             {format(post.createdAt)}
-                            {/* {post.createdAt} */}
                         </span>
                     </div>
                     {(post.userId === currentUser.userId || user.isAdmin) && (
@@ -214,7 +216,7 @@ export const Post = ({ post }) => {
                             </div>
                             <ul className="postNavList">
                                 <li
-                                    onClick={() => handlePost()} //grâce au allow il n'exécute immédiatement
+                                    onClick={() => handlePost()} //grâce au allow il n'exécute pas immédiatement
                                     className="postNavEdit"
                                 >
                                     <ModeEdit htmlColor="blue" />
@@ -239,7 +241,7 @@ export const Post = ({ post }) => {
                 <div className="postCenter">
                     {editPost ? (
                         <>
-                            <div className="sharePost">
+                            <div className="sharePost postEdit">
                                 <textarea
                                     type="text"
                                     className="shareInput"
@@ -258,10 +260,7 @@ export const Post = ({ post }) => {
                                 encType="multipart/form-data"
                             >
                                 <div className="shareOptions">
-                                    <label
-                                        htmlFor="file"
-                                        className="shareOption"
-                                    >
+                                    <label className="shareOption">
                                         <AddAPhoto
                                             className="shareIcon"
                                             htmlColor="blue"
@@ -272,7 +271,6 @@ export const Post = ({ post }) => {
                                         <input
                                             className="postEditImg"
                                             type="file"
-                                            id="file"
                                             accept=".png, .jpeg, .jpg"
                                             onChange={(e) =>
                                                 setFile(e.target.files[0])
@@ -332,7 +330,12 @@ export const Post = ({ post }) => {
                             onClick={() => handleComment()}
                         >
                             <p className="postComentText">
-                                {descComments.length} commentaires
+                                {
+                                    descComments.filter(
+                                        (comment) => comment.postId === post._id
+                                    ).length
+                                }{" "}
+                                commentaires
                             </p>
                         </div>
                     </div>
