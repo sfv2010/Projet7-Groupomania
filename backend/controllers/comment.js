@@ -1,13 +1,8 @@
 const Comment = require("../models/Comment");
-const User = require("../models/User");
-const Post = require("../models/Post");
 
 exports.createComment = async (req, res) => {
-    console.log(req.body);
     const newComment = new Comment(req.body);
     const desc = req.body.desc;
-    const post = await Post.findById(req.params.id); //id de post
-
     try {
         if (desc === null || desc === "" || desc === " ") {
             return res.status(400).json({ message: "Le commentaire doit contenir du texte" });
@@ -49,8 +44,6 @@ exports.updateComment = async (req, res) => {
 
 //---Supprimer un commenaire---
 exports.deleteComment = async (req, res) => {
-    console.log(req.body);
-    console.log(req.params.id);
     try {
         const comment = await Comment.findById(req.params.id);
         if (comment.userId === req.auth.userId || req.auth.isAdmin) {
@@ -64,15 +57,16 @@ exports.deleteComment = async (req, res) => {
     }
 };
 
-exports.getAllComment = async (req, res) => {
+exports.getAllCommentById = async (req, res) => {
+    console.log(req.query.postId);
     try {
-        const comment = await Comment.find();
+        const comment = await Comment.find({ postId: req.query.postId });
+        console.log(comment);
         res.status(200).json(comment);
     } catch (err) {
         return res.status(404).json(err);
     }
 };
-
 exports.getOneComment = async (req, res) => {
     try {
         const comment = await Comment.findById(req.params.id);
