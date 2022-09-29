@@ -25,6 +25,16 @@ const AuthReducer = (state, action) => {
                 isFetching: false,
                 error: false,
             };
+        // case "UPLOAD_PICTURE":
+        //     return {
+        //         ...state,
+        //         picture: action.payload,
+        //     };
+        // case "UPDATE_BIO":
+        //     return {
+        //         ...state,
+        //         bio: action.payload,
+        //     };
         // case "FOLLOW":
         //     return {
         //         ...state,
