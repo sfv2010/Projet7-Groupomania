@@ -8,11 +8,11 @@ const userSchema = new mongoose.Schema(
         password: { type: String, required: true, min: 8, max: 30 }, // hash est string
         profilePicture: { type: String, default: "" },
         coverPicture: { type: String, default: "" },
-        followers: { type: Array, default: [] },
-        followings: { type: Array, default: [] }, //suivantes
         isAdmin: { type: Boolean, default: false },
         desc: { type: String, max: 70 },
         city: { type: String, max: 50 },
+        // followers: { type: Array, default: [] },
+        // followings: { type: Array, default: [] }, //suivantes
     },
     { timestamps: true }
 );

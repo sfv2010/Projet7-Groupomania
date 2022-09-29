@@ -10,6 +10,6 @@ router.get("/", auth, postCtrl.getAllPost);
 router.get("/:id", auth, postCtrl.getOnePost);
 router.put("/:id/like", auth, postCtrl.likerPost);
 router.get("/profile/:username", auth, postCtrl.profilePost);
-router.get("/timeline/:userId", auth, postCtrl.timelinePost);
+//router.get("/timeline/:userId", auth, postCtrl.timelinePost);
 
 module.exports = router;
