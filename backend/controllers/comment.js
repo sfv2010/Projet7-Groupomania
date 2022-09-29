@@ -2,10 +2,10 @@ const Comment = require("../models/Comment");
 
 exports.createComment = async (req, res) => {
     const newComment = new Comment(req.body);
-    const desc = req.body.desc;
+    const desc = req.body.commentDesc;
     try {
         if (desc === null || desc === "" || desc === " ") {
-            return res.status(400).json({ message: "Le commentaire doit contenir du texte" });
+            return res.status(400).json({ message: "Le message doit contenir du texte" });
         }
         const saveComment = await newComment.save();
         res.status(200).json(saveComment);
@@ -18,9 +18,7 @@ exports.createComment = async (req, res) => {
 exports.updateComment = async (req, res) => {
     try {
         const comment = await Comment.findById(req.params.id);
-        const desc = req.body.desc;
-        // console.log("req.auth", req.auth);
-        // console.log("req.body", req.body);
+        const desc = req.body.commentDesc;
         if (desc === null || desc === "" || desc === " ") {
             return res.status(400).json({ message: "Le message doit contenir du texte" });
         }
