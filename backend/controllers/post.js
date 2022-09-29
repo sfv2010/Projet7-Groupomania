@@ -22,8 +22,6 @@ exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id); //id de post
         const desc = req.body.desc;
-        // console.log("req.auth", req.auth);
-        // console.log("req.body", req.body);
         if (desc === null || desc === "" || desc === " ") {
             return res.status(400).json({ message: "Le message doit contenir du texte" });
         }
@@ -48,8 +46,6 @@ exports.updatePost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
     try {
-        // console.log("req.auth", req.auth);
-        // console.log("req", req.body);
         const post = await Post.findById(req.params.id);
         if (post.userId === req.auth.userId || req.auth.isAdmin === true) {
             await post.deleteOne();
