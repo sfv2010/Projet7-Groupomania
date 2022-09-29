@@ -1,11 +1,8 @@
-/* * {
-    font-family: "Lato", sans-serif;
-} */
 .share {
     width: 100%;
-    height: 220px;
     box-shadow: 1px 5px 10px -4px #4e5166;
-    border-radius: 5px;
+    border-radius: 10px;
+    padding-bottom: 10px;
 }
 :focus {
     outline: none;
@@ -25,6 +22,7 @@
     border-radius: 50px;
     margin: 10px;
     border: 1px solid #ffd7d7;
+    object-fit: cover;
 }
 .sharePost {
     width: 80%;
@@ -34,7 +32,6 @@
     display: flex;
     align-items: center;
     margin: 15px;
-    /* overflow-wrap: break-word; */
 }
 .shareInput {
     padding-left: 10px;
@@ -50,7 +47,7 @@
 
 .shareHr {
     width: 95%;
-    margin: 20px 20px 35px;
+    margin: 20px;
     color: #4e5166;
 }
 
