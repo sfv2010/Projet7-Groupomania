@@ -56,10 +56,8 @@ exports.deleteComment = async (req, res) => {
 };
 
 exports.getAllCommentById = async (req, res) => {
-    console.log(req.query.postId);
     try {
         const comment = await Comment.find({ postId: req.query.postId });
-        console.log(comment);
         res.status(200).json(comment);
     } catch (err) {
         return res.status(404).json(err);
