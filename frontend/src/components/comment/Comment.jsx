@@ -15,14 +15,10 @@ import { Link } from "react-router-dom";
 export const Comment = ({ descComment, user, currentUser }) => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const [userP, setUserP] = useState({}); //user = pour obetenir les infos de proprietaire de comment.
-    // const [like, setLike] = useState(comment.likes.length);
-    // const [isLiked, setIsLiked] = useState(
-    //     !!comment.likes.find((like) => like === currentUser.userId)
-    // ); //!!boolean
     const [editComment, setEditComment] = useState(false);
     const [file, setFile] = useState(null);
-    const [description, setDescription] = useState(descComment.commentDesc);
-    //console.log(descComment._id);
+    const [description, setDescription] = useState(descComment.description);
+    const [validPost, setValidPost] = useState("");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -39,26 +35,6 @@ export const Comment = ({ descComment, user, currentUser }) => {
         fetchUser();
     }, [descComment.userId, currentUser]);
 
-    // const handleLike = async () => {
-    //     try {
-    //         //appeler API Liker
-    //         await axios.put(
-    //             `http://localhost:4000/api/comments/${descComment._id}/like`, //Identifiant de l'article
-    //             currentUser.userId, //id de utilisateur
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${currentUser.token}`,
-    //                 },
-    //             }
-    //         );
-    //         console.log(currentUser.userId);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //     setLike(isLiked ? like - 1 : like + 1);
-    //     setIsLiked(!isLiked);
-    // };
-
     //----------Modifier le comment-------------
     const handleComment = () => {
         setEditComment(!editComment);
@@ -69,7 +45,6 @@ export const Comment = ({ descComment, user, currentUser }) => {
             userId: descComment.userId,
             commentDesc: description,
             img: descComment.img,
-            //isAdmin: user.isAdmin,
         };
 
         if (file) {
@@ -105,6 +80,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
             );
             window.location.reload();
         } catch (err) {
+            setValidPost(err.response.data.message);
             console.log(err);
         }
     };
@@ -152,7 +128,8 @@ export const Comment = ({ descComment, user, currentUser }) => {
                             {/* {comments.createdAt} */}
                         </span>
                     </div>
-                    {(descComment === currentUser.userId || user.isAdmin) && (
+                    {(descComment.userId === currentUser.userId ||
+                        user.isAdmin) && (
                         <nav className="postTopRight">
                             <div className="postNav">
                                 <MoreHoriz />
@@ -183,7 +160,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
                     )}
                 </div>
 
-                <div className="postCenter">
+                <div className="postCenter commentCenter">
                     {editComment ? (
                         <>
                             <div className="sharepost commentText">
@@ -194,57 +171,56 @@ export const Comment = ({ descComment, user, currentUser }) => {
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
+                                    placeholder="Écrivez un commentaire"
                                 ></textarea>
                             </div>
-                            <hr className="shareHr" />
+                            <span className="shareValidPost">{validPost}</span>
+                            {<hr className="shareHr commentHr" />}
 
-                            <form
-                                className="shareButtons postForm"
-                                encType="multipart/form-data"
-                            >
-                                <div className="shareOptions">
-                                    <label
-                                        htmlFor="file"
-                                        className="shareOption"
-                                    >
-                                        <AddAPhoto
-                                            className="shareIcon"
-                                            htmlColor="blue"
-                                        />
-                                        <span className="shareOptionText">
-                                            Photo
-                                        </span>
-                                        <input
-                                            // className="shareInputImg"
-                                            className=" postEditImg"
-                                            type="file"
-                                            id="file"
-                                            accept=".png, .jpeg, .jpg"
-                                            onChange={(e) =>
-                                                // console.log(e)
-                                                setFile(e.target.files[0])
-                                            }
-                                            name="file"
-                                        />
-                                    </label>
-                                    <div className="shareOption">
-                                        <GifBox
-                                            className="shareIcon"
-                                            htmlColor="red"
-                                        />
-                                        <span className="shareOptionText">
-                                            GIF
-                                        </span>
-                                    </div>
-                                </div>
-                                <button
-                                    className="shareButton"
-                                    onClick={updateComment}
-                                    type="button"
+                            {
+                                <form
+                                    className=" shareButtons"
+                                    encType="multipart/form-data"
                                 >
-                                    Publier
-                                </button>
-                            </form>
+                                    <div className="shareOptions commentOptions">
+                                        <label className="shareOption">
+                                            <AddAPhoto
+                                                className="shareIcon"
+                                                htmlColor="blue"
+                                            />
+                                            <span className="shareOptionText">
+                                                Photo
+                                            </span>
+
+                                            <input
+                                                className="shareInputImg"
+                                                type="file"
+                                                accept=".png, .jpeg, .jpg"
+                                                onChange={(e) =>
+                                                    setFile(e.target.files[0])
+                                                }
+                                                name="file"
+                                            />
+                                        </label>
+                                        <div className="shareOption">
+                                            <GifBox
+                                                className="shareIcon"
+                                                htmlColor="red"
+                                            />
+                                            <span className="shareOptionText">
+                                                GIF
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        className="shareButton commentShareButton"
+                                        onClick={updateComment}
+                                        type="button"
+                                    >
+                                        Publier
+                                    </button>
+                                </form>
+                            }
                         </>
                     ) : (
                         <span className="postText">
@@ -255,28 +231,9 @@ export const Comment = ({ descComment, user, currentUser }) => {
                         <img
                             src={PUBLIC_FOLDER + descComment.img}
                             alt="Liée au commente"
-                            className="postImg"
+                            className="postImg commentImg"
                         />
                     )}
-
-                    {/* <div className="postBottom">
-                        <div
-                            className="postBottomLeft"
-                            onClick={() => handleLike()}
-                        >
-                            <FavoriteBorder className="heart1" />
-                            {isLiked && (
-                                <img
-                                    src={PUBLIC_FOLDER + "/heart.png"}
-                                    alt="petit coeur rouge"
-                                    className="heart2"
-                                />
-                            )}
-                            <span className="postLikeCounter">
-                                {like} J'aime
-                            </span>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </section>
