@@ -9,10 +9,9 @@ export const Share = () => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
     const [file, setFile] = useState(null);
+    const [imgPost, setImgPost] = useState("");
     const [user, setUser] = useState({});
     const [validPost, setValidPost] = useState("");
-
-    // console.log(file);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -31,6 +30,11 @@ export const Share = () => {
         fetchUser();
     }, [currentUser]);
 
+    const showSelectedPhoto = (e) => {
+        setImgPost(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
+    };
+
     //créer un post
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,6 +49,7 @@ export const Share = () => {
             data.append("name", fileName);
             data.append("file", file);
             newPost.img = fileName;
+            console.log(file);
             try {
                 await axios.post("http://localhost:4000/api/posts", data, {
                     headers: {
@@ -105,10 +110,11 @@ export const Share = () => {
                                 type="file"
                                 id="file"
                                 accept=".png, .jpeg, .jpg"
-                                onChange={(e) => setFile(e.target.files[0])} //setFile=useState
+                                onChange={(e) => showSelectedPhoto(e)}
                                 name="file"
                             />
                         </label>
+
                         <div className="shareOption">
                             <GifBox className="shareIcon" htmlColor="red" />
                             <span className="shareOptionText">GIF</span>
@@ -118,6 +124,15 @@ export const Share = () => {
                         Publier
                     </button>
                 </form>
+                <div className="showImg">
+                    {file && (
+                        <img
+                            src={imgPost}
+                            className="showImgSelected"
+                            alt="Afficher la sélection"
+                        />
+                    )}
+                </div>
             </div>
         </main>
     );
