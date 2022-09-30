@@ -28,6 +28,7 @@ export const Post = ({ post }) => {
     const [editPost, setEditPost] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [file, setFile] = useState(null);
+    const [imgPost, setImgPost] = useState("");
     const [description, setDescription] = useState(post.description);
     const [validPost, setValidPost] = useState("");
     const [descComments, setDescComments] = useState([]);
@@ -89,8 +90,6 @@ export const Post = ({ post }) => {
         setEditPost(!editPost);
     };
     const updatePost = async () => {
-        // console.log(file);
-
         const editPost = {
             userId: userP._id,
             desc: description,
@@ -134,6 +133,10 @@ export const Post = ({ post }) => {
             setValidPost(err.response.data.message);
             console.log(err);
         }
+    };
+    const showSelectedPhoto = (e) => {
+        setImgPost(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
     };
 
     //--------delete----------
@@ -273,7 +276,7 @@ export const Post = ({ post }) => {
                                             type="file"
                                             accept=".png, .jpeg, .jpg"
                                             onChange={(e) =>
-                                                setFile(e.target.files[0])
+                                                showSelectedPhoto(e)
                                             }
                                             name="file" //pour back end
                                         />
@@ -296,6 +299,15 @@ export const Post = ({ post }) => {
                                     Publier
                                 </button>
                             </form>
+                            <div className="showImg">
+                                {file && (
+                                    <img
+                                        src={imgPost}
+                                        className="showImgSelected"
+                                        alt="Afficher la sélection"
+                                    />
+                                )}
+                            </div>
                         </>
                     ) : (
                         <span className="postText">{post.desc}</span>
