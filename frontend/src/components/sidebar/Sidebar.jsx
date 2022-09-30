@@ -1,4 +1,4 @@
-import { Home, MessageRounded, Person, Search } from "@mui/icons-material";
+import { Home, Person } from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
 import { ListFriend } from "../listFriend/ListFriend";
 import "./Sidebar.css";
@@ -38,23 +38,23 @@ export const Sidebar = () => {
                             <span className="sidebarText">Accueil</span>
                         </Link>
                     </li>
-                    <li className="sidebarListItem">
+                    {/* <li className="sidebarListItem">
                         <MessageRounded className="sidebarIcon" />
                         <Link to="/">
                             <span className="sidebarText">Message</span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="sidebarListItem">
                         <Person className="sidebarIcon" />
                         <Link to={`/profile/${user.username}`}>
                             <span className="sidebarText">Mon Compte</span>
                         </Link>
                     </li>
-                    <li className="sidebarListItem">
+                    {/* <li className="sidebarListItem">
                         <Search className="sidebarIcon" />
                         <Link to="/"></Link>
                         <span className="sidebarText">Rechercher</span>
-                    </li>
+                    </li> */}
                 </ul>
                 <hr className="sidebarHr" />
                 <ul className="sidebarFriendList">
