@@ -102,6 +102,7 @@ li {
     border-radius: 20px;
     display: flex;
     align-items: center;
+    display: none;
 }
 .searchIcon {
     margin: 10px;
@@ -115,9 +116,9 @@ li {
 }
 
 @media screen and (max-width: 1100px) {
-    .serchbar {
+    /* .serchbar {
         display: none;
-    }
+    } */
 
     .topbarLeft {
         flex: 1.5;
