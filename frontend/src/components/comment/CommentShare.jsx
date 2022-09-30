@@ -1,12 +1,13 @@
 import { AddAPhoto, GifBox } from "@mui/icons-material";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import "./CommentShare.css";
 
-export const CommentShare = ({ post, user, currentUser }) => {
+export const CommentShare = memo(({ post, user, currentUser }) => {
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
     const [file, setFile] = useState(null);
+    const [imgPost, setImgPost] = useState("");
     const [validPost, setValidPost] = useState("");
 
     const handleSubmit = async (e) => {
@@ -53,6 +54,10 @@ export const CommentShare = ({ post, user, currentUser }) => {
             console.log(err);
         }
     };
+    const showSelectedPhoto = (e) => {
+        setImgPost(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
+    };
 
     return (
         <main className="share">
@@ -97,7 +102,7 @@ export const CommentShare = ({ post, user, currentUser }) => {
                                     className="shareInputImg"
                                     type="file"
                                     accept=".png, .jpeg, .jpg"
-                                    onChange={(e) => setFile(e.target.files[0])}
+                                    onChange={(e) => showSelectedPhoto(e)}
                                     name="file"
                                 />
                             </label>
@@ -112,7 +117,19 @@ export const CommentShare = ({ post, user, currentUser }) => {
                         Publier
                     </button>
                 </form>
+                <div className="showImg">
+                    {file && (
+                        <>
+                            <img
+                                src={imgPost}
+                                className="showImgSelected "
+                                alt="Afficher la sélection"
+                            />
+                            <span>annuler</span>
+                        </>
+                    )}
+                </div>
             </div>
         </main>
     );
-};
+});

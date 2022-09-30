@@ -8,7 +8,6 @@ import {
 import React, { useEffect, useState } from "react";
 import "./Comment.css";
 import axios from "axios";
-
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 
@@ -17,6 +16,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
     const [userP, setUserP] = useState({}); //user = pour obetenir les infos de proprietaire de comment.
     const [editComment, setEditComment] = useState(false);
     const [file, setFile] = useState(null);
+    const [imgPost, setImgPost] = useState("");
     const [description, setDescription] = useState(descComment.description);
     const [validPost, setValidPost] = useState("");
 
@@ -83,6 +83,10 @@ export const Comment = ({ descComment, user, currentUser }) => {
             setValidPost(err.response.data.message);
             console.log(err);
         }
+    };
+    const showSelectedPhoto = (e) => {
+        setImgPost(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
     };
 
     //--------delete------
@@ -197,7 +201,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
                                                 type="file"
                                                 accept=".png, .jpeg, .jpg"
                                                 onChange={(e) =>
-                                                    setFile(e.target.files[0])
+                                                    showSelectedPhoto(e)
                                                 }
                                                 name="file"
                                             />
@@ -221,6 +225,15 @@ export const Comment = ({ descComment, user, currentUser }) => {
                                     </button>
                                 </form>
                             }
+                            <div className="showImg">
+                                {file && (
+                                    <img
+                                        src={imgPost}
+                                        className="showImgSelected"
+                                        alt="Afficher la sélection"
+                                    />
+                                )}
+                            </div>
                         </>
                     ) : (
                         <span className="postText">
