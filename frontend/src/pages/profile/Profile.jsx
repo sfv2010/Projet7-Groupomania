@@ -12,16 +12,19 @@ export const Profile = () => {
     const { user: currentUser } = useContext(AuthContext);
     const username = useParams().username;
     const [user, setUser] = useState({});
-    //const [file, setFile] = useState(null);
+    const [file, setFile] = useState(null);
+    const [imgPost, setImgPost] = useState("");
     const [editProfile, setEditProfile] = useState(false);
-    //const { email, userPseudo, city, desc } = useRef();
+    //const [validPost, setValidPost] = useState("");
+    // const { email, userPseudo, city, desc } = useRef();
     const email = useRef();
     const userPseudo = useRef();
     const password = useRef();
     const city = useRef();
     const desc = useRef();
+    const profilePicture = useRef();
 
-    //console.log(user);
+    console.log(user._id);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -45,9 +48,60 @@ export const Profile = () => {
         setEditProfile(!editProfile);
     };
 
-    const handleSubmit = (e) => {
+    const updateProfile = async (e) => {
         e.preventDefault();
         //console.log(city.current.value);
+        const editProfile = {
+            username: userPseudo,
+            email: email,
+            password: password,
+            profilePicture: profilePicture,
+            //coverPicture: coverPicture,
+            desc: desc,
+            city: city,
+        };
+
+        if (file) {
+            const data = new FormData();
+            const fileName = Date.now() + file.name;
+            data.append("name", fileName); //key + value
+            data.append("file", file);
+            editProfile.profilePicture = fileName;
+
+            try {
+                await axios.put(
+                    `http://localhost:4000/api/users/${user._id}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${currentUser.token}`,
+                        },
+                    }
+                );
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        try {
+            await axios.put(
+                `http://localhost:4000/api/users/${user._id}}`,
+                editProfile,
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                }
+            );
+            window.location.reload();
+        } catch (err) {
+            // setValidPost(err.response.data.message);
+            console.log(err);
+        }
+    };
+    const showSelectedPhoto = (e) => {
+        setImgPost(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
     };
 
     return (
@@ -93,13 +147,14 @@ export const Profile = () => {
                                 <div className="profileEdit">
                                     <form
                                         className="profileEditBox"
-                                        onSubmit={(e) => handleSubmit(e)}
+                                        onSubmit={(e) => updateProfile(e)}
+                                        encType="multipart/form-data"
                                     >
                                         <h1 className="profileEditH1">
                                             Profile
                                         </h1>
                                         <div className="profileEditWrapper">
-                                            <p className="profileEditP">
+                                            {/* <p className="profileEditP">
                                                 E-mail
                                             </p>
                                             <div className="profileEditIn">
@@ -149,7 +204,7 @@ export const Profile = () => {
                                                     className="profileEditInput"
                                                     ref={city}
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div className="profileEditPhoto">
                                                 <p className="profileEditP">
                                                     Photo de profil
@@ -164,11 +219,9 @@ export const Profile = () => {
                                                     }
                                                     alt="L'utilisateur n'a pas ajouter d'icon"
                                                     className="topbaImg profileEditImg"
+                                                    ref={profilePicture}
                                                 />
-                                                <label
-                                                    htmlFor="file"
-                                                    className="shareOption"
-                                                >
+                                                <label className="shareOption">
                                                     <span className="shareEditSpan">
                                                         Changer votre photo de
                                                         profil
@@ -176,23 +229,32 @@ export const Profile = () => {
                                                     <input
                                                         className="shareInputImg"
                                                         type="file"
-                                                        id="file"
                                                         accept=".png, .jpeg, .jpg"
-                                                        // onChange={(e) =>
-                                                        //     setFile(
-                                                        //         e.target
-                                                        //             .files[0]
-                                                        //     )
-                                                        // } //setFile=useState
-                                                        // name="file"
+                                                        onChange={(e) =>
+                                                            showSelectedPhoto(e)
+                                                        }
+                                                        name="file"
                                                     />{" "}
                                                 </label>
                                             </div>
-                                            <button className="profileEditButton">
+
+                                            <button
+                                                className="profileEditButton"
+                                                type="submit"
+                                            >
                                                 Modifier
                                             </button>
                                         </div>
                                     </form>
+                                    <div className="showImg">
+                                        {file && (
+                                            <img
+                                                src={imgPost}
+                                                className="showImgSelected"
+                                                alt="Afficher la sélection"
+                                            />
+                                        )}
+                                    </div>
                                 </div>
                             </>
                         ) : (
