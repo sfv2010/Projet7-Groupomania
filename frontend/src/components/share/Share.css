@@ -96,3 +96,11 @@
     color: red;
     text-align: center;
 }
+.showImg {
+    width: 40%;
+    margin: 10px auto;
+}
+.showImgSelected {
+    width: 100%;
+    border-radius: 5px;
+}
