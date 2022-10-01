@@ -15,16 +15,9 @@ export const Profile = () => {
     const [file, setFile] = useState(null);
     const [imgPost, setImgPost] = useState("");
     const [editProfile, setEditProfile] = useState(false);
-    //const [validPost, setValidPost] = useState("");
-    // const { email, userPseudo, city, desc } = useRef();
-    const email = useRef();
-    const userPseudo = useRef();
-    const password = useRef();
-    const city = useRef();
-    const desc = useRef();
-    const profilePicture = useRef();
-
-    console.log(user._id);
+    const [descProfile, setDescProfile] = useState(user.desc);
+    const [cityProfile, setCityProfile] = useState(user.city);
+    const profilePicture = useRef(user.profilePicture);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -50,16 +43,12 @@ export const Profile = () => {
 
     const updateProfile = async (e) => {
         e.preventDefault();
-        //console.log(city.current.value);
         const editProfile = {
-            // username: userPseudo,
-            // email: email,
-            // password: password,
-            profilePicture: profilePicture,
-            //coverPicture: coverPicture,
-            // desc: desc,
-            // city: city,
+            profilePicture: profilePicture.current.value,
+            desc: descProfile,
+            city: cityProfile,
         };
+        console.log(user.city);
 
         if (file) {
             const data = new FormData();
@@ -95,13 +84,17 @@ export const Profile = () => {
             );
             window.location.reload();
         } catch (err) {
-            // setValidPost(err.response.data.message);
             console.log(err);
         }
     };
     const showSelectedPhoto = (e) => {
         setImgPost(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
+        e.target.value = "";
+    };
+    const onClickSwitchShowImg = () => {
+        setImgPost("");
+        setFile(null);
     };
 
     return (
@@ -151,40 +144,9 @@ export const Profile = () => {
                                         encType="multipart/form-data"
                                     >
                                         <h1 className="profileEditH1">
-                                            Profile
+                                            Profil
                                         </h1>
                                         <div className="profileEditWrapper">
-                                            {/* <p className="profileEditP">
-                                                E-mail
-                                            </p>
-                                            <div className="profileEditIn">
-                                                <input
-                                                    type="email"
-                                                    className="profileEditInput"
-                                                    ref={email}
-                                                />
-                                            </div>
-                                            <p className="profileEditP">
-                                                Nom ou Pseudonyme
-                                            </p>
-                                            <div className="profileEditIn">
-                                                <input
-                                                    type="text"
-                                                    className="profileEditInput"
-                                                    ref={userPseudo}
-                                                />
-                                            </div>
-                                            <p className="profileEditP">
-                                                Password
-                                            </p>
-                                            <div className="profileEditIn">
-                                                <input
-                                                    type="text"
-                                                    className="profileEditInput"
-                                                    ref={password}
-                                                    minLength="8"
-                                                />
-                                            </div>
                                             <p className="profileEditP">
                                                 Description
                                             </p>
@@ -192,7 +154,11 @@ export const Profile = () => {
                                                 <input
                                                     type="text"
                                                     className="profileEditInput"
-                                                    ref={desc}
+                                                    onChange={(e) =>
+                                                        setDescProfile(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                 />
                                             </div>
                                             <p className="profileEditP">
@@ -202,9 +168,13 @@ export const Profile = () => {
                                                 <input
                                                     type="text"
                                                     className="profileEditInput"
-                                                    ref={city}
+                                                    onChange={(e) =>
+                                                        setCityProfile(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                 />
-                                            </div> */}
+                                            </div>
                                             <div className="profileEditPhoto">
                                                 <p className="profileEditP">
                                                     Photo de profil
@@ -222,7 +192,7 @@ export const Profile = () => {
                                                     ref={profilePicture}
                                                 />
                                                 <label className="shareOption">
-                                                    <span className="shareEditSpan">
+                                                    <span className=" profileEditSpan">
                                                         Changer votre photo de
                                                         profil
                                                     </span>
@@ -239,11 +209,21 @@ export const Profile = () => {
                                             </div>
                                             <div className="showImg">
                                                 {file && (
-                                                    <img
-                                                        src={imgPost}
-                                                        className="showImgSelected"
-                                                        alt="Afficher la sélection"
-                                                    />
+                                                    <>
+                                                        <img
+                                                            src={imgPost}
+                                                            className="showImgSelected"
+                                                            alt="Afficher la sélection"
+                                                        />
+                                                        <button
+                                                            onClick={
+                                                                onClickSwitchShowImg
+                                                            }
+                                                            className="profileShowButton"
+                                                        >
+                                                            x Annuler
+                                                        </button>
+                                                    </>
                                                 )}
                                             </div>
 
