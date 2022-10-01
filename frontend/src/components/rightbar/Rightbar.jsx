@@ -10,11 +10,7 @@ export const Rightbar = ({ user }) => {
         return (
             <>
                 <div className="eventContainer">
-                    <img
-                        src={PUBLIC_FOLDER + "star.png"}
-                        alt="etoile bleu"
-                        className="starImg"
-                    />
+                    <img src={PUBLIC_FOLDER + "star.png"} alt="etoile bleu" className="starImg" />
                     <h2 className="eventText">
                         <b>Nouvelles de Groupomania</b>
                     </h2>
@@ -24,12 +20,12 @@ export const Rightbar = ({ user }) => {
                     alt="4 nouvelles recrues"
                     className="rightbarImg"
                 />
-                <h3 className="rightbarTitle">Amis en ligne</h3>
+                {/* <h3 className="rightbarTitle">Amis en ligne</h3>
                 <ul className="rightbarFriendList">
                     {Users.map((user) => (
                         <Online user={user} key={user.id} />
                     ))}
-                </ul>
+                </ul> */}
             </>
         );
     };
@@ -37,13 +33,9 @@ export const Rightbar = ({ user }) => {
         return (
             <>
                 <div className="rightbarInfo">
-                    <h3 className="rightbarTitle">
-                        Informations de l'utilisateur
-                    </h3>
+                    <h3 className="rightbarTitle">Informations de l'utilisateur</h3>
                     <div className="rightbarInfoItem">
-                        <span className="rightbarInfokey">
-                            Lieu de naissance:
-                        </span>
+                        <span className="rightbarInfokey">Lieu de naissance:</span>
                         <span className="rightbarInfokey">{user.city}</span>
                     </div>
                     <hr className="hr" />
@@ -80,9 +72,7 @@ export const Rightbar = ({ user }) => {
     };
     return (
         <section className="rightbar">
-            <div className="rightbarWrapper">
-                {user ? <ProfileRightbar /> : <HomeRightbar />}
-            </div>
+            <div className="rightbarWrapper">{user ? <ProfileRightbar /> : <HomeRightbar />}</div>
         </section>
     );
 };
