@@ -1,4 +1,4 @@
-import { Home, Person } from "@mui/icons-material";
+import { Home, Person, PowerSettingsNew } from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
 import { ListFriend } from "../listFriend/ListFriend";
 import "./Sidebar.css";
@@ -6,9 +6,10 @@ import { Users } from "../../dummydata";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../state/AuthContext";
+import { dispatchLogout } from "../../state/dispatch";
 
 export const Sidebar = () => {
-    const { user: currentUser } = useContext(AuthContext);
+    const { dispatch, user: currentUser } = useContext(AuthContext);
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -28,6 +29,10 @@ export const Sidebar = () => {
         };
         fetchUser();
     }, [currentUser]);
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatchLogout(dispatch);
+    };
     return (
         <nav className="sidebar">
             <div className="sidebarWrapper">
@@ -50,6 +55,11 @@ export const Sidebar = () => {
                             <span className="sidebarText">Mon Compte</span>
                         </Link>
                     </li>
+                    <li className="sidebarListItem" onClick={handleLogout}>
+                        <PowerSettingsNew className="sidebarIcon" />
+                        <span className="sidebarText">Se déconnecter</span>
+                    </li>
+
                     {/* <li className="sidebarListItem">
                         <Search className="sidebarIcon" />
                         <Link to="/"></Link>
