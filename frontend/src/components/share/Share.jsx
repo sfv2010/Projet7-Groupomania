@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Share.css";
-import { AddAPhoto, GifBox } from "@mui/icons-material";
+import { AddAPhoto } from "@mui/icons-material";
 import { AuthContext } from "../../state/AuthContext";
 import axios from "axios";
 
@@ -119,10 +119,10 @@ export const Share = () => {
                             />
                         </label>
 
-                        <div className="shareOption">
+                        {/* <div className="shareOption gif">
                             <GifBox className="shareIcon" htmlColor="red" />
                             <span className="shareOptionText">GIF</span>
-                        </div>
+                        </div> */}
                     </div>
                     <button className="shareButton" type="submit">
                         Publier

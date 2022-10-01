@@ -1,7 +1,6 @@
 import {
     AddAPhoto,
     DeleteForever,
-    GifBox,
     ModeEdit,
     MoreHoriz,
 } from "@mui/icons-material";
@@ -211,7 +210,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
                                                 name="file"
                                             />
                                         </label>
-                                        <div className="shareOption">
+                                        {/* <div className="shareOption">
                                             <GifBox
                                                 className="shareIcon"
                                                 htmlColor="red"
@@ -219,7 +218,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
                                             <span className="shareOptionText">
                                                 GIF
                                             </span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <button
                                         className="shareButton commentShareButton"

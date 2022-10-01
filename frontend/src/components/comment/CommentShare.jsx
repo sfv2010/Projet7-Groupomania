@@ -1,4 +1,4 @@
-import { AddAPhoto, GifBox } from "@mui/icons-material";
+import { AddAPhoto } from "@mui/icons-material";
 import axios from "axios";
 import React, { memo, useRef, useState } from "react";
 import "./CommentShare.css";
@@ -113,10 +113,10 @@ export const CommentShare = memo(({ post, user, currentUser }) => {
                             </label>
                         </div>
 
-                        <div className="shareOption">
+                        {/* <div className="shareOption">
                             <GifBox className="shareIcon" htmlColor="red" />
                             <span className="shareOptionText">GIF</span>
-                        </div>
+                        </div> */}
                     </div>
                     <button className="shareButton" type="submit">
                         Publier

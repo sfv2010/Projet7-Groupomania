@@ -2,7 +2,6 @@ import {
     AddAPhoto,
     DeleteForever,
     FavoriteBorder,
-    GifBox,
     ModeEdit,
     MoreHoriz,
 } from "@mui/icons-material";
@@ -286,7 +285,7 @@ export const Post = ({ post }) => {
                                             name="file" //pour back end
                                         />
                                     </label>
-                                    <div className="shareOption">
+                                    {/* <div className="shareOption">
                                         <GifBox
                                             className="shareIcon"
                                             htmlColor="red"
@@ -294,7 +293,7 @@ export const Post = ({ post }) => {
                                         <span className="shareOptionText">
                                             GIF
                                         </span>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <button
                                     className="shareButton"
