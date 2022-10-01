@@ -49,7 +49,7 @@ export const Login = () => {
                     </p>
                 </header>
                 <div className="loginRight">
-                    {/* ggràce à form on peut utiliser onSubmit */}
+                    {/* gràce à form on peut utiliser onSubmit */}
                     <form
                         className="loginBox"
                         onSubmit={(e) => handleSubmit(e)}
