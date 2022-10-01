@@ -227,7 +227,7 @@ export const Profile = () => {
                                             )}
 
                                             <button
-                                                className="profileEditButton profileButton"
+                                                className="profileEditButton"
                                                 type="submit"
                                             >
                                                 Modifier
