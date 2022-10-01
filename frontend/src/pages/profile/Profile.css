@@ -49,7 +49,7 @@
     font-size: 1.2rem;
 }
 .profileEditButton {
-    margin: 30px 0;
+    margin: 20px 0;
     border: none;
     background-color: #4e5166;
     color: white;
@@ -67,7 +67,24 @@
     opacity: 0.7;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
-
+.profileShowButton {
+    margin-bottom: 20px;
+    width: 90px;
+    border: none;
+    background-color: #fd2d01;
+    color: white;
+    border-radius: 3px;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
+    opacity: 0.7;
+}
+.profileShowButton:hover {
+    opacity: 1;
+}
 .profileEdit {
     text-align: center;
     width: 70%;
@@ -75,7 +92,10 @@
     padding: 10px 0 40px;
     border-radius: 10px;
     box-shadow: 0 0 9px gray;
-    /* box-shadow: 0 0px 20px rgba(3, 1, 1, 0.2); */
+}
+.profileButton {
+    font-size: 1.3rem;
+    padding: 10px 20px;
 }
 .profileEditWrapper {
     display: flex;
@@ -116,10 +136,35 @@
 .profileEditPhoto {
     margin: 10px;
 }
+.profileEditSpan {
+    display: block;
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+    padding: 10px 20px;
+    border-bottom: 5px solid #ffd7d7;
+    transition: 0.3s;
+}
+.profileEditSpan:hover {
+    opacity: 0.7;
+    background-color: #ffd7d7;
+    border-radius: 10px;
+}
 .shareEditSpan {
-    margin-top: 10px;
+    font-weight: bold;
+    margin-top: 20px;
     border-bottom: 3px solid #ffd7d7;
 }
+.showImg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profileImgSelected {
+    width: 150px;
+    border-radius: 5px;
+}
+
 @media screen and (max-width: 930px) {
     .profileContainer {
         width: 80%;
