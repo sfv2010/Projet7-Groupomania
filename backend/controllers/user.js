@@ -1,9 +1,4 @@
-const bcrypt = require("bcrypt"); //pour le cryptage de mots de passe
-const cryptoJs = require("crypto-js"); //pour le cryptage d'email
-const jwt = require("jsonwebtoken"); //Nous utilisons la fonction sign de jsonwebtoken pour chiffrer un nouveau token.
 const User = require("../models/User");
-require("dotenv").config(); //importation de dotenv
-const fs = require("fs");
 
 //---Mettre à jour les informations de l'utilisateur---
 exports.updateUser = async (req, res) => {
