@@ -49,7 +49,6 @@ export const Share = () => {
             data.append("name", fileName);
             data.append("file", file);
             newPost.img = fileName;
-            console.log(file);
             try {
                 await axios.post("http://localhost:4000/api/posts", data, {
                     headers: {
