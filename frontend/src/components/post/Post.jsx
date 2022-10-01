@@ -315,7 +315,7 @@ export const Post = ({ post }) => {
                                             onClick={onClickSwitchShowImg}
                                             className="profileShowButton"
                                         >
-                                            x Annuler
+                                            Annuler
                                         </button>
                                     </>
                                 )}

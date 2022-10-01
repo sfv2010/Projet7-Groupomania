@@ -134,7 +134,7 @@ export const CommentShare = memo(({ post, user, currentUser }) => {
                                 onClick={onClickSwitchShowImg}
                                 className="profileShowButton"
                             >
-                                x Annuler
+                                Annuler
                             </button>
                         </>
                     )}

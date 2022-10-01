@@ -241,7 +241,7 @@ export const Comment = ({ descComment, user, currentUser }) => {
                                             onClick={onClickSwitchShowImg}
                                             className="profileShowButton"
                                         >
-                                            x Annuler
+                                            Annuler
                                         </button>
                                     </>
                                 )}

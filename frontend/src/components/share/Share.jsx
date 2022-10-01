@@ -140,7 +140,7 @@ export const Share = () => {
                             onClick={onClickSwitchShowImg}
                             className="profileShowButton"
                         >
-                            x Annuler
+                            Annuler
                         </span>
                     </div>
                 )}
