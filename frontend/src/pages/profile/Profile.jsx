@@ -207,28 +207,27 @@ export const Profile = () => {
                                                     />
                                                 </label>
                                             </div>
-                                            <div className="showImg">
-                                                {file && (
-                                                    <>
-                                                        <img
-                                                            src={imgPost}
-                                                            className="showImgSelected"
-                                                            alt="Afficher la sélection"
-                                                        />
-                                                        <button
-                                                            onClick={
-                                                                onClickSwitchShowImg
-                                                            }
-                                                            className="profileShowButton"
-                                                        >
-                                                            x Annuler
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </div>
+
+                                            {file && (
+                                                <div className="showImg">
+                                                    <img
+                                                        src={imgPost}
+                                                        className="profileImgSelected"
+                                                        alt="Afficher la sélection"
+                                                    />
+                                                    <button
+                                                        onClick={
+                                                            onClickSwitchShowImg
+                                                        }
+                                                        className="profileShowButton"
+                                                    >
+                                                        x Annuler
+                                                    </button>
+                                                </div>
+                                            )}
 
                                             <button
-                                                className="profileEditButton"
+                                                className="profileEditButton profileButton"
                                                 type="submit"
                                             >
                                                 Modifier
