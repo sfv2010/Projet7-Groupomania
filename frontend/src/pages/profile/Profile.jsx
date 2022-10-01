@@ -52,13 +52,13 @@ export const Profile = () => {
         e.preventDefault();
         //console.log(city.current.value);
         const editProfile = {
-            username: userPseudo,
-            email: email,
-            password: password,
+            // username: userPseudo,
+            // email: email,
+            // password: password,
             profilePicture: profilePicture,
             //coverPicture: coverPicture,
-            desc: desc,
-            city: city,
+            // desc: desc,
+            // city: city,
         };
 
         if (file) {
@@ -85,7 +85,7 @@ export const Profile = () => {
 
         try {
             await axios.put(
-                `http://localhost:4000/api/users/${user._id}}`,
+                `http://localhost:4000/api/users/${user._id}`,
                 editProfile,
                 {
                     headers: {
@@ -218,7 +218,7 @@ export const Profile = () => {
                                                               "/person/Anonym.svg"
                                                     }
                                                     alt="L'utilisateur n'a pas ajouter d'icon"
-                                                    className="topbaImg profileEditImg"
+                                                    className="profileEditImg"
                                                     ref={profilePicture}
                                                 />
                                                 <label className="shareOption">
@@ -234,8 +234,17 @@ export const Profile = () => {
                                                             showSelectedPhoto(e)
                                                         }
                                                         name="file"
-                                                    />{" "}
+                                                    />
                                                 </label>
+                                            </div>
+                                            <div className="showImg">
+                                                {file && (
+                                                    <img
+                                                        src={imgPost}
+                                                        className="showImgSelected"
+                                                        alt="Afficher la sélection"
+                                                    />
+                                                )}
                                             </div>
 
                                             <button
@@ -246,15 +255,6 @@ export const Profile = () => {
                                             </button>
                                         </div>
                                     </form>
-                                    <div className="showImg">
-                                        {file && (
-                                            <img
-                                                src={imgPost}
-                                                className="showImgSelected"
-                                                alt="Afficher la sélection"
-                                            />
-                                        )}
-                                    </div>
                                 </div>
                             </>
                         ) : (
