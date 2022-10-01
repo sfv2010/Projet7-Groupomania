@@ -137,6 +137,11 @@ export const Post = ({ post }) => {
     const showSelectedPhoto = (e) => {
         setImgPost(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
+        e.target.value = "";
+    };
+    const onClickSwitchShowImg = () => {
+        setImgPost("");
+        setFile(null);
     };
 
     //--------delete----------
@@ -301,11 +306,19 @@ export const Post = ({ post }) => {
                             </form>
                             <div className="showImg">
                                 {file && (
-                                    <img
-                                        src={imgPost}
-                                        className="showImgSelected"
-                                        alt="Afficher la sélection"
-                                    />
+                                    <>
+                                        <img
+                                            src={imgPost}
+                                            className="showImgSelected"
+                                            alt="Afficher la sélection"
+                                        />
+                                        <button
+                                            onClick={onClickSwitchShowImg}
+                                            className="profileShowButton"
+                                        >
+                                            x Annuler
+                                        </button>
+                                    </>
                                 )}
                             </div>
                         </>

@@ -57,6 +57,11 @@ export const CommentShare = memo(({ post, user, currentUser }) => {
     const showSelectedPhoto = (e) => {
         setImgPost(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
+        e.target.value = "";
+    };
+    const onClickSwitchShowImg = () => {
+        setImgPost("");
+        setFile(null);
     };
 
     return (
@@ -125,7 +130,12 @@ export const CommentShare = memo(({ post, user, currentUser }) => {
                                 className="showImgSelected "
                                 alt="Afficher la sélection"
                             />
-                            <span>annuler</span>
+                            <button
+                                onClick={onClickSwitchShowImg}
+                                className="profileShowButton"
+                            >
+                                x Annuler
+                            </button>
                         </>
                     )}
                 </div>

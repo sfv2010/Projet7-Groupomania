@@ -33,6 +33,11 @@ export const Share = () => {
     const showSelectedPhoto = (e) => {
         setImgPost(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
+        e.target.value = "";
+    };
+    const onClickSwitchShowImg = () => {
+        setImgPost("");
+        setFile(null);
     };
 
     //créer un post
@@ -123,15 +128,22 @@ export const Share = () => {
                         Publier
                     </button>
                 </form>
-                <div className="showImg">
-                    {file && (
+
+                {file && (
+                    <div className="showImg">
                         <img
                             src={imgPost}
                             className="showImgSelected"
                             alt="Afficher la sélection"
                         />
-                    )}
-                </div>
+                        <span
+                            onClick={onClickSwitchShowImg}
+                            className="profileShowButton"
+                        >
+                            x Annuler
+                        </span>
+                    </div>
+                )}
             </div>
         </main>
     );
