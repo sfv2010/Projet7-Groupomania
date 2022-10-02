@@ -10,7 +10,6 @@ export const Login = () => {
     const { error, dispatch } = useContext(AuthContext);
     const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
     const [passwErr, setPasswErr] = useState("");
-    console.log();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -36,24 +35,16 @@ export const Login = () => {
                 <header className="loginLeft">
                     <h1>
                         <img
-                            src={
-                                PUBLIC_FOLDER +
-                                "groupomania /icon-left-font-monochrome-white.svg"
-                            }
+                            src={PUBLIC_FOLDER + "groupomania /icon-left-font-monochrome-white.svg"}
                             alt=" Grand logo de Groupomania"
                             className="loginLogo"
                         />
                     </h1>
-                    <p className="loginDescription">
-                        Travaillons plus efficacement, ensemble
-                    </p>
+                    <p className="loginDescription">Travaillons plus efficacement, ensemble</p>
                 </header>
                 <div className="loginRight">
                     {/* gràce à form on peut utiliser onSubmit */}
-                    <form
-                        className="loginBox"
-                        onSubmit={(e) => handleSubmit(e)}
-                    >
+                    <form className="loginBox" onSubmit={(e) => handleSubmit(e)}>
                         <p className="loginMsg">Connexion</p>
                         <input
                             type="email"
@@ -72,13 +63,11 @@ export const Login = () => {
                         <span className="loginPasswErr">{passwErr}</span>
 
                         <button className="loginButton">Se connecter</button>
-                        <p className="loginForget">Mot de passe oublié?</p>
+                        {/* <p className="loginForget">Mot de passe oublié?</p> */}
                         <hr />
                         <p className="loginFailed">Pas de compte?</p>
                         <Link to="/register">
-                            <button className="loginRegister">
-                                Créer nouveaux compte
-                            </button>
+                            <button className="loginRegister">Créer nouveaux compte</button>
                         </Link>
                     </form>
                 </div>
