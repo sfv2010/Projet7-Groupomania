@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const fs = require("fs"); //fs signifie file system qui donne accès aux fonctions qui permettent de modifier et supprimer le fichiers.
 
 //---Créer un poste--
 exports.createPost = async (req, res) => {
@@ -47,8 +48,11 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
+        imageName = post.img;
         if (post.userId === req.auth.userId || req.auth.isAdmin === true) {
-            await post.deleteOne();
+            fs.unlink(`images/${imageName}`, () => {
+                post.deleteOne();
+            });
             res.status(200).json("Supprimé avec succes");
         } else {
             res.status(403).json("Vous ne pouvez pas supprimer les postes d'autres personne");
