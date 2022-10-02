@@ -1,4 +1,5 @@
 const Comment = require("../models/Comment");
+const fs = require("fs");
 
 exports.createComment = async (req, res) => {
     const newComment = new Comment(req.body);
@@ -44,8 +45,11 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
     try {
         const comment = await Comment.findById(req.params.id);
+        imageName = comment.img;
         if (comment.userId === req.auth.userId || req.auth.isAdmin) {
-            await comment.deleteOne();
+            fs.unlink(`images/${imageName}`, () => {
+                comment.deleteOne();
+            });
             res.status(200).json("Supprimé avec succes");
         } else {
             res.status(403).json("Vous ne pouvez pas supprimer les commentes d'autres personne");
