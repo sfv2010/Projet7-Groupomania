@@ -50,7 +50,7 @@ export const Share = () => {
         };
         if (file) {
             const data = new FormData(); //fonction qui peut avoir la data avec "key + value"
-            const fileName = Date.now() + file.name;
+            const fileName = Date.now() + file.name; //pour eviter avoir le même nom,on ajoute Date.now
             data.append("name", fileName);
             data.append("file", file);
             newPost.img = fileName;
@@ -136,10 +136,7 @@ export const Share = () => {
                             className="showImgSelected"
                             alt="Afficher la sélection"
                         />
-                        <span
-                            onClick={onClickSwitchShowImg}
-                            className="profileShowButton"
-                        >
+                        <span onClick={onClickSwitchShowImg} className="profileShowButton">
                             Annuler
                         </span>
                     </div>

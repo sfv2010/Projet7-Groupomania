@@ -14,14 +14,11 @@ export const Timeline = ({ username }) => {
         const fetchPosts = async () => {
             const res = username
                 ? //S'il y a username = profile
-                  await axios.get(
-                      `http://localhost:4000/api/posts/profile/${username}`,
-                      {
-                          headers: {
-                              Authorization: `Bearer ${user.token}`,
-                          },
-                      }
-                  )
+                  await axios.get(`http://localhost:4000/api/posts/profile/${username}`, {
+                      headers: {
+                          Authorization: `Bearer ${user.token}`,
+                      },
+                  })
                 : //sinon on affiche tous les posts = home
                   await axios.get("http://localhost:4000/api/posts/", {
                       headers: {
@@ -33,9 +30,7 @@ export const Timeline = ({ username }) => {
             setPosts(
                 // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
                 res.data.sort((post1, post2) => {
-                    return (
-                        new Date(post2.createdAt) - new Date(post1.createdAt)
-                    );
+                    return new Date(post2.createdAt) - new Date(post1.createdAt);
                 })
             );
         };
@@ -48,7 +43,7 @@ export const Timeline = ({ username }) => {
             <Share />
 
             {posts.map((post) => (
-                <Post post={post} key={post._id} /> //._id = id de mongdb
+                <Post post={post} key={post._id} />
             ))}
         </div>
     );

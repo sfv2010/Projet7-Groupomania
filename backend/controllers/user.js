@@ -8,7 +8,7 @@ exports.updateUser = async (req, res) => {
                 { _id: req.params.id },
                 {
                     $set: req.body,
-                }
+                } //tout les parametre de user models.
             );
             res.status(200).json("Modifié!");
         } catch (err) {

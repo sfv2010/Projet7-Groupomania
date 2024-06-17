@@ -22,14 +22,11 @@ export const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             //Rechercher aprés ? sur url
-            const res = await axios.get(
-                `http://localhost:4000/api/users?username=${username}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                }
-            );
+            const res = await axios.get(`http://localhost:4000/api/users?username=${username}`, {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            });
 
             setUser(res.data);
             // console.log(res.data);
@@ -58,30 +55,22 @@ export const Profile = () => {
             editProfile.profilePicture = fileName;
 
             try {
-                await axios.put(
-                    `http://localhost:4000/api/users/${user._id}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${currentUser.token}`,
-                        },
-                    }
-                );
+                await axios.put(`http://localhost:4000/api/users/${user._id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                });
             } catch (err) {
                 console.log(err);
             }
         }
 
         try {
-            await axios.put(
-                `http://localhost:4000/api/users/${user._id}`,
-                editProfile,
-                {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                }
-            );
+            await axios.put(`http://localhost:4000/api/users/${user._id}`, editProfile, {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            });
             window.location.reload();
         } catch (err) {
             console.log(err);
@@ -127,10 +116,7 @@ export const Profile = () => {
                             <h2 className="profileInfoName">{user.username}</h2>
                             <span className="profileInfoDesc">{user.desc}</span>
                             {user._id === currentUser.userId && (
-                                <button
-                                    className="profileEditButton"
-                                    onClick={handleProfile}
-                                >
+                                <button className="profileEditButton" onClick={handleProfile}>
                                     Modifier
                                 </button>
                             )}
@@ -143,49 +129,31 @@ export const Profile = () => {
                                         onSubmit={(e) => updateProfile(e)}
                                         encType="multipart/form-data"
                                     >
-                                        <h1 className="profileEditH1">
-                                            Profil
-                                        </h1>
+                                        <h1 className="profileEditH1">Profil</h1>
                                         <div className="profileEditWrapper">
-                                            <p className="profileEditP">
-                                                Description
-                                            </p>
+                                            <p className="profileEditP">Description</p>
                                             <div className="profileEditIn">
                                                 <input
                                                     type="text"
                                                     className="profileEditInput"
-                                                    onChange={(e) =>
-                                                        setDescProfile(
-                                                            e.target.value
-                                                        )
-                                                    }
+                                                    onChange={(e) => setDescProfile(e.target.value)}
                                                 />
                                             </div>
-                                            <p className="profileEditP">
-                                                Lieu de naissance
-                                            </p>
+                                            <p className="profileEditP">Lieu de naissance</p>
                                             <div className="profileEditIn">
                                                 <input
                                                     type="text"
                                                     className="profileEditInput"
-                                                    onChange={(e) =>
-                                                        setCityProfile(
-                                                            e.target.value
-                                                        )
-                                                    }
+                                                    onChange={(e) => setCityProfile(e.target.value)}
                                                 />
                                             </div>
                                             <div className="profileEditPhoto">
-                                                <p className="profileEditP">
-                                                    Photo de profil
-                                                </p>
+                                                <p className="profileEditP">Photo de profil</p>
                                                 <img
                                                     src={
                                                         user.profilePicture
-                                                            ? PUBLIC_FOLDER +
-                                                              user.profilePicture
-                                                            : PUBLIC_FOLDER +
-                                                              "/person/Anonym.svg"
+                                                            ? PUBLIC_FOLDER + user.profilePicture
+                                                            : PUBLIC_FOLDER + "/person/Anonym.svg"
                                                     }
                                                     alt="L'utilisateur n'a pas ajouter d'icon"
                                                     className="profileEditImg"
@@ -193,16 +161,13 @@ export const Profile = () => {
                                                 />
                                                 <label className="shareOption">
                                                     <span className=" profileEditSpan">
-                                                        Changer votre photo de
-                                                        profil
+                                                        Changer votre photo de profil
                                                     </span>
                                                     <input
                                                         className="shareInputImg"
                                                         type="file"
                                                         accept=".png, .jpeg, .jpg"
-                                                        onChange={(e) =>
-                                                            showSelectedPhoto(e)
-                                                        }
+                                                        onChange={(e) => showSelectedPhoto(e)}
                                                         name="file"
                                                     />
                                                 </label>
@@ -216,20 +181,15 @@ export const Profile = () => {
                                                         alt="Afficher la sélection"
                                                     />
                                                     <button
-                                                        onClick={
-                                                            onClickSwitchShowImg
-                                                        }
+                                                        onClick={onClickSwitchShowImg}
                                                         className="profileShowButton"
                                                     >
-                                                        x Annuler
+                                                        Annuler
                                                     </button>
                                                 </div>
                                             )}
 
-                                            <button
-                                                className="profileEditButton"
-                                                type="submit"
-                                            >
+                                            <button className="profileEditButton" type="submit">
                                                 Modifier
                                             </button>
                                         </div>
@@ -241,10 +201,7 @@ export const Profile = () => {
                         )}
                     </div>
                     <div className="profileBottom">
-                        <Timeline
-                            username={username}
-                            currentUser={currentUser}
-                        />
+                        <Timeline username={username} currentUser={currentUser} />
                         <Rightbar user={user} className="profileRightbar" />
                     </div>
                 </div>

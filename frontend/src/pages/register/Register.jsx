@@ -25,10 +25,7 @@ export const Register = () => {
                     email: email.current.value,
                     password: password.current.value,
                 };
-                await axios.post(
-                    "http://localhost:4000/api/auth/register",
-                    user
-                );
+                await axios.post("http://localhost:4000/api/auth/register", user);
                 navigate("/login");
             } catch (err) {
                 setPasswErr(err.response.data.message);
@@ -43,23 +40,15 @@ export const Register = () => {
                 <header className="loginLeft">
                     <h1>
                         <img
-                            src={
-                                PUBLIC_FOLDER +
-                                "groupomania /icon-left-font-monochrome-white.svg"
-                            }
+                            src={PUBLIC_FOLDER + "groupomania /icon-left-font-monochrome-white.svg"}
                             alt=" Grand logo de Groupomania"
                             className="loginLogo"
                         />
                     </h1>
-                    <p className="loginDescription">
-                        Travaillons plus efficacement, ensemble
-                    </p>
+                    <p className="loginDescription">Travaillons plus efficacement, ensemble</p>
                 </header>
                 <div className="loginRight">
-                    <form
-                        className="loginBox"
-                        onSubmit={(e) => handleSubmit(e)}
-                    >
+                    <form className="loginBox" onSubmit={(e) => handleSubmit(e)}>
                         <p className="loginMsg">S’inscrire</p>
                         <input
                             type="email"
@@ -107,5 +96,3 @@ export const Register = () => {
         </div>
     );
 };
-
-// export default Register;

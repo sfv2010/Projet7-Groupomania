@@ -10,7 +10,7 @@ const initialState = {
 };
 
 //Gérer l'état globalement
-export const AuthContext = createContext(initialState); // grâce à create-, on peut utiliser "initialState" n'import auel comport
+export const AuthContext = createContext(initialState); // grâce à create-, on peut utiliser "initialState" n'import quel comport
 
 export const AuthContextProvider = ({ children }) => {
     //state = état actuel.  connecté, avant-connecté ou échoué ?

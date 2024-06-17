@@ -1,10 +1,4 @@
-import {
-    AddAPhoto,
-    DeleteForever,
-    FavoriteBorder,
-    ModeEdit,
-    MoreHoriz,
-} from "@mui/icons-material";
+import { AddAPhoto, DeleteForever, FavoriteBorder, ModeEdit, MoreHoriz } from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
 import "./Post.css";
 import axios from "axios";
@@ -103,30 +97,22 @@ export const Post = ({ post }) => {
             editPost.img = fileName;
 
             try {
-                await axios.put(
-                    `http://localhost:4000/api/posts/${post._id}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${currentUser.token}`,
-                        },
-                    }
-                );
+                await axios.put(`http://localhost:4000/api/posts/${post._id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                });
             } catch (err) {
                 console.log(err);
             }
         }
 
         try {
-            await axios.put(
-                `http://localhost:4000/api/posts/${post._id}`,
-                editPost,
-                {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                }
-            );
+            await axios.put(`http://localhost:4000/api/posts/${post._id}`, editPost, {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            });
             window.location.reload();
         } catch (err) {
             setValidPost(err.response.data.message);
@@ -148,15 +134,12 @@ export const Post = ({ post }) => {
         try {
             const result =
                 window.confirm("Êtes-vous sûr de vouloir supprimer?") &&
-                (await axios.delete(
-                    `http://localhost:4000/api/posts/${post._id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${currentUser.token}`,
-                        },
-                        data: { userId: currentUser.userId },
-                    }
-                ));
+                (await axios.delete(`http://localhost:4000/api/posts/${post._id}`, {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                    data: { userId: currentUser.userId },
+                }));
             if (result) {
                 window.location.reload();
             }
@@ -173,22 +156,16 @@ export const Post = ({ post }) => {
 
     useEffect(() => {
         const fetchComments = async () => {
-            const res = await axios.get(
-                `http://localhost:4000/api/comments/?postId=${post._id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                }
-            );
+            const res = await axios.get(`http://localhost:4000/api/comments/?postId=${post._id}`, {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            });
             //console.log(res.data);
             setDescComments(
                 // dans "res" il y a la réponse de axios.Pour obtenir le contenu , il faut ajouter .data.
                 res.data.sort((comment1, comment2) => {
-                    return (
-                        new Date(comment2.createdAt) -
-                        new Date(comment1.createdAt)
-                    );
+                    return new Date(comment2.createdAt) - new Date(comment1.createdAt);
                 })
             );
         };
@@ -212,9 +189,7 @@ export const Post = ({ post }) => {
                             />
                         </Link>
                         <span className="postUserName">{userP.username}</span>
-                        <span className="postDate">
-                            {format(post.createdAt)}
-                        </span>
+                        <span className="postDate">{format(post.createdAt)}</span>
                     </div>
                     {(post.userId === currentUser.userId || user.isAdmin) && (
                         <nav className="postTopRight">
@@ -227,18 +202,14 @@ export const Post = ({ post }) => {
                                     className="postNavEdit"
                                 >
                                     <ModeEdit htmlColor="blue" />
-                                    <span className="postNavSpan">
-                                        Modifier
-                                    </span>
+                                    <span className="postNavSpan">Modifier</span>
                                 </li>
                                 <li
                                     onClick={() => deletePost(post.userId)}
                                     className="postNavDelete"
                                 >
                                     <DeleteForever htmlColor="red" />
-                                    <span className="postNavSpan">
-                                        Supprimer
-                                    </span>
+                                    <span className="postNavSpan">Supprimer</span>
                                 </li>
                             </ul>
                         </nav>
@@ -253,35 +224,23 @@ export const Post = ({ post }) => {
                                     type="text"
                                     className="shareInput"
                                     defaultValue={post.desc}
-                                    onChange={(e) =>
-                                        setDescription(e.target.value)
-                                    }
+                                    onChange={(e) => setDescription(e.target.value)}
                                 ></textarea>
                             </div>
                             <span className="shareValidPost">{validPost}</span>
 
                             <hr className="shareHr" />
 
-                            <form
-                                className="shareButtons postForm"
-                                encType="multipart/form-data"
-                            >
+                            <form className="shareButtons postForm" encType="multipart/form-data">
                                 <div className="shareOptions">
                                     <label className="shareOption">
-                                        <AddAPhoto
-                                            className="shareIcon"
-                                            htmlColor="blue"
-                                        />
-                                        <span className="shareOptionText">
-                                            Photo
-                                        </span>
+                                        <AddAPhoto className="shareIcon" htmlColor="blue" />
+                                        <span className="shareOptionText">Photo</span>
                                         <input
                                             className="postEditImg"
                                             type="file"
                                             accept=".png, .jpeg, .jpg"
-                                            onChange={(e) =>
-                                                showSelectedPhoto(e)
-                                            }
+                                            onChange={(e) => showSelectedPhoto(e)}
                                             name="file" //pour back end
                                         />
                                     </label>
@@ -295,11 +254,7 @@ export const Post = ({ post }) => {
                                         </span>
                                     </div> */}
                                 </div>
-                                <button
-                                    className="shareButton"
-                                    onClick={updatePost}
-                                    type="button"
-                                >
+                                <button className="shareButton" onClick={updatePost} type="button">
                                     Publier
                                 </button>
                             </form>
@@ -333,10 +288,7 @@ export const Post = ({ post }) => {
                     )}
 
                     <div className="postBottom">
-                        <div
-                            className="postBottomLeft"
-                            onClick={() => handleLike()}
-                        >
+                        <div className="postBottomLeft" onClick={() => handleLike()}>
                             <FavoriteBorder className="heart1" />
                             {isLiked && (
                                 <img
@@ -345,19 +297,13 @@ export const Post = ({ post }) => {
                                     className="heart2"
                                 />
                             )}
-                            <span className="postLikeCounter">
-                                {like} J'aime
-                            </span>
+                            <span className="postLikeCounter">{like} J'aime</span>
                         </div>
-                        <div
-                            className="postBottomRight"
-                            onClick={() => handleComment()}
-                        >
+                        <div className="postBottomRight" onClick={() => handleComment()}>
                             <p className="postComentText">
                                 {
-                                    descComments.filter(
-                                        (comment) => comment.postId === post._id
-                                    ).length
+                                    descComments.filter((comment) => comment.postId === post._id)
+                                        .length
                                 }{" "}
                                 commentaires
                             </p>
@@ -365,11 +311,7 @@ export const Post = ({ post }) => {
                     </div>
                     {showComment && (
                         <>
-                            <CommentShare
-                                post={post}
-                                user={user}
-                                currentUser={currentUser}
-                            />
+                            <CommentShare post={post} user={user} currentUser={currentUser} />
 
                             {descComments.map((descComment, index) => (
                                 <Comment

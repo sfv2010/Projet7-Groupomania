@@ -65,7 +65,7 @@ export const Login = () => {
                         <button className="loginButton">Se connecter</button>
                         {/* <p className="loginForget">Mot de passe oublié?</p> */}
                         <hr />
-                        <p className="loginFailed">Pas de compte?</p>
+                        <p className="loginFailed">Pas de compte ?</p>
                         <Link to="/register">
                             <button className="loginRegister">Créer nouveaux compte</button>
                         </Link>

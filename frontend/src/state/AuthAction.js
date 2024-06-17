@@ -4,7 +4,7 @@ export const LoginStart = (user) => ({
 });
 export const LoginSuccess = (user) => ({
     type: "LOGIN_SUCCESS",
-    payload: user, //payload（データ本体）は任意につけた名前。
+    payload: user,
 });
 export const LoginError = (error) => ({
     type: "LOGIN_ERROR",
@@ -14,12 +14,12 @@ export const Logout = () => ({
     type: "LOGOUT",
 });
 
-export const Follow = (userId) => ({
-    type: "FOLLOW",
-    payload: userId,
-});
+// export const Follow = (userId) => ({
+//     type: "FOLLOW",
+//     payload: userId,
+// });
 
-export const UnFollow = (userId) => ({
-    type: "UNFOLLOW",
-    payload: userId,
-});
+// export const UnFollow = (userId) => ({
+//     type: "UNFOLLOW",
+//     payload: userId,
+// });
